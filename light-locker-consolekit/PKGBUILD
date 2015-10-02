@@ -1,5 +1,6 @@
-# Maintainer: Aaditya Bagga <aaditya_gnulinux@zoho.com>
+# $Id$
 # Contributor: Maxime Gauduin <alucryd@archlinux.org>
+# Maintainer: Aaditya Bagga <aaditya_gnulinux@zoho.com>
 
 pkgname=light-locker-consolekit
 _pkgname=light-locker
@@ -41,3 +42,5 @@ package() {
 
   make DESTDIR="${pkgdir}" install
 }
+
+# vim: ts=2 sw=2 et:
