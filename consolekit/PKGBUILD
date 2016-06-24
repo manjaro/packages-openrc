@@ -13,7 +13,7 @@ depends=('dbus' 'glib2' 'libx11' 'polkit-consolekit' 'udev' 'zlib')
 optdepends=('pm-utils: Suspend and hibernate power management'
 	'consolekit-openrc: consolekit openrc initscript'
 	'cgmanager-openrc: cgmanager openrc initscript')
-makedepends=('xmlto' 'docbook-xsl' 'cgmanager')
+makedepends=('xmlto' 'docbook-xsl' 'cgmanager' 'python')
 options=('!libtool')
 source=("$url/releases/download/$pkgver/$_pkgname-$pkgver.tar.bz2"
 	'consolekit.tmpfiles.conf'
