@@ -14,7 +14,7 @@ pkgname=('acpid-openrc'
 		'networkmanager-openrc'
 		'wpa_supplicant-openrc')
 
-pkgver=20160623
+pkgver=20170201
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -43,7 +43,8 @@ source=("acpid.confd::${_url}/sys-power/acpid/files/acpid-2.0.16-conf.d"
 		"cgmanager.initd::${_url}/app-admin/cgmanager/files/cgmanager.initd-r1"
 		"NetworkManager.confd::${_url}/net-misc/networkmanager/files/conf.d.NetworkManager"
 		"NetworkManager.initd::${_url}/net-misc/networkmanager/files/init.d.NetworkManager"
-		"10-openrc-status::${_url}/net-misc/networkmanager/files/10-openrc-status-r4"
+		#"10-openrc-status::${_url}/net-misc/networkmanager/files/10-openrc-status-r4"
+		'10-openrc-status'
 		'avahi-daemon.initd'
 		'avahi-dnsconfd.initd'
 		'xdg-user-dirs')
@@ -68,7 +69,7 @@ sha256sums=('3755d4eb8bb64a1304e5defedb949305ac550565da36fe4f94d5f31beee821ba'
             '625c8b2f507076eac0108e75547239508d147bcc669372fc3991bb42b17608e1'
             '4594573f01fe5e04b6dde4525796acf909158591bdcefd662ec23fe0d1c3e1bd'
             '1af8436d6e917708ef310498c57272229e3f149cc7305281fb647c1e03fb952c'
-            'f8ed424818b866a0bf882c569f4484e8b1485ce7ac8c472f060fd877f2dcfe65'
+            '1535237db113a76261d6f1ce0b24a55e956934b0c1c59e9fd624f621961327b6'
             '876788303553fe773e64917f76f0208f5e8adf7b91d4af24aa9d6a68a147d646'
             'e128576d72981e402ff106bb481108ab6d5ba941ab1b0f5f53e96a7831fc1d15'
             'f0f27de23d849b2fa4ebf59e448b5a843b577d14dc2c1070e228999091fa7f5e')

@@ -10,7 +10,7 @@ _pppver=2.4.7
 
 pkgname=networkmanager-consolekit
 pkgver=1.6.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Network Management daemon"
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1')
@@ -36,11 +36,13 @@ backup=('etc/NetworkManager/NetworkManager.conf')
 source=("https://download.gnome.org/sources/NetworkManager/${pkgver:0:3}/NetworkManager-$pkgver.tar.xz"
         'NetworkManager.conf'
         '01-org.freedesktop.NetworkManager.settings.modify.system.rules'
-        '50-org.freedesktop.NetworkManager.rules')
+        '50-org.freedesktop.NetworkManager.rules'
+        '1.6.0-floating.patch')
 sha256sums=('eabc8b03770411248d5301c52f6e12ba732f22b6c330c804335f2033cbde4339'
             '452e4f77c1de92b1e08f6f58674a6c52a2b2d65b7deb0ba436e9afa91ee15103'
             '4b815f43de58379e68653d890f529485aec4d2f83f11d050b08b31489d2267c2'
-            '02d9f7d836d297d6ddf39482d86a8573b3e41735b408aa2cd6df22048ec5f6c4')
+            '02d9f7d836d297d6ddf39482d86a8573b3e41735b408aa2cd6df22048ec5f6c4'
+            '76db3fb037514eb0a22bf9f222593ae9dc9ee952481cbed08bdac83cc1ea4a11')
 
 # pkgver() {
 #   cd NetworkManager
@@ -53,6 +55,8 @@ prepare() {
   2to3 -w libnm src tools
 
   NOCONFIGURE=1 ./autogen.sh
+
+  patch -Np1 -i ${srcdir}/1.6.0-floating.patch
 }
 
 build() {
