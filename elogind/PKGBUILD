@@ -2,55 +2,62 @@
 
 pkgname=elogind
 pkgver=219.12
-pkgrel=1
+pkgrel=2
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/wingo/elogind"
 license=('GPL')
-# groups=('openrc-desktop')
-# provides=("systemd=${pkgver%.*}")
 depends=('dbus' 'polkit' 'libudev.so')
-makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc')
+makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp')
 conflicts=('systemd-sysvcompat')
 options=('!libtool')
 install=elogind.install
-# _commit=6d224ff665195f47c942599b21e0d959bc07ca8f
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz"
-	#"${pkgname}-${pkgver}.tar.gz::${url}/archive/${_commit}.tar.gz"
-	'elogind-docs.patch'
-	'elogind-lrt.patch'
-	"use-pk.patch::https://github.com/kensington/elogind/commit/1ca40c077cd9a08f96a559ba51e8dba230298c4d.patch")
+        'elogind-docs.patch'
+        'elogind-lrt.patch'
+        "elogind-219.12-session.patch"
+        "elogind-219.12-login1-perms.patch"
+        "elogind-219.12-gperf.patch"
+        "elogind-219.12-glibc.patch"
+        "elogind.conf"
+        "elogind.init")
 sha256sums=('80241494f5c794e8501ccf570ac805275ace368755780f38a18762fd06243f95'
             'cafea7a13159dee700902e3837aab015d9521dfe122840faf2d909b5dc02229e'
             'a9227ed4e97117ab5751de38c19813560a12f51379ccd882a89e7ef9842659ac'
-            'cef5dda99a51a42bc36d1a946d5a21a830bf0f44ed3f447542ec57c1424e0053')
+            'c63ef9869fa4bc38075dc9f9ef113b6b8c05ae2af2616da68219e0a364dea574'
+            'cef5dda99a51a42bc36d1a946d5a21a830bf0f44ed3f447542ec57c1424e0053'
+            '9f6437abeba2f17d378482e262504f269998d54c6adb16eb16c4eda738065074'
+            '5e7dfcf695c15a02d8151541c50e26c9e3140f5626d95bbec366aada5ce095d5'
+            '344db76bf8aadfba4363c63aacd93c945a647bd5e425d756cbfd9cb4453afc66'
+            '3e3ca3d384b9ced34360e697b2a6102b173731c8cf4f91e2901df68b33d73d44')
 
 prepare() {
-	cd ${srcdir}/${pkgname}-${pkgver} #${_commit}
-	patch -Np 1 -i ${srcdir}/elogind-docs.patch
-	patch -Np 1 -i ${srcdir}/elogind-lrt.patch
-	patch -Np 1 -i ${srcdir}/use-pk.patch
+    cd ${srcdir}/${pkgname}-${pkgver}
+    patch -Np 1 -i ${srcdir}/elogind-docs.patch
+    patch -Np 1 -i ${srcdir}/elogind-lrt.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-session.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-login1-perms.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-gperf.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-glibc.patch
 
-	local cmd='/bin/bash -c "[[ -d /run/systemd ]] || mkdir /run/systemd;/usr/lib/elogind/elogind"'
-
-	sed -e "s#/bin/false#${cmd}#" \
-		-i src/login/org.freedesktop.login1.service
-
-	autoreconf -vim
+    autoreconf -vim
 }
 
 build() {
-	cd ${srcdir}/${pkgname}-${pkgver} #${_commit}
-	intltoolize
-	./configure \
-		--sysconfdir=/etc \
-		--prefix=/usr \
-		--libexecdir=/usr/lib
+    cd ${srcdir}/${pkgname}-${pkgver}
+    intltoolize
+    ./configure \
+        --sysconfdir=/etc \
+        --prefix=/usr \
+        --libexecdir=/usr/lib
 
-	make
+    make
 }
 
 package() {
-	cd ${srcdir}/${pkgname}-${pkgver} #${_commit}
-	make DESTDIR="${pkgdir}" install
+    cd ${srcdir}/${pkgname}-${pkgver}
+    make DESTDIR="${pkgdir}" install
+
+    install -Dm755 ${srcdir}/elogind.init ${pkgdir}/etc/init.d/elogind
+    install -Dm755 ${srcdir}/elogind.conf ${pkgdir}/etc/conf.d/elogind
 }

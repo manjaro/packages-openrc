@@ -3,13 +3,13 @@
 # Contributor: Dave Reisner <dreisner@archlinux.org>
 # Contributor: Tom Gundersen <teg@jklm.no>
 
-_spkgrel=4
+_spkgrel=8
 _repo=http://mirror.netcologne.de/archlinux/core/os
 
 pkgbase=eudev-systemdcompat
 pkgname=('eudev-systemd' 'libeudev-systemd')
-pkgver=231
-pkgrel=10
+pkgver=232
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 url="http://www.freedesktop.org/wiki/Software/systemd"
@@ -17,10 +17,10 @@ source_i686=("$_repo/i686/libsystemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz"
         "$_repo/i686/systemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz")
 source_x86_64=("$_repo/x86_64/libsystemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz"
         "$_repo/x86_64/systemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz")
-sha256sums_i686=('6c9329af5749f221facd36f1cf0f065ac4522a071487414747c277b70efa7125'
-                 'ac8f895095ebe93e52bec2eb853f68498f98e48352acf20aca720599986f5c29')
-sha256sums_x86_64=('3ec899af9dee85b96e5c58c77df45e7301d58a1835ad2854fca425b2ae8a4191'
-                   '9452691b5ba4b422e4781ece876078258974bd162a46d76cd294cf3e8b571fb1')
+sha256sums_i686=('a903961024e3878ca0d257fec30a7dea4c1a6012813b90dd5f199b72a758d477'
+                 '5615b28bd1e770f1a29c2d5b6824825b6e3c270006ad98fb5ae005fb05e75876')
+sha256sums_x86_64=('e30e51e6ebf1185914b92df21870d9ea6039750764a7c72e110fd59bbdebc512'
+                   '2d1f37f157e62748a2351c2ac6b74934aed864d92a24ddc13ad775b13a1e70b8')
 
 package_eudev-systemd() {
     pkgdesc="systemd-sysuser and systemd-tmpfiles binary; systemd compatibility package"
