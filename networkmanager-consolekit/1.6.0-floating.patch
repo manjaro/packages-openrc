@@ -1,0 +1,12 @@
+diff -Naur NetworkManager-1.6.0-orig/clients/nm-online.c NetworkManager-1.6.0/clients/nm-online.c
+--- NetworkManager-1.6.0-orig/clients/nm-online.c	2017-01-16 11:08:37.000000000 -0300
++++ NetworkManager-1.6.0/clients/nm-online.c	2017-01-31 22:03:53.516699140 -0300
+@@ -223,7 +223,7 @@
+ 
+ 	remaining_ms = t_secs * 1000;
+ 	data.end_timestamp_ms = data.start_timestamp_ms + remaining_ms;
+-	data.progress_step_duration = (data.end_timestamp_ms - data.start_timestamp_ms + PROGRESS_STEPS/2) / PROGRESS_STEPS;
++	data.progress_step_duration = NM_MAX (1, (data.end_timestamp_ms - data.start_timestamp_ms + PROGRESS_STEPS/2) / PROGRESS_STEPS);
+ 
+ 	g_timeout_add (data.quiet ? remaining_ms : 0, handle_timeout, &data);
+ 	nm_client_new_async (NULL, got_client, &data);
