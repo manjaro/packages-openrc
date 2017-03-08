@@ -1,0 +1,61 @@
+# Maintainer: artoo <artoo@manjaro.org>
+# Contributor: kozec <kozec at kozec.com>
+# Contributor: Lukas Jirkovsky <l.jirkovsky@gmail.com>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+
+_pkgname=polkit
+
+pkgname=polkit-elogind
+pkgver=0.113
+pkgrel=1
+pkgdesc="PolyciKit with elogind support for non-systemd systems"
+arch=('i686' 'x86_64')
+license=('LGPL')
+url="http://www.freedesktop.org/wiki/Software/polkit"
+depends=('glib2' 'pam' 'expat' 'js' 'elogind')
+makedepends=('intltool' 'gtk-doc' 'gobject-introspection')
+provides=("polkit=$pkgver")
+conflicts=('polkit' 'polkit-consolekit')
+options=('!libtool')
+install=polkit.install
+source=("http://www.freedesktop.org/software/polkit/releases/$_pkgname-$pkgver.tar.gz"
+        'polkit-0.113-elogind.patch')
+sha256sums=('e1c095093c654951f78f8618d427faf91cf62abdefed98de40ff65eca6413c81'
+            'e53293e21eb9ece8bea7a90e2dd440f176af185470de33a3859b9a1274413e9a')
+
+prepare() {
+    cd $_pkgname-$pkgver
+    patch -Np 1 -i ${srcdir}/polkit-0.113-elogind.patch
+    autoconf
+}
+
+build() {
+    cd $_pkgname-$pkgver
+
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --sbindir=/usr/bin \
+        --localstatedir=/var \
+        --libexecdir=/usr/lib/polkit-1 \
+        --enable-libsystemd-login=no \
+        --enable-libelogind=yes \
+        --disable-static \
+        --enable-gtk-doc \
+        --with-os-type=redhat
+    sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+	make
+}
+
+check() {
+    cd $_pkgname-$pkgver
+    make -k check || :
+}
+
+package() {
+    cd $_pkgname-$pkgver
+    make DESTDIR="$pkgdir" install
+
+    chown root:102 "$pkgdir"/{etc,usr/share}/polkit-1/rules.d
+    chmod 750      "$pkgdir"/{etc,usr/share}/polkit-1/rules.d
+}
