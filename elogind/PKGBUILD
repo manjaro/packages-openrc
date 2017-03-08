@@ -5,7 +5,7 @@ pkgver=219.12
 pkgrel=2
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
-url="https://github.com/wingo/elogind"
+url="https://github.com/elogind/elogind"
 license=('GPL')
 depends=('dbus' 'polkit' 'libudev.so')
 makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp')
@@ -19,6 +19,7 @@ source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz"
         "elogind-219.12-login1-perms.patch"
         "elogind-219.12-gperf.patch"
         "elogind-219.12-glibc.patch"
+        "elogind-219.12-runtime.patch"
         "elogind.conf"
         "elogind.init")
 sha256sums=('80241494f5c794e8501ccf570ac805275ace368755780f38a18762fd06243f95'
@@ -28,8 +29,9 @@ sha256sums=('80241494f5c794e8501ccf570ac805275ace368755780f38a18762fd06243f95'
             'cef5dda99a51a42bc36d1a946d5a21a830bf0f44ed3f447542ec57c1424e0053'
             '9f6437abeba2f17d378482e262504f269998d54c6adb16eb16c4eda738065074'
             '5e7dfcf695c15a02d8151541c50e26c9e3140f5626d95bbec366aada5ce095d5'
+            '78c5ae1461685634e975301abd521274a4c817ad7995cdfa81422e875f9146c1'
             '344db76bf8aadfba4363c63aacd93c945a647bd5e425d756cbfd9cb4453afc66'
-            '3e3ca3d384b9ced34360e697b2a6102b173731c8cf4f91e2901df68b33d73d44')
+            'bd00ff5b6f839c8ff12c3b86e1851033b0221851705a6cb0e2242f7c682ce1d4')
 
 prepare() {
     cd ${srcdir}/${pkgname}-${pkgver}
@@ -39,7 +41,7 @@ prepare() {
     patch -Np 1 -i ${srcdir}/elogind-219.12-login1-perms.patch
     patch -Np 1 -i ${srcdir}/elogind-219.12-gperf.patch
     patch -Np 1 -i ${srcdir}/elogind-219.12-glibc.patch
-
+    patch -Np 1 -i ${srcdir}/elogind-219.12-runtime.patch
     autoreconf -vim
 }
 
