@@ -3,12 +3,13 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgbase=openrc-video
-pkgname=('nvidia-utils-openrc'
+pkgname=(
+#'nvidia-utils-openrc'
         'virtualgl-openrc')
         #'catalyst-utils-openrc'
         #'bumblebee-openrc')
 pkgver=20170309
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL')
@@ -74,7 +75,7 @@ package_virtualgl-openrc() {
 	_inst_initd 'vgl'
 
 	install -Dm755 "${srcdir}/vgl-helper.sh" "${pkgdir}"/usr/lib/vgl-helper.sh
-	install -d "${pkgdir}"/var/lib/VirtualGL
+	install -dm750 "${pkgdir}"/var/lib/VirtualGL
 }
 
 # package_bumblebee-openrc() {
