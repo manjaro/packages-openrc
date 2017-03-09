@@ -4,26 +4,25 @@ _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgbase=openrc-video
 pkgname=('nvidia-utils-openrc'
-        'catalyst-utils-openrc'
         'virtualgl-openrc')
+        #'catalyst-utils-openrc'
         #'bumblebee-openrc')
-pkgver=20160528
+pkgver=20170309
 pkgrel=1
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL')
 groups=('openrc-video')
 source=("nvidia-smi.initd::${_url}/x11-drivers/nvidia-drivers/files/nvidia-smi.init"
-        "atieventsd.initd::${_url}/x11-drivers/ati-drivers/files/atieventsd.init"
+        #"atieventsd.initd::${_url}/x11-drivers/ati-drivers/files/atieventsd.init"
         "vgl.confd::${_url}/x11-misc/virtualgl/files/vgl.confd-r2"
         "vgl.initd::${_url}/x11-misc/virtualgl/files/vgl.initd-r3"
         "${_url}/x11-misc/virtualgl/files/vgl-helper.sh")
 # 	"bumblebee.confd::${_url}/x11-misc/bumblebee/files/bumblebee.confd"
 # 	"bumblebee.initd::${_url}/x11-misc/bumblebee/files/bumblebee.initd")
-sha256sums=('1f1481ae98a506a7d249e87654aab9d3975b6a88b9abe7b58ebbd337babbc47c'
-            '60a22c86152e8e2765fd82838d282f17901ec56462e50e855c1939b8a36d917b'
+sha256sums=('a64a301feb058ed0e993e44cc2d4a0105735110f8f9cd05aacaaf37e1aa3c85c'
             '5356391cec2e297f2fafa370f42be225ad4238ac61182b90720a3d914261a80f'
-            '09ce3a70aea80f71a7fdfd46421f93d44f302abe0a709bf9cfd459485649acd1'
+            'e59320152be7d3631e3bdcd10be412b2ca1bc7c1bcdb135cb19142114e6358f0'
             '438c928840fbfb9274604296b8178e7f97b42a3428d115e1de6e609ea3146497')
 
 pkgver() {
@@ -52,18 +51,18 @@ package_nvidia-utils-openrc() {
 	sed -e 's|/opt/bin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/nvidia-smi
 }
 
-package_catalyst-utils-openrc() {
-	pkgdesc="OpenRC atieventsd init script"
-	depends=('catalyst-utils' 'acpid-openrc')
-	backup=('etc/conf.d/atieventsd')
-
-	_inst_initd 'atieventsd'
-
-	sed -e 's|/opt/sbin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/atieventsd
-
-	install -d "${pkgdir}"/etc/conf.d
-	echo 'ATIEVENTSDOPTS=""' > "${pkgdir}"/etc/conf.d/atieventsd
-}
+# package_catalyst-utils-openrc() {
+# 	pkgdesc="OpenRC atieventsd init script"
+# 	depends=('catalyst-utils' 'acpid-openrc')
+# 	backup=('etc/conf.d/atieventsd')
+#
+# 	_inst_initd 'atieventsd'
+#
+# 	sed -e 's|/opt/sbin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/atieventsd
+#
+# 	install -d "${pkgdir}"/etc/conf.d
+# 	echo 'ATIEVENTSDOPTS=""' > "${pkgdir}"/etc/conf.d/atieventsd
+# }
 
 package_virtualgl-openrc() {
 	pkgdesc="OpenRC virtualgl init script"

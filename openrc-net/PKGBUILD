@@ -43,7 +43,7 @@ pkgname=('autofs-openrc'
         'vnstat-openrc'
         'snort-openrc'
         'unbound-openrc')
-pkgver=20160528
+pkgver=20170309
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -120,8 +120,9 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "ntpd.confd::${_url}/net-misc/openntpd/files/openntpd.conf.d-20080406-r6"
         "ntpd.initd::${_url}/net-misc/openntpd/files/openntpd.init.d-20080406-r6"
         "tor.confd::${_url}/net-misc/tor/files/tor.confd"
-        "tor.initd::${_url}/net-misc/tor/files/tor.initd-r7"
-        "nginx.initd::${_url}/www-servers/nginx/files/nginx.initd-r3"
+        "tor.initd::${_url}/net-misc/tor/files/tor.initd-r8"
+        "nginx.confd::${_url}/www-servers/nginx/files/nginx.confd"
+        "nginx.initd::${_url}/www-servers/nginx/files/nginx.initd-r4"
         "vnstatd.confd::${_url}/net-analyzer/vnstat/files/vnstatd.confd"
         "vnstatd.initd::${_url}/net-analyzer/vnstat/files/vnstatd.initd-r1"
         "wicd.initd"
@@ -133,83 +134,84 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "unbound.initd::${_url}/net-dns/unbound/files/unbound.initd")
 sha256sums=('d81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa'
             '3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
-            '26962fa7f79e8aee372d585a1d6f03750a84dae536bc88efc338f4edc518b1f6'
-            '8a6344ddc353177101cb07a4c57031dcde7a89e0531f76aa2a706a62ee96b990'
+            'a1a25bd66fa2edac593e77c5469e110466b7d8dc1bfa3f72a49c7117196986a4'
+            'dea35c48fdc94e475b427cb47ff47b914a66311afbd2d8397a833a60e4c1a7a4'
             'e8a413e9102948b336f60041fc3cade33125faf56d8319ee65d9f3c63199a8e7'
             'a157630c3bdc9565cca8240ee1e6539fc9cbc1e4642c40e0965e3609d1021bac'
             '099f668e1ad42ed9446b15675032a1186715d1fe9e4a1b24dfb787e68495d2b6'
-            'a321454fc406b7deaab7f16195c8317186a7ae04457dc68055c880ab8acc03bb'
-            'ec3e6cc828aaea209a21c0687020009122ccb2d587c20038c1ca57748aed8b80'
+            '974fcd6c3c7d49cf350a53df56c0f73fc64fa14d1516d50dee1316e577ab6450'
+            '87082ebc37a969d2b7e658f155f96990c57ecb60c5fc23edee25afa9d247bd68'
             '916f4b14095ee4ec8a510391c883e9f01868e18d79a3d5cbeb13a104a793d45d'
-            '1624740d370e0be03f3e6d33ab7f54908fa3cd460e1c677685a030965416f52e'
+            '3678565083106e698ca30c305c4561152a2b043fe894b8b773b28a0bb273411e'
             '7e2341211ca14997b7a8a1f930f94db855291af597c568f680f80031c20d45b6'
             '2938fe4206514d9868047bd8f888a699fa2097ca69edab176453436d4259abaa'
-            'eca52b98f6d7cc0f74ad2ba65f3a4ea96a0a46424ddab321928c4e82ebf1f5aa'
+            '2c9dcf73db7740350d41504633671e95287a349838acd5faa6d3b27418c9d6d0'
             '0b3b5bcfdb5010d20e3d4457f4128a4fb9f2d91261bfcf489601b1c714f9d815'
             '30572eeec9013fbfb6170f2b0bd1016582d2664268e4019fa8e2edd41e52919d'
             'bf8539b70561d9eb495f55141a5295a8c2e8246af4d1990af94e98be952dcdf9'
             '0be7c9c04ce508cbefb3e913951d83c5ed7f0e01fe5aebcf3a5071f30ef3dbc2'
-            '33e47ee7267c4e10c8ef481c738f952377980613599667ee06148975f8b9fb73'
+            'aceed021f24b817347fdf216ccc61e7f34cb8fd831a377c2fbbf1230873498e2'
             'c652a4fe8a43dc68a818345db2b3acc560663b5b6c969324d4f23afb0fb96a94'
-            '513e88865d1d97869442d58e4e5d021053aa7df3dccb2a18fcc883895d5d3e4a'
+            '247456e845e70badb44d9155b68e5f76d502361769e4332a9d1bd6345f85fbfa'
             'e8842fca856eae598fb8fe15ed8d3cef13e61851217be66b8cc4087af8cee8ad'
-            '2f1e9d3495b5541ddf876cda33e14c0eb60033ef2723fdeac08c287d5003fcbc'
-            'eb3af09b38a16c979b5cfdbf6595a9008937e4b9b0463628fef8f58b82b102b3'
-            'e61e940771625ca2ee2e2cb94200a1ea5fd80620fc6aa5ea1eca798900cdbea6'
-            'bc58085b696c5730062d81631addfcd30abe770d6fabce6cde7f1c4b551ae312'
-            '5e7315bac85222ab269a29b7f45950e44c3c7e8d41c08ee73023a7332ea12fb3'
-            '748bc17b271dc8630fd2f3c730ff1130980fef97ef5443585f367eb476b4e946'
+            '56973f5c8196b4227114d94a1d3c8c95518be5a02c6b5dc97da243d0b6086843'
+            'dc21ce6ba28f45eb450d5d0dbe7e5ea706b1547c8bece4ddb6836a5433427bd6'
+            '04102bff9b13d2e7c4e30603e7c98fe412d5f6c907a37dcea95f420f153c29ae'
+            '83c318a7502718a3e1693869297b95db1c32270b37d45b26b2bc151ec06f3c08'
+            '272905335a7c82034c6bac007bd4477aae21d8ce49e82355c48301db771ba77e'
+            '6f3d93442db0c17436547a16155e0d61dd5cd17f49fd3a642a9a5de833411d51'
             '5bca003ec3b67c7c78519aede1d82002579006ccfecce8f87b559df719f82e92'
-            'd07c3316557d5e488782f58ba64001a22eb1d812ee06978f59b4b5d55eba65ca'
-            '62ca5ea609ade999c545646f629a370e9a712f65d4eb09d0acc2a0b0b4579e2e'
+            'bcd84fca8efc1eec3aea489f238b51ce7226ffcdb1562044e48106897bc5a6fc'
+            '903fdfdd8a5b482af011fc12f9050a9afceac09e4eed9e9cd4fa58240ab61349'
             '29c6d57ac3ec6018cadc6ba6cd9b90c9ed46e20049b970fdcc68ee2481a2ee41'
-            'b20e4e5943bc66f1cbe70a658dc660ef8a7c57d3479f604b0ad71b06ad67d8eb'
-            'a42c6c87582a71df73ddfd7b7b4e56703b214822366f5e97b95db225a0aa6235'
-            '511db5dd1eca8602ced9d3ca4b800e517d8b82845a59b15bec91a66af4db6728'
-            '0166b25e44b759d355bb49b99cf9364bcb2bd83d4a4ee5d57edd1d2ba6719994'
+            '43a483014bf177f9238e54a7b8210d5a76830beb67c18999409e543fd744c9e4'
+            '81c0bf86e26770ae9e522fcce86ab05528d37ce8ad3ce1bcf17250bbd0285a6a'
+            '34cb4ef8067b9001005931c30ab87be41f47c20ef1185a3afbc86d3d6f01996e'
+            '7a2e3996dd9dd02307b11ffb2dca8915490283820a6b6c124d808a38badcc505'
             '00d1dfb3b893db5d6a213a4edda622c7d64dcafa40b3019f15e070c164286632'
-            '9889fe417527851122b0ce2899367c65ed90472c8f51f2734e16cca6fbfa978c'
-            'dcc16dd606bed969a454aa27c74debecc13f8ce1abc402dc546a090857e030dc'
-            'c249b8626522db73ae66b188ec777c39aa270b91b7909114544154c016e0515f'
+            '2a4dc1f695a881d0715e6220dad54b3690d98bf26b618b0fe6cb4ab26823e047'
+            'ef7eec0fd1921f786580169628c9cc7af82c73d0b2cf420fba0e87f8fd428651'
+            'da992f87b5043e22dfd340b4a5440b76dce29cc14d3ef7b0ce586726fe4b220b'
             'de758791b16b89a648c01867af7f51bc9bd44e40cbe868e439b753ff5d9572e5'
-            'e72950384601f5c7184229294372e3754e92ebe314e59c7b97f0cd69b9550a54'
+            'fc6240c77448d36cf3255e6c264737a6ce69424b5b62d0986eb322c4d8a1a85b'
             '53755809cc27fdbaf98752cd3da45b5c2bda62dd46fcc37570c6e237f7954ffa'
-            '44b53a5d5f516cb944a308613579b3e8e2716651961274b0b01afc70feede342'
-            'fb3ca6be7ecd0fa89773c7052262a35cfdebd75afa03246e5bcd778ab0eda4c7'
-            '2e213686134753cf5bdad3a8a662003cdf0baded9de0b70caf8673275cc06496'
+            'd40c512760bc0cc56629429219e1eadbcee23aa12ec5b3145f679ed644d0912c'
+            '507d8f26bdb7227c39ed0641429d32972513e4240bf59a20b076e8019201b20d'
+            '8a1369aab5cef61d19ea61c373819bd4eeabd2ba4c70f831e5009891993f3a4f'
             '9065bcf729309aebd48ae2214a461d162924462fb2db51f33aed40dd0c3b4f25'
-            '235cb7a7b35904f96274e8c5f8fa9d2d43a182cc32a46e396c9f9b6f0cb7c59e'
+            '8925e7b2f59de7c116778fa9a498e8209358117b08870a9208fe37c8b2f01ee5'
             '069aa7382b40aecebf26ef53f3f4c49890314e0357925c84b3c15f1d0b913be0'
-            'a1884c8fc3a7f88e54819ed17ae546d6727c845a45e06c19d2c215c45aa31b5d'
+            '7d668989a96d47cb5a9f71ae2e6000b469be6d1786f9cf3809b28461d42308ea'
             '2de7c7c1edfe3ae0480e22d988a564db3bb873050929ebb6e8361d7a1288ddda'
-            'aed08a17b5966068334f77a0c980284c74275cd3a9f56e5025b62e8a0bc55035'
+            '46dba1df0fb5d575d6d37ed54aa887d9a5fa8853bc46b2b0bd18f9fab2a27640'
             'e401e2cf7c0180a170d3dc3e91d7e98002bae7b013df72813b7bcf89b864fb3a'
-            '25a05d7172f65a9fdcf56cab358233b659b1a4288ed493214cdd49baa17175a4'
+            '6934fee5e3997d7e152c26d0c1a8f8d2f7563287fcc1ae934e4552d523c39329'
             '79f6c6ed4875f00fe702f69e9a6180a032d5a47f3e58e892e6ba0e2746b6fec8'
-            '9bcd0cc1f5e608a4c07249255a07bd56821ef497fe8346f24333b9860c70078e'
+            'fad2c4c9927edd6a3b7479dba733f67c5cfef399de133c1b4a69ac0526692dbd'
             '4edd475ca95d31cfcea20a8e6268024f8128423bc7ae67edb535e6811c64668e'
             'e46afe737bfc57aa31be1a441615fcc112e1ebf41d631c1929e00b81baca119d'
             'bd1f245a362f85319e83965e8b825e66e686a4a0bf185ab8ec51fd335bc873c2'
-            '418effe818346c36b31248efb4d980ffd9da1d9b7ca8f1ddedbf2063252a4c94'
-            '561455a86edfb6192d9ab2d75e54b6619f7210d66ebc9e722659047b2e06e6c3'
-            '9570463181566cdab38f584760de293afb7bd4dbf5031c9aeaa30eca9a209ccb'
-            'd51ac8ad1332d210c0d80aaa5996414c9027b85453f6ff697aad7dbafb243ae3'
+            '24d4bfd2d938b3b89ae89067e1249631f2a05a81a95772c82861700039f69ab4'
+            '870931c5a97510aa266b2df3c1b29fb314e7174cd59fd8b0541ce123ec7c24f3'
+            'a0a1d437d66636ebb186e7249e8a7aacbff909dde544bd95eaf16f9956708ce1'
+            '5ee23ee05da536fb67456c034e757841b27bc8528d93d2bc835e7427fe77d05e'
             '330149a83684ddabe413d134d4c8efad4c88b18c2ab67165014deff5f7fffad2'
             '89f69bcd627868830c421bc6270f08a1c3edf1a1e5fbdedf33c7a7d530bdfccf'
             '40803821f498267f6567436eedc18201b5ae4b5390d6872fb15a94200c2ac06f'
-            '56dffdfa0d347ef667cb08a26ce68b1d445f71031ae1df3309ff3219f10307a9'
+            'cdccb5f0009d1498be90a3f423158d7a3c603a1398f8993ae6fb828224a7cdaa'
             '41d780f291847e19f632428bbf27c3f289414afd237546d2974da1b75384c25c'
-            'e776f92cdbccd1c662c754dbee98e4165ded4a94ed915cc8d3b4fa40e289de6e'
-            'e3c43e96291e7479497670465df7f6b85ce4fbaec999694bb23eacde9002713e'
+            'b637006715ab1cb0b321dc9e703b1dcaf61878c13134669eabebe4b422da96d3'
+            '29677faab40d1fff740d743614788fd73c8c2d4167c3bd64d3e8bd4b0eb90d2b'
+            'a28354a71c1d9d9f681835a1afe73ca538aca81c4a28d0166b66344854cca235'
             '2cd5b91f86bc26aca85166a50de89faaccbf1ea8f219efb48b50b7ed0f3fe377'
-            '635cff59ca8597b8f0b907ce04f93a253a2b8d6d9aae997d6e527e31f36397e6'
+            '631738731bf78a6d0c00c5180c2b3a75b96fffb596d8c9e04dbb0cd24fcc4fec'
             '66b2b53b077ddc2d5eb1d81faa99fa0f4f0db01520900ba948001e539bfe02d8'
             'eb4a4315916fe3f8688c1da5bb5c249a1f402e61617452288d5b0668078c955c'
             '63708b1a7b61ae791df64bb4cefa01dc12236f96bb67fe6d0b2c513e11c81f3e'
             '337378f098e0cd59fb5c28a26b5b74b32168cf48596064469e6a5ba04fe3a36f'
-            '05e9ac05625542f865757f6792970e2b0cbd963fb52ba0e6027f927e72709601'
+            'ec06f884dd3ed3b8d20fd848769ab1dece4de1605d8fbde11c27665ce9952291'
             '7da812ef83f8f8b9351363525ab6bebd5348faed76d0ae424dcbd7cb6a830dfd'
-            'f47e8fbd720622407670438173588780ffc1520736d6ec1bef3fc959cdd17002')
+            'fe18b49ea3c50bf17343581599953dac1cc190d1ea9aab1e69eab0b295420c76')
 
 pkgver() {
 	date +%Y%m%d
@@ -683,7 +685,9 @@ package_syncthing-openrc() {
 package_nginx-openrc() {
 	pkgdesc="OpenRC nginx init script"
 	depends=('openrc' 'nginx')
+	backup=('etc/conf.d/nginx')
 
+	_inst_confd 'nginx'
 	_inst_initd 'nginx'
 
 	sed -e 's|/usr/sbin|/usr/bin|g' \

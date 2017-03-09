@@ -5,7 +5,7 @@ _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 pkgbase=openrc-accessible
 pkgname=('brltty-openrc'
         'espeakup-openrc')
-pkgver=20160823
+pkgver=20170309
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -16,9 +16,9 @@ conflicts=('systemd-sysvcompat')
 source=("brltty.initd::${_url}/app-accessibility/brltty/files/brltty.rc"
         "espeakup.confd::${_url}/app-accessibility/espeakup/files/espeakup.confd"
         "espeakup.initd::${_url}/app-accessibility/espeakup/files/espeakup.rc")
-sha256sums=('df59d6b7b884207c09a098188b8418944581c47ed19a1fac9725f847e4281e7f'
+sha256sums=('4dd0338d2f9943165d5922c8964ca3456e8e8b67b37cf5f2652435bc1f644c41'
             '32e6de11417ebb199a7bf46eb8cf77054b1af1c9f4bcc80b856b34758830eb9f'
-            'ac7ea45ed050ba60b618e60c76b3c8c79496f7b837a34246ed328230cf5934cf')
+            '9bfaf3950744a9376cdd74240c3e6b9a92d7b17a16a3b9eb0485f5fd279ff963')
 
 pkgver() {
 	date +%Y%m%d

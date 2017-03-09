@@ -10,7 +10,7 @@ pkgname=('jenkins-openrc'
 	'subversion-openrc'
 	'distcc-openrc')
        # 'php-fpm-openrc')
-pkgver=20160721
+pkgver=20170309
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -33,15 +33,15 @@ source=("git-daemon.confd::${_url}/dev-vcs/git/files/git-daemon.confd"
 # 	"php-fpm.initd::${_url}/dev-lang/php/files/php-fpm-r4.init")
 
 sha256sums=('4703ba2372c661fb674a29fea7f64983f8b1b3136d971663509249655bca6e21'
-            'efa30f5db5b837ed9febd09af29f3740a9d479d098d5c3f8e4dcf334e01f77a3'
-            '6f8720ccbb241b08e5f9abb4be0899f55c857f6308ac82c7f12417ee2c02c1a5'
-            '3588c6286af12ba15b472e6707e8c21c4bafea402d3d091105aa29be28b0f8be'
+            'c39eff8e0d0156f035b987521444476875852519ddfe6b36ea5c205d93a7f323'
+            'b94756f2a5fe43893dea90fadbe47308e50fb4dbe2cbaa2676f34fa88181d8e7'
+            'b6eb4576e654b1f4a8138df04408935a07fab69775e9663f736133c71bbb414b'
             '45f2dc1a718aed885559e71d98112e670c92bd6b4f19c5cf593eced6cd2bbd97'
-            '06dbad411ed4c0db67685143822a095549e85e54a5166c8e568b219e88c9839e'
+            '3cba218e648f7722e6e5541deb9e8ca0f53188195e33b17ca19efb8a300651cb'
             '57c1ad0b14e8458024c713dd8cc2390023b95c27ba4cbd637333b1020f11f398'
-            'ae547732e2e1fd1adac40bd30fd79b83a5ba3bb1de4a553b8d0f09500cb2d082'
+            '120e872848eb13c949179b22f00a31bd043823ac75c547374225c6c3620a827d'
             '253cfaa5b53fe4943a9db83e76ff6d6e8855665f69c2f7beca124af3ec63c88a'
-            '92a4931b0241b2ddb9d7771f14c880802bdff9c44fadb2c6671387e08cea0c7c'
+            '4af1591a0f95e45648f0c5a7ffc5e49be012f2f6e497235b3363e9e709dc627f'
             '7ef50b386bef359224dffb964387f651aa02cd610c3f73d585fa3ae78e9becee'
             '03dcaccbb0d398c2b600be0752ffc68d20c877b58a10026b7c59b0bd40c0e5bf')
 

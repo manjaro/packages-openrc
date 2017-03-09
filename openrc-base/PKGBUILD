@@ -12,7 +12,7 @@ pkgname=('cronie-openrc'
         'lvm2-openrc'
         'mdadm-openrc'
         'dbus-openrc')
-pkgver=20160907
+pkgver=20170309
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -28,9 +28,10 @@ source=("cronie.initd::${_url}/sys-process/cronie/files/cronie-1.3-initd"
 		"device-mapper.initd::${_url}/sys-fs/lvm2/files/device-mapper.rc-2.02.105-r2"
 		"dmeventd.initd::${_url}/sys-fs/lvm2/files/dmeventd.initd-2.02.67-r1"
 		"lvm.confd::${_url}/sys-fs/lvm2/files/lvm.confd-2.02.28-r2"
-		"lvm.initd::${_url}/sys-fs/lvm2/files/lvm.rc-2.02.116-r6"
+		"lvm.initd::${_url}/sys-fs/lvm2/files/lvm.rc-2.02.166-r2"
 		"lvm-monitoring.initd::${_url}/sys-fs/lvm2/files/lvm-monitoring.initd-2.02.105-r2"
 		"lvmetad.initd::${_url}/sys-fs/lvm2/files/lvmetad.initd-2.02.116-r3"
+# 		"lvmlockd.initd::${_url}/sys-fs/lvm2/files/lvmlockd.initd-2.02.166-r1"
 		"mdadm.confd::${_url}/sys-fs/mdadm/files/mdadm.confd"
 		"mdadm.initd::${_url}/sys-fs/mdadm/files/mdadm.rc"
 		"mdraid.confd::${_url}/sys-fs/mdadm/files/mdraid.confd"
@@ -39,23 +40,23 @@ source=("cronie.initd::${_url}/sys-process/cronie/files/cronie-1.3-initd"
 		"dbus.initd::${_url}/sys-apps/dbus/files/dbus.initd-r1"
 		'ftpd.confd'
 		'ftpd.initd')
-sha256sums=('a0dc91cb6aecafc4e5999829ae90a87217e5aa946aa4e3d3a3d3549a71a8ecf1'
+sha256sums=('8646ff964892eeb5f6c5da444a5ef5d898fb1f3a395c5b9fc85d32d8d56fc785'
             '3d933a54abe62a547294b83208dbf5d7615d9c7f380d6504c91fff3620530803'
-            'e562dd69aca4932a3e186fe87a25fe51c61b5687ed1dfa8db3ef4f4be8d18fb5'
-            '70a809ba34959aa9622bda95299e7391d14d84fad8b3cf5012e2284b6324b6cc'
+            'd04627e1a64e4d86e957b20ff6f478fb376833b7602098a708af9c070e30a980'
+            '13391343bfc64379c696b4bfc1cfe8d7fbb2886f477265343fddf448d82deabf'
             '57777904f12a35617e5a4193c964ebb32396452487fd02353e71e16e7b46bc22'
-            '5bd68e3b4bee1fb07555e45f2eec81d2dc1352fae81660ab30bc49dbda152de1'
-            '4d283654bd5a7919809a51a6e5a00699c2a452805174fae2363e0c2b5d67f349'
+            'e8bfde63341f9e6136ee20a15ed9ea455e2259dbcaea756f8c3d0f710c1c2746'
+            '5edaaad292d4fd6b67fd5323636dd2e839be33ae16fbc7872dadb0499fcf22da'
             '28370c089c39c248d7ded0960b8d8a9256bada44d44c22ce3cec87d512ef6844'
-            '1f45b7402273a08d30223283e63435b0cfc0e5b5cd07f3a00838336401e6ad3b'
-            '0b229dd48685fffa1e3dd146d1a8272bbdccad05eae8d6e2e74cb31bbb396e04'
-            'e852d8c04a807ac9e8d576dc1a31ecddc4abdb8be08b3155f8cd3fe210cec5f8'
+            '257e6801b1d2890fe77b7d030489066d9129712eae395b77ae5e9e461d435f80'
+            '42847d8e6dabbcf2cc19846c6ad22cbab65e9a033c4add569b152504b16ab477'
+            'e7f17004d505eae5d8a2fb336b22f1cdb20bb2ecf85a98daf2485bb4b0d4ff12'
             'ec55674955af7a31da51b8b72b599e8519809287dad796a9b16155bcba471b79'
-            '3579e9450e1e68b1d6246fc7632f40b8629515e8e128a6a3c3b0a089fe7d0af7'
+            '5b859ba14b7a4a350c0a8afe6edb352e0db9920bdf1e05315ffbbfb92f201584'
             'b489ced10391d4295bb8ca29e128b0d4217c290f1b4e37b05f5a9275048d289d'
-            'c072e70fd46096e3af31f96219a3abc3b7d8d981f61ac90a8dbf554928a3b7e8'
+            '31e7ba4174f38c05e939aa56fab8a43a3e371ba9e503e029887c99fed7a28331'
             '6bb9b8b0075e45e63e898ed043f3c5951dc3e95c1fa62d22cc6e0616c792ecd1'
-            '4491c09942d72fd464bc1da286c4f5a237ec8debfbaba83c6fbf4a46d46fe51e'
+            '00a1a8f254d4f40b6f98a2777809b9c45ad81c4aeb4c0592793dd839777990bd'
             '59fe1aa68c43f4958afc397a0d6b35da263a20fcdb457005123a0d64cb1f7477'
             '7f46e5e9ac9f204fb1564560c506a5bb4cede8823b89e3f1844e4f8be258e9ef')
 
