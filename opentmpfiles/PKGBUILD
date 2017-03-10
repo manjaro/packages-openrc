@@ -39,4 +39,6 @@ package() {
     install -dm755 ${pkgdir}/etc/runlevels/{boot,sysinit}
     ln -snf "/etc/init.d/opentmpfiles-dev" "${pkgdir}/etc/runlevels/sysinit/opentmpfiles-dev"
     ln -snf "/etc/init.d/opentmpfiles-setup" "${pkgdir}/etc/runlevels/boot/opentmpfiles-setup"
+
+    ln -snf "/usr/bin/tmpfiles" "${pkgdir}/usr/bin/systemd-tmpfiles"
 }
