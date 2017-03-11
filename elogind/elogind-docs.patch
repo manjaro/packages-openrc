@@ -1,14 +1,18 @@
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -191,12 +191,6 @@
- rootbin_PROGRAMS =
- pkglibexec_PROGRAMS =
+@@ -253,16 +253,6 @@
+ dist_bashcompletion_DATA =
+ dist_zshcompletion_DATA =
  
 -dist_doc_DATA = \
 -	README \
 -	NEWS \
 -	LICENSE.LGPL2.1 \
--	LICENSE.GPL2
+-	LICENSE.GPL2 \
+-	LICENSE.MIT \
+-	src/libelogind/sd-bus/PORTING-DBUS1 \
+-	src/libelogind/sd-bus/DIFFERENCES \
+-	src/libelogind/sd-bus/GVARIANT-SERIALIZATION
 -
  @INTLTOOL_POLICY_RULE@
  
