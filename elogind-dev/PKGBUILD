@@ -10,9 +10,10 @@ arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
 license=('GPL')
 provides=("elogind=${_ver}")
-depends=('dbus' 'polkit' 'eudev-systemd')
-makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp')
-conflicts=('systemd-sysvcompat' 'elogind')
+depends=('dbus' 'eudev-systemd')
+makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp' 'eudev')
+optdepends=('polkit-elogind: Polkit elogind session tracking')
+conflicts=('systemd-sysvcompat' 'elogind' 'consolekit')
 options=('!libtool')
 install=elogind.install
 source=("elogind-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz"
