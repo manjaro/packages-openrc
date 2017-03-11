@@ -1,0 +1,58 @@
+# Maintainer: artoo <artoo@manjaro.org>
+
+pkgname=elogind
+pkgver=219.12
+pkgrel=2
+pkgdesc="The systemd project's logind, extracted to a standalone package"
+arch=('i686' 'x86_64')
+url="https://github.com/elogind/elogind"
+license=('GPL')
+depends=('dbus' 'polkit' 'libudev.so')
+makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp')
+conflicts=('systemd-sysvcompat')
+options=('!libtool')
+install=elogind.install
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz"
+        'elogind-docs.patch'
+        'elogind-lrt.patch'
+        "elogind-219.12-session.patch"
+        "elogind-219.12-login1-perms.patch"
+        "elogind-219.12-gperf.patch"
+        "elogind-219.12-glibc.patch"
+        "elogind-219.12-runtime.patch")
+sha256sums=('80241494f5c794e8501ccf570ac805275ace368755780f38a18762fd06243f95'
+            'cafea7a13159dee700902e3837aab015d9521dfe122840faf2d909b5dc02229e'
+            'a9227ed4e97117ab5751de38c19813560a12f51379ccd882a89e7ef9842659ac'
+            'c63ef9869fa4bc38075dc9f9ef113b6b8c05ae2af2616da68219e0a364dea574'
+            'cef5dda99a51a42bc36d1a946d5a21a830bf0f44ed3f447542ec57c1424e0053'
+            '9f6437abeba2f17d378482e262504f269998d54c6adb16eb16c4eda738065074'
+            '5e7dfcf695c15a02d8151541c50e26c9e3140f5626d95bbec366aada5ce095d5'
+            '78c5ae1461685634e975301abd521274a4c817ad7995cdfa81422e875f9146c1')
+
+prepare() {
+    cd ${srcdir}/${pkgname}-${pkgver}
+    patch -Np 1 -i ${srcdir}/elogind-docs.patch
+    patch -Np 1 -i ${srcdir}/elogind-lrt.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-session.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-login1-perms.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-gperf.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-glibc.patch
+    patch -Np 1 -i ${srcdir}/elogind-219.12-runtime.patch
+    autoreconf -vim
+}
+
+build() {
+    cd ${srcdir}/${pkgname}-${pkgver}
+    intltoolize
+    ./configure \
+        --sysconfdir=/etc \
+        --prefix=/usr \
+        --libexecdir=/usr/lib
+
+    make
+}
+
+package() {
+    cd ${srcdir}/${pkgname}-${pkgver}
+    make DESTDIR="${pkgdir}" install
+}
