@@ -1,9 +1,0 @@
-post_install() {
-    echo "	==> /etc/pam.d/system-login"
-	echo "	==> Replace pam_systemd.so in your pam config with:"
-	echo '	session	optional	pam_elogind.so'
-}
-
-post_upgrade() {
-	post_install $1
-}

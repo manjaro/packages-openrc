@@ -3,23 +3,22 @@
 
 _pkgname=sddm
 
-pkgname=sddm-consolekit
+pkgname=sddm-elogind
 pkgver=0.14.0
-pkgrel=2
+pkgrel=1
 pkgdesc='QML based X11 display manager'
 arch=('i686' 'x86_64')
 url='http://github.com/sddm/sddm'
 license=('GPL')
-depends=('qt5-declarative' 'dbus-openrc' 'eudev-systemd' 'consolekit')
+depends=('qt5-declarative' 'dbus-openrc' 'elogind')
 makedepends=('extra-cmake-modules' 'python-docutils' 'qt5-tools')
 install="${_pkgname}.install"
 backup=('usr/share/sddm/scripts/Xsetup'
         'etc/pam.d/sddm'
         'etc/sddm.conf')
-conflicts=('display-manager' 'sddm')
+conflicts=('display-manager' 'sddm' 'sddm-consolekit')
 provides=('display-manager' 'sddm')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/${_pkgname}/${_pkgname}/archive/v${pkgver}.tar.gz"
-        "${_pkgname}-consolekit.patch"
         "${_pkgname}-pam_kwallet.patch"
         'sddm.conf'
         "sddm-fix-avatars.patch::https://github.com/sddm/sddm/commit/ecb903e4.patch")
@@ -32,7 +31,6 @@ sha256sums=('a551551a6ba324e9c384c89bc63e871de65fea3740eadbea2d63df86045f8205'
 prepare() {
 	mkdir -p build
 	cd ${_pkgname}-${pkgver}
-	patch -p1 -i ${srcdir}/${_pkgname}-consolekit.patch
 	patch -p1 -i ${srcdir}/${_pkgname}-pam_kwallet.patch
 	patch -p1 -i ${srcdir}/sddm-fix-avatars.patch
 }
@@ -51,6 +49,7 @@ build() {
 package() {
 	cd build
 	make DESTDIR="${pkgdir}" install
-# 	sed -e 's|pam_systemd.so|pam_ck_connector.so nox11|' -i ${pkgdir}/etc/pam.d/sddm-greeter
 	install -m 755 ${srcdir}/sddm.conf ${pkgdir}/etc
+
+	sed -e 's|pam_systemd.so|pam_elogind.so|' -i ${pkgdir}/etc/pam.d/sddm-greeter
 }
