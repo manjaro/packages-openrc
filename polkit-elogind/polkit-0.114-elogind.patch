@@ -1,20 +1,20 @@
 --- a/configure.ac	2016-11-03 20:16:02.842071344 +0100
 +++ b/configure.ac	2016-11-03 20:15:34.612071850 +0100
 @@ -183,11 +183,12 @@
- 
+
  AM_CONDITIONAL(BUILD_TEST, [test "x$enable_test" = "xyes"])
- 
+
 -dnl ---------------------------------------------------------------------------
 -dnl - Select wether to use libsystemd-login or ConsoleKit for session tracking
 -dnl ---------------------------------------------------------------------------
 +dnl -----------------------------------------------------------------------------------
 +dnl - Select wether to use libsystemd-login, elogind or ConsoleKit for session tracking
 +dnl -----------------------------------------------------------------------------------
- 
+
  have_libsystemd=no
 +have_elogind=no
  SESSION_TRACKING=ConsoleKit
- 
+
  AC_ARG_ENABLE([libsystemd-login],
 @@ -220,6 +221,29 @@
      fi
@@ -43,13 +43,13 @@
 +    fi
 +  fi
 +fi
- 
+
  AS_IF([test "x$cross_compiling" != "xyes" ], [
    AS_IF([test "$have_libsystemd" = "yes"], [
 @@ -245,6 +245,10 @@
  AC_SUBST(LIBSYSTEMD_LIBS)
  AM_CONDITIONAL(HAVE_LIBSYSTEMD, [test "$have_libsystemd" = "yes"], [Using libsystemd])
- 
+
 +AC_SUBST(LIBELOGIND_CFLAGS)
 +AC_SUBST(LIBELOGIND_LIBS)
 +AM_CONDITIONAL(HAVE_LIBELOGIND, [test "$have_libelogind" = "yes"], [Using libelogind])
@@ -57,40 +57,11 @@
  dnl ---------------------------------------------------------------------------
  dnl - systemd unit / service files
  dnl ---------------------------------------------------------------------------
---- a/src/polkitbackend/Makefile.am	2016-11-04 04:40:46.930116006 +0100
-+++ b/src/polkitbackend/Makefile.am	2016-11-04 04:42:14.586114436 +0100
-@@ -42,21 +42,28 @@
- libpolkit_backend_1_la_SOURCES += \
- 	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor-systemd.c
- else
-+if HAVE_LIBELOGIND
-+libpolkit_backend_1_la_SOURCES += \
-+	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor-systemd.c
-+else
- libpolkit_backend_1_la_SOURCES += \
- 	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor.c
- endif
-+endif
- 
- libpolkit_backend_1_la_CFLAGS =                                        	\
-         -D_POLKIT_COMPILATION                                  		\
-         -D_POLKIT_BACKEND_COMPILATION                                  	\
-         $(GLIB_CFLAGS)							\
- 	$(LIBSYSTEMD_CFLAGS)						\
-+	$(LIBELOGIND_CFLAGS)						\
- 	$(LIBJS_CFLAGS)							\
-         $(NULL)
- 
- libpolkit_backend_1_la_LIBADD =                               		\
-         $(GLIB_LIBS)							\
- 	$(LIBSYSTEMD_LIBS)						\
-+	$(LIBELOGIND_LIBS)						\
- 	$(top_builddir)/src/polkit/libpolkit-gobject-1.la		\
- 	$(EXPAT_LIBS)							\
- 	$(LIBJS_LIBS)							\
---- a/src/polkit/Makefile.am	2016-11-04 04:41:02.756115723 +0100
-+++ b/src/polkit/Makefile.am	2016-11-04 04:42:49.428113812 +0100
-@@ -85,19 +85,26 @@
+diff --git a/src/polkit/Makefile.am b/src/polkit/Makefile.am
+index ca36355..b8090c4 100644
+--- a/src/polkit/Makefile.am
++++ b/src/polkit/Makefile.am
+@@ -86,19 +86,26 @@ if HAVE_LIBSYSTEMD
  libpolkit_gobject_1_la_SOURCES += \
  	polkitunixsession-systemd.c		polkitunixsession.h
  else
@@ -102,34 +73,55 @@
  	polkitunixsession.c			polkitunixsession.h
  endif
 +endif
- 
+
  libpolkit_gobject_1_la_CFLAGS =                                        	\
          -D_POLKIT_COMPILATION                                  		\
          $(GLIB_CFLAGS)							\
  	$(LIBSYSTEMD_CFLAGS)						\
 +	$(LIBELOGIND_CFLAGS)						\
          $(NULL)
- 
+
  libpolkit_gobject_1_la_LIBADD =                               		\
          $(GLIB_LIBS)							\
  	$(LIBSYSTEMD_LIBS)						\
 +	$(LIBELOGIND_LIBS)						\
          $(NULL)
- 
+
  libpolkit_gobject_1_la_LDFLAGS = -export-symbols-regex '(^polkit_.*)'
---- a/src/polkitbackend/polkitbackendjsauthority.c	2016-11-04 04:44:29.650112018 +0100
-+++ b/src/polkitbackend/polkitbackendjsauthority.c	2016-11-04 04:44:58.283111505 +0100
-@@ -39,6 +39,10 @@
- #include <systemd/sd-login.h>
- #endif /* HAVE_LIBSYSTEMD */
- 
-+#ifdef HAVE_LIBELOGIND
-+#include <elogind/sd-login.h>
-+#endif /* HAVE_LIBELOGIND */
-+
- #include <jsapi.h>
- 
- #include "initjs.h" /* init.js */
+diff --git a/src/polkitbackend/Makefile.am b/src/polkitbackend/Makefile.am
+index e48b739..c2b1695 100644
+--- a/src/polkitbackend/Makefile.am
++++ b/src/polkitbackend/Makefile.am
+@@ -42,15 +42,21 @@ if HAVE_LIBSYSTEMD
+ libpolkit_backend_1_la_SOURCES += \
+ 	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor-systemd.c
+ else
++if HAVE_LIBELOGIND
++libpolkit_backend_1_la_SOURCES += \
++	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor-systemd.c
++else
+ libpolkit_backend_1_la_SOURCES += \
+ 	polkitbackendsessionmonitor.h		polkitbackendsessionmonitor.c
+ endif
++endif
+
+ libpolkit_backend_1_la_CFLAGS =                                        	\
+         -D_POLKIT_COMPILATION                                  		\
+         -D_POLKIT_BACKEND_COMPILATION                                  	\
+         $(GLIB_CFLAGS)							\
+ 	$(LIBSYSTEMD_CFLAGS)						\
++	$(LIBELOGIND_CFLAGS)						\
+ 	$(LIBJS_CFLAGS)							\
+         $(NULL)
+
+@@ -59,6 +65,7 @@ libpolkit_backend_1_la_CXXFLAGS = $(libpolkit_backend_1_la_CFLAGS)
+ libpolkit_backend_1_la_LIBADD =                               		\
+         $(GLIB_LIBS)							\
+ 	$(LIBSYSTEMD_LIBS)						\
++	$(LIBELOGIND_LIBS)						\
+ 	$(top_builddir)/src/polkit/libpolkit-gobject-1.la		\
+ 	$(EXPAT_LIBS)							\
+ 	$(LIBJS_LIBS)							\
 --- a/src/polkitbackend/polkitbackendsessionmonitor-systemd.c	2016-11-04 04:44:29.650112018 +0100
 +++ b/src/polkitbackend/polkitbackendsessionmonitor-systemd.c	2016-11-04 04:46:52.718109455 +0100
 @@ -25,7 +25,11 @@
@@ -142,19 +134,32 @@
 +#include <elogind/sd-login.h>
 +#endif /* HAVE_LIBSYSTEMD versus HAVE_LIBELOGIND */
  #include <stdlib.h>
- 
+
  #include <polkit/polkit.h>
 --- a/src/polkit/polkitunixsession-systemd.c	2016-11-04 04:44:29.651112017 +0100
 +++ b/src/polkit/polkitunixsession-systemd.c	2016-11-04 04:47:07.160109197 +0100
 @@ -30,7 +30,11 @@
  #include "polkiterror.h"
  #include "polkitprivate.h"
- 
+
 +#ifdef HAVE_LIBSYSTEMD
  #include <systemd/sd-login.h>
 +#else
 +#include <elogind/sd-login.h>
 +#endif /* HAVE_LIBSYSTEMD versus HAVE_ELOGIND */
- 
+
  /**
   * SECTION:polkitunixsession
+--- a/src/polkitbackend/polkitbackendjsauthority.cpp
++++ b/src/polkitbackend/polkitbackendjsauthority.cpp
+@@ -43,6 +43,10 @@
+ #include <systemd/sd-login.h>
+ #endif /* HAVE_LIBSYSTEMD */
+
++#ifdef HAVE_LIBELOGIND
++#include <elogind/sd-login.h>
++#endif /* HAVE_LIBELOGIND */
++
+ #include <jsapi.h>
+
+ #include "initjs.h" /* init.js */
