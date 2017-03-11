@@ -17,13 +17,9 @@ conflicts=('systemd-sysvcompat' 'elogind' 'consolekit')
 options=('!libtool')
 install=elogind.install
 source=("elogind-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz"
-        "elogind-docs.patch"
-        "elogind.conf"
-        "elogind.init")
+        "elogind-docs.patch")
 sha256sums=('165cae0af29ab027f5b1d8286066309aa34d8baa94a5f5e62e8f576b4e43a334'
-            '25643e563250b0d322f817288cbe999f1cc2e4804c875725bb92fe5094a902b4'
-            '344db76bf8aadfba4363c63aacd93c945a647bd5e425d756cbfd9cb4453afc66'
-            'bd00ff5b6f839c8ff12c3b86e1851033b0221851705a6cb0e2242f7c682ce1d4')
+            '25643e563250b0d322f817288cbe999f1cc2e4804c875725bb92fe5094a902b4')
 
 prepare() {
     cd ${srcdir}/elogind-${pkgver}
@@ -49,7 +45,4 @@ build() {
 package() {
     cd ${srcdir}/elogind-${pkgver}
     make DESTDIR="${pkgdir}" install
-
-    install -Dm755 ${srcdir}/elogind.init ${pkgdir}/etc/init.d/elogind
-    install -Dm755 ${srcdir}/elogind.conf ${pkgdir}/etc/conf.d/elogind
 }
