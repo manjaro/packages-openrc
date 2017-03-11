@@ -8,9 +8,11 @@
 
 _pppver=2.4.7
 
+_patch_url=https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch
+
 pkgname=networkmanager-elogind
 pkgver=1.6.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Network Management daemon"
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1')
@@ -30,7 +32,8 @@ optdepends=('dnsmasq: connection sharing'
             'ppp: dialup connection support'
             'rp-pppoe: ADSL support'
             'dhclient: External DHCP client'
-            'modemmanager: cellular network support')
+            'modemmanager: cellular network support'
+            'networkmanager-openrc: networkmanager initscript')
 backup=('etc/NetworkManager/NetworkManager.conf')
 _commit=037a12f96eff09aa48481fda7ea602a3388afc74  # tags/1.6.2^0
 source=("git+https://anongit.freedesktop.org/git/NetworkManager/NetworkManager#commit=$_commit"
@@ -39,8 +42,8 @@ source=("git+https://anongit.freedesktop.org/git/NetworkManager/NetworkManager#c
         '01-org.freedesktop.NetworkManager.settings.modify.system.rules'
         '50-org.freedesktop.NetworkManager.rules'
         '20-connectivity.conf'
-        "elogind1.patch::https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch/?id=360e80b75faead6595ceb4ca8cd91dd7fbaa2f47"
-        "elogind2.patch::https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch/?id=c0d9243e7ebdb6efd5c3e866b03a28cd91b08c83")
+        "elogind1.patch::${_patch_url}/?id=360e80b75faead6595ceb4ca8cd91dd7fbaa2f47"
+        "elogind2.patch::${_patch_url}/?id=c0d9243e7ebdb6efd5c3e866b03a28cd91b08c83")
 sha256sums=('SKIP'
             'dd2d3a9c8a08ce961e263e1847453890f1b24c72a806d8c83a5b69b227a5ccec'
             '4b815f43de58379e68653d890f529485aec4d2f83f11d050b08b31489d2267c2'

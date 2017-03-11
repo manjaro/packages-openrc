@@ -16,12 +16,12 @@ pkgname=('acpid-openrc'
 		'elogind-openrc')
 
 pkgver=20170311
-pkgrel=1
+pkgrel=3
 pkgdesc="OpenRC init scripts"
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
-groups=('openrc-desktop')
+# groups=('openrc-desktop')
 conflicts=('systemd-sysvcompat')
 source=("acpid.confd::${_url}/sys-power/acpid/files/acpid-2.0.16-conf.d"
 		"acpid.initd::${_url}/sys-power/acpid/files/acpid-2.0.26-init.d"
@@ -98,6 +98,7 @@ _inst_confd(){
 
 package_acpid-openrc() {
 	pkgdesc="OpenRC acpid init script"
+	groups=('openrc-desktop')
 	depends=('openrc' 'acpid')
 	backup=('etc/conf.d/acpid')
 
@@ -107,6 +108,7 @@ package_acpid-openrc() {
 
 package_alsa-utils-openrc() {
 	pkgdesc="OpenRC alsa-utils init script"
+	groups=('openrc-desktop')
 	depends=('openrc' 'alsa-utils')
 	backup=('etc/conf.d/alsasound')
 
@@ -116,6 +118,7 @@ package_alsa-utils-openrc() {
 
 package_avahi-openrc() {
 	pkgdesc="OpenRC avahi init script"
+	groups=('openrc-desktop')
 	depends=('avahi' 'dbus-openrc')
 
 	_inst_initd 'avahi-daemon'
@@ -139,9 +142,11 @@ package_consolekit-openrc() {
 
 package_displaymanager-openrc() {
 	pkgdesc="OpenRC dm init script"
+	groups=('openrc-desktop')
 	depends=('openrc' 'xorg-server' 'xorg-xinit' 'udev-openrc')
-	optdepends=('consolekit-openrc: consolekit initscript'
-                    'dbus-openrc: dbus initscript')
+	optdepends=('elogind-openrc: elogind initscript'
+                'dbus-openrc: dbus initscript')
+
 	backup=('etc/conf.d/xdm')
 	install=displaymanager.install
 
@@ -161,7 +166,9 @@ package_displaymanager-openrc() {
 
 package_elogind-openrc() {
 	pkgdesc="OpenRC elogind init script"
+	groups=('openrc-desktop')
 	depends=('elogind' 'openrc')
+	conflicts=('consolekit-openrc')
 
 	_inst_confd 'elogind'
 	_inst_initd 'elogind'
@@ -174,6 +181,7 @@ package_elogind-openrc() {
 package_gpm-openrc() {
 	pkgdesc="OpenRC gpm init script"
 	depends=('openrc' 'gpm')
+	groups=('openrc-desktop')
 	backup=('etc/conf.d/gpm')
 
 	_inst_confd 'gpm'
@@ -184,6 +192,7 @@ package_networkmanager-openrc() {
 	pkgdesc="OpenRC networkmanager init script"
 	depends=('openrc' 'networkmanager')
 	groups=('openrc-desktop' 'openrc-mobile')
+	optdepends=('elogind-openrc: elogind initscript')
 	backup=('etc/conf.d/NetworkManager')
 
 	_inst_confd 'NetworkManager'

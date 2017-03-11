@@ -9,9 +9,10 @@ url="https://github.com/elogind/elogind"
 license=('GPL')
 depends=('dbus' 'eudev-systemd')
 makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp' 'eudev')
-optdepends=('polkit-elogind: Polkit elogind session tracking'
+optdepends=('polkit-elogind: polkit with elogind session tracking'
+            'dbus-openrc: dbus openrc initscript'
             'elogind-openrc: elogind openrc initscript')
-conflicts=('systemd-sysvcompat')
+conflicts=('systemd-sysvcompat' 'consolekit')
 options=('!libtool')
 install=elogind.install
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz"
@@ -49,6 +50,9 @@ build() {
     ./configure \
         --sysconfdir=/etc \
         --prefix=/usr \
+        --with-rootprefix=/usr \
+        --enable-split-usr \
+        --enable-smack \
         --libexecdir=/usr/lib
 
     make
