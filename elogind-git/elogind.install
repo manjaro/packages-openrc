@@ -1,0 +1,7 @@
+post_install() {
+    sed -e 's|pam_systemd.so|pam_elogind.so|' -i etc/pam.d/system-login
+}
+
+post_remove(){
+    sed -e 's|pam_elogind.so|pam_systemd.so|' -i etc/pam.d/system-login
+}
