@@ -165,6 +165,10 @@ package_elogind-openrc() {
 
 	_inst_confd 'elogind'
 	_inst_initd 'elogind'
+
+	sed -e 's|/usr/libexec|/usr/lib|' \
+        -e 's|/var/run|/run|' \
+		-i "${pkgdir}/etc/conf.d/elogind"
 }
 
 package_gpm-openrc() {
