@@ -42,10 +42,10 @@ source=("git+https://anongit.freedesktop.org/git/NetworkManager/NetworkManager#c
         "elogind1.patch::https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch/?id=360e80b75faead6595ceb4ca8cd91dd7fbaa2f47"
         "elogind2.patch::https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch/?id=c0d9243e7ebdb6efd5c3e866b03a28cd91b08c83")
 sha256sums=('SKIP'
-            'ab3aaefa9f5f50fcad046e1c9a6a0078d189466455a1d61a559701504b463343'
+            'dd2d3a9c8a08ce961e263e1847453890f1b24c72a806d8c83a5b69b227a5ccec'
             '4b815f43de58379e68653d890f529485aec4d2f83f11d050b08b31489d2267c2'
             '02d9f7d836d297d6ddf39482d86a8573b3e41735b408aa2cd6df22048ec5f6c4'
-            '1961f50c8ed2668052bb543a29a11ccf8a5a1226473234a915aa139ceb32d472'
+            '477d609aefd991c48aca93dc7ea5a77ebebf46e0481184530cceda4c0d8d72c6'
             'f008c03a1b500bcdde176505e338280246af9431703951f97a88b4ae484c7e9b'
             'e845261a468586a360f68f812c5ca69c86a08cb455e3df430bda4cce58307ae4')
 
