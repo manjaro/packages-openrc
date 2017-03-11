@@ -1,6 +1,6 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
-pkgname=elogind
+pkgname=elogind-git
 pkgver=226
 pkgrel=1
 pkgdesc="The systemd project's logind, extracted to a standalone package"
@@ -9,26 +9,29 @@ url="https://github.com/elogind/elogind"
 license=('GPL')
 provides=("elogind=${pkgver}")
 depends=('dbus' 'eudev-systemd')
-makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp' 'eudev')
+makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp' 'eudev' 'git')
 optdepends=('polkit-elogind: Polkit elogind session tracking'
             'elogind-openrc: elogind openrc initscript')
-conflicts=('systemd-sysvcompat' 'consolekit')
+conflicts=('systemd-sysvcompat' 'consolekit' 'elogind')
 options=('!libtool')
 install=elogind.install
-_branch=dev_v${pkgver}
-source=("elogind-${pkgver}.tar.gz::${url}/archive/${_branch}.tar.gz"
+# _branch=dev_v${pkgver}
+_commit=83477140111619c85a06282d34415fe144368a5e
+
+#source=("elogind-${pkgver}.tar.gz::${url}/archive/${_branch}.tar.gz"
+source=("elogind-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
         "elogind-docs.patch")
-sha256sums=('165cae0af29ab027f5b1d8286066309aa34d8baa94a5f5e62e8f576b4e43a334'
+sha256sums=('eb039814812b19525fc83aac57a559b53416384bce86186fbacd0e8a19000e4f'
             '25643e563250b0d322f817288cbe999f1cc2e4804c875725bb92fe5094a902b4')
 
 prepare() {
-    cd ${srcdir}/elogind-${_branch}
+    cd ${srcdir}/${pkgname}-${_commit}
     patch -Np 1 -i ${srcdir}/elogind-docs.patch
     autoreconf -vim
 }
 
 build() {
-    cd ${srcdir}/elogind-${_branch}
+    cd ${srcdir}/${pkgname}-${_commit}
     intltoolize
     ./configure \
         --sysconfdir=/etc \
@@ -43,6 +46,6 @@ build() {
 }
 
 package() {
-    cd ${srcdir}/elogind-${_branch}
+    cd ${srcdir}/${pkgname}-${_commit}
     make DESTDIR="${pkgdir}" install
 }
