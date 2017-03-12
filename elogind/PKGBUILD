@@ -10,8 +10,8 @@ license=('GPL')
 depends=('dbus' 'eudev-systemd')
 makedepends=('libcap' 'intltool' 'libtool' 'gperf' 'gtk-doc' 'libseccomp' 'eudev')
 optdepends=('polkit-elogind: polkit with elogind session tracking'
-            'dbus-openrc: dbus openrc initscript'
-            'elogind-openrc: elogind openrc initscript')
+            'dbus-openrc: dbus initscript'
+            'elogind-openrc: elogind initscript')
 conflicts=('systemd-sysvcompat' 'consolekit')
 options=('!libtool')
 install=elogind.install
