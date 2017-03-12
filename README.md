@@ -10,5 +10,7 @@ OpenRC pkgbuilds
 * openrc-net
 * openrc-mobile
 * openrc-video
+* openrc-accessible
 
-* eudev-base
+###Consolekit builds moved here:###
+https://github.com/udeved/packages-testing
