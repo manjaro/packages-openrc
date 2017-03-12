@@ -5,7 +5,7 @@ _pkgname=sddm
 
 pkgname=sddm-elogind
 pkgver=0.14.0
-pkgrel=1
+pkgrel=2
 pkgdesc='QML based X11 display manager'
 arch=('i686' 'x86_64')
 url='http://github.com/sddm/sddm'
@@ -48,8 +48,7 @@ package() {
 	cd build
 	make DESTDIR="${pkgdir}" install
 
-# 	sed -e 's|systemctl reboot|shutdown -r now|' \
-#         -e 's|systemctl poweroff|shutdown -h -P|' \
-#         -e 's|MinimumVT=1|MinimumVT=7|' \
-#         -i ${pkgdir}/etc/sddm.conf
+	sed -e 's|^HaltCommand=.*|HaltCommand=/usr/bin/loginctl poweroff|' \
+        -e 's|^RebootCommand=.*|HaltCommand=/usr/bin/loginctl reboot|' \
+        -i ${pkgdir}/etc/sddm.conf
 }
