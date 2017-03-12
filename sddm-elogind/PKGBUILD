@@ -10,29 +10,27 @@ pkgdesc='QML based X11 display manager'
 arch=('i686' 'x86_64')
 url='http://github.com/sddm/sddm'
 license=('GPL')
-depends=('qt5-declarative' 'dbus-openrc' 'elogind')
+provides=('display-manager' 'sddm')
+depends=('qt5-declarative' 'dbus' 'elogind')
 makedepends=('extra-cmake-modules' 'python-docutils' 'qt5-tools')
+optdepends=('dbus-openrc: dbus initscript'
+            'displaymanager-openrc: displaymanager initscript')
+conflicts=('display-manager' 'sddm' 'sddm-consolekit')
 install="${_pkgname}.install"
 backup=('usr/share/sddm/scripts/Xsetup'
         'etc/pam.d/sddm'
         'etc/sddm.conf')
-conflicts=('display-manager' 'sddm' 'sddm-consolekit')
-provides=('display-manager' 'sddm')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/${_pkgname}/${_pkgname}/archive/v${pkgver}.tar.gz"
-        "${_pkgname}-pam_kwallet.patch"
-        'sddm.conf'
-        "sddm-fix-avatars.patch::https://github.com/sddm/sddm/commit/ecb903e4.patch")
+        "sddm-fix-avatars.patch::https://github.com/sddm/sddm/commit/ecb903e4.patch"
+        'sddm-elogind-pam.patch')
 sha256sums=('a551551a6ba324e9c384c89bc63e871de65fea3740eadbea2d63df86045f8205'
-            'a998f8a2594cd1e81f402605f01075477a017269b0ac93a22f5faa7d355d18e0'
-            'dc46a0132cf0ea722a69cff45ed1ded3c93ade008e22fc90d1b797ca85ed535a'
-            'ffcb9885cb41da54a97f62c2538975fbb9dc80c2b58326d479a87ea0f56f02cf'
-            'b091f02d6d5b2ddc9d5208b17213a181c6e8deae23e5633d694119e79b66d38b')
+            'b091f02d6d5b2ddc9d5208b17213a181c6e8deae23e5633d694119e79b66d38b'
+            '0cbaf41fc677ec1ef3e120e351a09ebc875ffc6b92b98a7270f58d2fbe7eddf3')
 
 prepare() {
 	mkdir -p build
 	cd ${_pkgname}-${pkgver}
-	patch -p1 -i ${srcdir}/${_pkgname}-pam_kwallet.patch
-	patch -p1 -i ${srcdir}/sddm-fix-avatars.patch
+	patch -p1 -i ${srcdir}/sddm-elogind-pam.patch
 }
 
 build() {
@@ -49,7 +47,9 @@ build() {
 package() {
 	cd build
 	make DESTDIR="${pkgdir}" install
-	install -m 755 ${srcdir}/sddm.conf ${pkgdir}/etc
 
-	sed -e 's|pam_systemd.so|pam_elogind.so|' -i ${pkgdir}/etc/pam.d/sddm-greeter
+# 	sed -e 's|systemctl reboot|shutdown -r now|' \
+#         -e 's|systemctl poweroff|shutdown -h -P|' \
+#         -e 's|MinimumVT=1|MinimumVT=7|' \
+#         -i ${pkgdir}/etc/sddm.conf
 }
