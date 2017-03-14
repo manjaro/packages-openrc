@@ -3,13 +3,12 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgbase=openrc-video
-pkgname=(
-#'nvidia-utils-openrc'
-        'virtualgl-openrc')
+pkgname=('nvidia-utils-openrc'
+        'virtualgl-openrc'
+        'bumblebee-openrc')
         #'catalyst-utils-openrc'
-        #'bumblebee-openrc')
-pkgver=20170309
-pkgrel=2
+pkgver=20170314
+pkgrel=1
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL')
@@ -18,13 +17,15 @@ source=("nvidia-smi.initd::${_url}/x11-drivers/nvidia-drivers/files/nvidia-smi.i
         #"atieventsd.initd::${_url}/x11-drivers/ati-drivers/files/atieventsd.init"
         "vgl.confd::${_url}/x11-misc/virtualgl/files/vgl.confd-r2"
         "vgl.initd::${_url}/x11-misc/virtualgl/files/vgl.initd-r3"
-        "${_url}/x11-misc/virtualgl/files/vgl-helper.sh")
-# 	"bumblebee.confd::${_url}/x11-misc/bumblebee/files/bumblebee.confd"
-# 	"bumblebee.initd::${_url}/x11-misc/bumblebee/files/bumblebee.initd")
+        "${_url}/x11-misc/virtualgl/files/vgl-helper.sh"
+	"bumblebee.confd::${_url}/x11-misc/bumblebee/files/bumblebee.confd"
+	"bumblebee.initd::${_url}/x11-misc/bumblebee/files/bumblebee.initd")
 sha256sums=('a64a301feb058ed0e993e44cc2d4a0105735110f8f9cd05aacaaf37e1aa3c85c'
             '5356391cec2e297f2fafa370f42be225ad4238ac61182b90720a3d914261a80f'
             'e59320152be7d3631e3bdcd10be412b2ca1bc7c1bcdb135cb19142114e6358f0'
-            '438c928840fbfb9274604296b8178e7f97b42a3428d115e1de6e609ea3146497')
+            '438c928840fbfb9274604296b8178e7f97b42a3428d115e1de6e609ea3146497'
+            '9e0287f542cff0fd3452a0c3d6d427a3404706c93ac9a00f4d99fe52ed596d75'
+            '5c67465ca9a2d4dc6fd35a7827d82ea6d72b13a8e93373e9055970fc71754b18')
 
 pkgver() {
 	date +%Y%m%d
@@ -52,19 +53,6 @@ package_nvidia-utils-openrc() {
 	sed -e 's|/opt/bin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/nvidia-smi
 }
 
-# package_catalyst-utils-openrc() {
-# 	pkgdesc="OpenRC atieventsd init script"
-# 	depends=('catalyst-utils' 'acpid-openrc')
-# 	backup=('etc/conf.d/atieventsd')
-#
-# 	_inst_initd 'atieventsd'
-#
-# 	sed -e 's|/opt/sbin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/atieventsd
-#
-# 	install -d "${pkgdir}"/etc/conf.d
-# 	echo 'ATIEVENTSDOPTS=""' > "${pkgdir}"/etc/conf.d/atieventsd
-# }
-
 package_virtualgl-openrc() {
 	pkgdesc="OpenRC virtualgl init script"
 	depends=('openrc' 'virtualgl')
@@ -78,13 +66,27 @@ package_virtualgl-openrc() {
 	install -dm750 "${pkgdir}"/var/lib/VirtualGL
 }
 
-# package_bumblebee-openrc() {
-# 	pkgdesc="OpenRC bumblebee init script"
-# 	depends=('virtualgl-openrc' 'bumblebee')
-# 	groups=('openrc-video' 'openrc-mobile')
-# 	install=bumblebee.install
-# 	backup=('etc/conf.d/bumblebee')
+package_bumblebee-openrc() {
+	pkgdesc="OpenRC bumblebee init script"
+	depends=('virtualgl-openrc' 'bumblebee')
+	groups=('openrc-video' 'openrc-mobile')
+	backup=('etc/conf.d/bumblebee')
+
+	_inst_confd 'bumblebee'
+	_inst_initd 'bumblebee'
+
+	sed -e 's|--pidfile|-m --pidfile|' -i "${pkgdir}"/etc/init.d/bumblebee
+}
+
+# package_catalyst-utils-openrc() {
+# 	pkgdesc="OpenRC atieventsd init script"
+# 	depends=('catalyst-utils' 'acpid-openrc')
+# 	backup=('etc/conf.d/atieventsd')
 #
-# 	_inst_confd 'bumblebee'
-# 	_inst_initd 'bumblebee'
+# 	_inst_initd 'atieventsd'
+#
+# 	sed -e 's|/opt/sbin|/usr/bin|g' -i "${pkgdir}"/etc/init.d/atieventsd
+#
+# 	install -d "${pkgdir}"/etc/conf.d
+# 	echo 'ATIEVENTSDOPTS=""' > "${pkgdir}"/etc/conf.d/atieventsd
 # }
