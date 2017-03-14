@@ -12,7 +12,7 @@ pkgname=('cronie-openrc'
         'lvm2-openrc'
         'mdadm-openrc'
         'dbus-openrc')
-pkgver=20170309
+pkgver=20170313
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -95,7 +95,7 @@ package_cronie-openrc() {
 package_dbus-openrc() {
     pkgdesc="OpenRC dbus init script"
     groups=('openrc-base' 'openrc-desktop')
-    depends=('openrc' 'dbus-x11')
+    depends=('openrc' 'dbus')
 
     _inst_initd 'dbus'
 
