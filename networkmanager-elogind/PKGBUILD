@@ -12,20 +12,21 @@ _patch_url=https://cgit.freedesktop.org/NetworkManager/NetworkManager/patch
 
 pkgname=networkmanager-elogind
 pkgver=1.6.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Network Management daemon"
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1')
 url="http://www.gnome.org/projects/NetworkManager/"
 provides=('networkmanager')
 conflicts=('networkmanager' 'networkmanager-consolekit')
+# replaces=('networkmanager-consolekit')
 makedepends=('intltool' 'dhclient' 'iptables' 'gobject-introspection' 'gtk-doc'
             "ppp=$_pppver" 'modemmanager' 'dbus-glib' 'iproute2' 'nss'
-            'polkit-elogind' 'wpa_supplicant' 'libsoup' 'libgudev' 'libmm-glib'
+            'polkit' 'wpa_supplicant' 'libsoup' 'libgudev' 'libmm-glib'
             'rp-pppoe' 'libnewt' 'libndp' 'libteam' 'vala' 'perl-yaml' 'python-gobject' 'git' 'vala'
-            'jansson' 'bluez-libs' 'glib2-docs')
+            'jansson' 'bluez-libs' 'glib2-docs' 'elogind')
 checkdepends=('libx11' 'python-dbus' 'elogind')
-depends=('libnm-glib' 'iproute2' 'polkit-elogind' 'wpa_supplicant' 'libsoup' 'libmm-glib' 'libnewt' 'libndp' 'libteam')
+depends=('libnm-glib' 'iproute2' 'polkit' 'wpa_supplicant' 'libsoup' 'libmm-glib' 'libnewt' 'libndp' 'libteam' 'elogind')
 optdepends=('dnsmasq: connection sharing'
             'bluez: Bluetooth support'
             'openresolv: resolvconf support'

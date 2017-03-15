@@ -7,7 +7,7 @@ _pkgname=polkit
 
 pkgname=polkit-elogind
 pkgver=0.113+29+g3272a98
-pkgrel=2
+pkgrel=3
 pkgdesc="PolyciKit with elogind support for non-systemd systems"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/polkit"
@@ -16,6 +16,7 @@ provides=("polkit=$pkgver")
 depends=('glib2' 'pam' 'expat' 'js' 'elogind')
 makedepends=('intltool' 'gtk-doc' 'gobject-introspection' 'git' 'autoconf-archive')
 conflicts=('polkit' 'polkit-consolekit')
+# replaces=('polkit-consolekit')
 options=('!libtool')
 install=polkit.install
 _commit=3272a988655c3236b55bad70e9a3af20857f384b
@@ -49,7 +50,7 @@ build() {
         --enable-libelogind=yes \
         --disable-static \
         --enable-gtk-doc \
-        --with-os-type=redhat
+        --with-os-type=gentoo
     sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 	make
 }

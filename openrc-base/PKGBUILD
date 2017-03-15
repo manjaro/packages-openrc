@@ -3,16 +3,16 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 pkgbase=openrc-base
-pkgname=('cronie-openrc'
-        'cryptsetup-openrc'
-        'dhcpcd-openrc'
-        'device-mapper-openrc'
-        'glibc-openrc'
-        'inetutils-openrc'
-        'lvm2-openrc'
-        'mdadm-openrc'
-        'dbus-openrc')
-pkgver=20170313
+pkgname=('dbus-openrc')
+#         'cronie-openrc'
+#         'cryptsetup-openrc'
+#         'dhcpcd-openrc'
+#         'device-mapper-openrc'
+#         'glibc-openrc'
+#         'inetutils-openrc'
+#         'lvm2-openrc'
+#         'mdadm-openrc')
+pkgver=20170315
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
