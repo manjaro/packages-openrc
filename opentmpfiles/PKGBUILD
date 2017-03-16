@@ -17,8 +17,6 @@ sha256sums=('1fdd4587c62d815296fb4162002cf001e3ed7aae8727d9b4360f527169e6b3be')
 
 _inst_initd(){
     install -Dm755 openrc/$1.initd ${pkgdir}/etc/init.d/$1
-    sed -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
-        -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){

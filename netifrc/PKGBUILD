@@ -10,7 +10,7 @@ _func_ver=0.11
 
 pkgname=netifrc
 pkgver=0.5.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Gentoo Network Interface Management Scripts"
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/base/openrc/"
@@ -32,8 +32,8 @@ else
     _id=manjaro
 fi
 _net_args=(SYSCONFDIR=/etc)
-_net_args+=(PREFIX=/usr)
-_net_args+=(SBINDIR=/usr/bin)
+# _net_args+=(PREFIX=/usr)
+# _net_args+=(SBINDIR=/usr/bin)
 _net_args+=(LIBEXECDIR=/usr/lib/${pkgname})
 
 _func_args+=(ROOTPREFIX=/usr)
@@ -50,7 +50,14 @@ build(){
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
+    
+    mkdir -pv "${pkgdir}"/usr/{bin,lib}
+	ln -sv usr/bin "${pkgdir}/bin"
+	ln -sv usr/bin "${pkgdir}/sbin"
+	ln -sv usr/lib "${pkgdir}/lib"
+	
     make DESTDIR="${pkgdir}" "${_net_args[@]}" install
+    
     install -Dm 644 "${srcdir}/${pkgname}-${pkgver}/doc/net.example" "${pkgdir}/etc/conf.d/net"
 
     install -d "${pkgdir}/etc/runlevels/boot"
@@ -63,4 +70,6 @@ package() {
         -i "${pkgdir}/usr/lib/${pkgname}/sh/functions.sh"
 
     install -Dm644 ${srcdir}/${pkgname}-${pkgver}/LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+    
+    rm "${pkgdir}"/{bin,sbin,lib}
 }

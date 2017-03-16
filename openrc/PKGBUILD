@@ -5,7 +5,7 @@ _url="https://github.com/OpenRC/openrc/archive"
 
 pkgname=openrc
 pkgver=0.24.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Gentoo's universal init system"
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/base/openrc/"
@@ -35,8 +35,8 @@ sha256sums=('8bf65090e4881cafc8cdfe4a160d2ad64a940b19a0c76b18fdb5bbabf4a086d2'
             'cbb4d00262a55a508114cb31e3903350be2cff748a4fb5e120dc745292e3987e')
 
 _args=(SYSCONFDIR=/etc)
-_args+=(PREFIX=/usr)
-_args+=(SBINDIR=/usr/bin)
+# _args+=(PREFIX=/usr)
+# _args+=(SBINDIR=/usr/bin)
 _args+=(LIBEXECDIR=/usr/lib/rc)
 _args+=(MKSELINUX=no)
 _args+=(MKPAM=pam)
@@ -62,6 +62,12 @@ build(){
 
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
+    
+    mkdir -pv "${pkgdir}"/usr/{bin,lib}
+	ln -sv usr/bin "${pkgdir}/bin"
+	ln -sv usr/bin "${pkgdir}/sbin"
+	ln -sv usr/lib "${pkgdir}/lib"
+	
 	make DESTDIR="${pkgdir}" "${_args[@]}" install
 
 	install -m644 "${srcdir}/${pkgname}-${pkgver}/support/sysvinit/inittab" "${pkgdir}/etc/inittab"
@@ -78,4 +84,6 @@ package() {
 	for f in openrc-{install,remove}.hook;do
 		install -Dm644 ${srcdir}/$f ${pkgdir}/usr/share/libalpm/hooks/$f
 	done
+	
+	rm "${pkgdir}"/{bin,sbin,lib}
 }

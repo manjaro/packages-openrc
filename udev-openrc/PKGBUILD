@@ -5,7 +5,7 @@ _pkgname=udev-init-scripts
 
 pkgname=udev-openrc
 pkgver=32
-pkgrel=1
+pkgrel=2
 pkgdesc="OpenRC udev startup scripts"
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
@@ -22,8 +22,7 @@ package(){
     cd "${srcdir}/${_pkgname}-${pkgver}"
     make DESTDIR="${pkgdir}" install
     for f in ${pkgdir}/etc/init.d/*;do
-        sed -e "s|#!/sbin/openrc-run|#!/usr/bin/openrc-run|" \
-            -e "s|/bin/udevadm|/usr/bin/udevadm|g" \
+        sed -e "s|/bin/udevadm|/usr/bin/udevadm|g" \
             -e "s|/sbin/udevd|/usr/bin/udevd|g" \
             -i "$f"
     done
