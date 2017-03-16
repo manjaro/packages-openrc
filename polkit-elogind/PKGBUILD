@@ -50,6 +50,7 @@ build() {
         --enable-libelogind=yes \
         --disable-static \
         --enable-gtk-doc \
+        --with-authfw=pam \
         --with-os-type=gentoo
     sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 	make

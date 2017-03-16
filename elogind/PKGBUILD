@@ -1,21 +1,21 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
 _pkgname=elogind
-_commit=9226293c85ae14b23a41657c59edd8b22570e532
+_commit=b486765f115ebbae41117ea493c748491872c4e0
 
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
 pkgver=226
-pkgrel=4
+pkgrel=5
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
 license=('GPL')
-makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-elogind' 'git' 'libcap')
+makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-x11' 'git' 'libcap')
 options=('!libtool')
 source=("elogind-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
         "elogind-docs.patch")
-sha256sums=('65b018fb6bd28b3d66f2a45b59ceacea5e0514427c7754a6b439f9668b4342d1'
+sha256sums=('a0270a1c97d485347be9a91d9e116c5d7c895222f5c57dab62cd528e38468113'
             '25643e563250b0d322f817288cbe999f1cc2e4804c875725bb92fe5094a902b4')
 
 prepare() {
@@ -30,12 +30,13 @@ build() {
     ./configure \
         --sysconfdir=/etc \
         --prefix=/usr \
+        --libdir=/usr/lib \
+        --libexecdir=/usr/lib \
         --enable-split-usr \
-        --enable-smack \
-        --disable-kdbus \
-        --with-rootlibdir=/usr/lib \
-        --with-udevrulesdir=/usr/lib/udev/rules.d \
-        --libexecdir=/usr/lib
+        --disable-smack \
+        --enable-acl \
+        --enable-pam \
+        --disable-kdbus
 
     make
 }
@@ -43,12 +44,12 @@ build() {
 package_elogind() {
     pkgdesc="The systemd project's logind, extracted to a standalone package"
     provides=("elogind=${pkgver}")
-    depends=('libelogind' 'pam' 'acl' 'dbus-elogind')
+    depends=('libelogind' 'pam' 'acl' 'dbus-x11')
     conflicts=('systemd-sysvcompat' 'consolekit')
     # replaces=('consolekit')
     optdepends=('elogind-openrc: elogind initscript'
-                'dbus-openrc: dbus initscript'
-                'polkit-elogind: polkit with elogind session tracking')
+                'dbus-openrc: dbus initscript')
+                #'polkit-elogind: polkit with elogind session tracking')
     install=elogind.install
 
     cd ${_pkgname}-${_commit}

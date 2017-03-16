@@ -9,7 +9,7 @@ _commit=8b582cb10d7cf00af7a70496aec48af24edc542b  # tags/dbus-1.10.16^0
 
 pkgname=dbus-elogind
 pkgver=1.10.16
-pkgrel=2
+pkgrel=3
 pkgdesc="Freedesktop.org message bus system"
 url="https://wiki.freedesktop.org/www/Software/dbus/"
 arch=(i686 x86_64)
@@ -45,14 +45,15 @@ build() {
         --with-system-socket=/run/dbus/system_bus_socket \
         --with-console-auth-dir=/run/console/ \
         --enable-inotify \
+        --enable-elogind \
         --disable-static \
         --disable-verbose-mode \
         --disable-asserts \
-        --with-systemdsystemunitdir=/usr/lib/systemd/system \
+        --without-systemdsystemunitdir \
         --disable-systemd \
         --disable-user-session \
-        --enable-x11-autolaunch \
-        --enable-elogind
+        --enable-x11-autolaunch
+        
     make
 }
 

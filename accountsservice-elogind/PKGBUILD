@@ -7,15 +7,15 @@ _commit=dac425433270c6dc38feba4d2513e4da7bd265fd  # tags/0.6.43^0
 
 pkgname=accountsservice-elogind
 pkgver=0.6.42+12+gdac4254
-pkgrel=1
+pkgrel=2
 pkgdesc="D-Bus interface for user account query and manipulation"
 url="https://www.freedesktop.org/software/accountsservice/"
-arch=(i686 x86_64)
-license=(GPL3)
+arch=('i686' 'x86_64')
+license=('GPL3')
 provides=('accountsservice')
 conflicts=('accountsservice')
 depends=('glib2' 'polkit-elogind' 'eudev')
-makedepends=(intltool gtk-doc gobject-introspection git)
+makedepends=('intltool' 'gtk-doc' 'gobject-introspection' 'git')
 source=("git://anongit.freedesktop.org/accountsservice#commit=$_commit"
         'accountsservice-enable-elogind.patch')
 sha256sums=('SKIP'
@@ -42,6 +42,8 @@ build() {
         --libexecdir=/usr/lib/$_pkgname \
         --disable-static \
         --enable-elogind \
+        --enable-admin-group="wheel" \
+        --disable-systemd \
         --enable-gtk-doc
     make
 }
