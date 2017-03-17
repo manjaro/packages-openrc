@@ -14,7 +14,7 @@ arch=('i686' 'x86_64')
 license=('GPL3')
 provides=('accountsservice')
 conflicts=('accountsservice')
-depends=('glib2' 'polkit-elogind' 'eudev')
+depends=('glib2' 'elogind' 'polkit-elogind')
 makedepends=('intltool' 'gtk-doc' 'gobject-introspection' 'git')
 source=("git://anongit.freedesktop.org/accountsservice#commit=$_commit"
         'accountsservice-enable-elogind.patch')
