@@ -6,12 +6,12 @@ _commit=b486765f115ebbae41117ea493c748491872c4e0
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
 pkgver=226
-pkgrel=5
+pkgrel=6
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
 license=('GPL')
-makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-elogind' 'git' 'libcap' 'eudev' 'polkit-elogind')
+makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus' 'git' 'libcap' 'udev' 'polkit' 'libseccomp')
 options=('!libtool')
 source=("elogind-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
         "elogind-docs.patch")
@@ -21,7 +21,7 @@ sha256sums=('a0270a1c97d485347be9a91d9e116c5d7c895222f5c57dab62cd528e38468113'
 prepare() {
     cd ${_pkgname}-${_commit}
     patch -Np 1 -i ${srcdir}/elogind-docs.patch
-    autoreconf -vim
+    autoreconf -fi
 }
 
 build() {
@@ -33,19 +33,20 @@ build() {
         --libdir=/usr/lib \
         --libexecdir=/usr/lib \
         --enable-split-usr \
+        --enable-polkit \
         --disable-smack \
         --enable-acl \
         --enable-pam \
+        --with-rootlibdir=/usr/lib \
         --with-udevrulesdir=/usr/lib/udev/rules.d \
         --disable-kdbus
-# --with-rootlibdir=
     make
 }
 
 package_elogind() {
     pkgdesc="The systemd project's logind, extracted to a standalone package"
     provides=("elogind=${pkgver}")
-    depends=('libelogind' 'pam' 'acl' 'dbus-elogind' 'polkit-elogind' 'eudev')
+    depends=('libelogind' 'pam' 'acl' 'dbus' 'polkit' 'udev' 'libseccomp')
     conflicts=('systemd-sysvcompat' 'consolekit')
     # replaces=('consolekit')
     optdepends=('elogind-openrc: elogind initscript'
