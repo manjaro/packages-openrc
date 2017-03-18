@@ -7,7 +7,7 @@ pkgbase=systemd-compat
 pkgname=('systemd-compat' 'libsystemd-compat')
 pkgver=232
 pkgrel=1
-arch=('i686' 'x86_64')
+arch=('any')
 license=('GPL2')
 url="https://github.com/manjaro/packages-openrc"
 
