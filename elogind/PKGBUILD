@@ -11,7 +11,7 @@ pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
 license=('GPL')
-makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus' 'git' 'libcap' 'udev' 'polkit' 'libseccomp')
+makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-elogind' 'git' 'libcap' 'eudev' 'polkit-elogind' 'libseccomp' 'util-linux-nosystemd')
 options=('!libtool')
 source=("elogind-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
         "elogind-docs.patch")
@@ -46,12 +46,11 @@ build() {
 package_elogind() {
     pkgdesc="The systemd project's logind, extracted to a standalone package"
     provides=("elogind=${pkgver}")
-    depends=('libelogind' 'pam' 'acl' 'dbus' 'polkit' 'udev' 'libseccomp')
+    depends=('libelogind' 'pam' 'acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp' 'util-linux-nosystemd')
     conflicts=('systemd-sysvcompat' 'consolekit')
     # replaces=('consolekit')
     optdepends=('elogind-openrc: elogind initscript'
                 'dbus-openrc: dbus initscript')
-                #'polkit-elogind: polkit with elogind session tracking')
     install=elogind.install
 
     cd ${_pkgname}-${_commit}
