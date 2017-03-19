@@ -7,11 +7,11 @@ _udev_ver=220
 pkgbase=eudev
 pkgname=( 'eudev' 'libeudev')
 pkgver=3.2.1
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
-makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod')
+makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod' util-linux-nosystemd)
 options=('!libtool' '!staticlibs')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
 	'initcpio_hooks'
@@ -56,7 +56,7 @@ build() {
 package_eudev() {
 	pkgdesc="The userspace dev tools (udev) forked by Gentoo"
 	provides=("udev=${_udev_ver}")
-	depends=("libeudev" 'kbd' 'kmod' 'hwids' 'util-linux')
+	depends=("libeudev" 'kbd' 'kmod' 'hwids')
 	optdepends=('eudev-systemd: makes packages compiled with systemd features run'
 		'udev-openrc: udev starup scripts for openrc')
 	backup=('etc/udev/udev.conf')
