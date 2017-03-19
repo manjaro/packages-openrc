@@ -1,0 +1,645 @@
+ 
+gentoo gentux # equery h udev
+
+ * Searching for USE flag udev ... 
+[IP-] [  ] dev-libs/libusb-1.0.20:1
+[IP-] [  ] dev-qt/qtgui-5.7.1:5/5.7
+[IP-] [  ] media-libs/libsdl2-2.0.5:0
+[IP-] [  ] media-video/vlc-9999:0/5-8
+[IP-] [  ] net-libs/libmbim-1.14.0:0
+[IP-] [  ] net-wireless/bluez-5.43-r1:0/3
+[IP-] [  ] sys-apps/hwids-20161103:0
+[IP-] [  ] sys-apps/pciutils-3.5.4:0
+[IP-] [  ] sys-apps/util-linux-2.29.1-r1:0
+[IP-] [  ] sys-fs/dosfstools-4.1:0
+[IP-] [  ] sys-fs/lvm2-2.02.166-r2:0
+[IP-] [  ] virtual/libusb-1-r2:1
+[IP-] [  ] x11-base/xorg-server-1.19.2:0/1.19.2
+gentoo gentux # 
+gentoo gentux # equery h systemd
+ * Searching for USE flag systemd ... 
+[IP-] [  ] app-admin/syslog-ng-3.7.3:0
+[IP-] [  ] dev-qt/qtcore-5.7.1-r1:5/5.7
+[IP-] [  ] kde-apps/ksystemlog-16.12.3:5
+[IP-] [  ] kde-plasma/powerdevil-5.9.3:5
+[IP-] [  ] net-misc/modemmanager-1.6.4:0/1
+[I-O] [  ] net-misc/networkmanager-1.4.4-r14:0
+[IP-] [  ] net-wireless/bluez-5.43-r1:0/3
+[I-O] [  ] sys-apps/accountsservice-0.6.43-r2:0
+[IP-] [  ] sys-apps/busybox-1.25.1:0
+[I-O] [  ] sys-apps/dbus-1.10.16-r1:0
+[IP-] [  ] sys-apps/util-linux-2.29.1-r1:0
+[I-O] [  ] sys-auth/pambase-20150213-r2:0
+[IP-] [  ] sys-auth/polkit-0.113-r2:0
+[IP-] [  ] sys-fs/lvm2-2.02.166-r2:0
+[I-O] [  ] sys-fs/udisks-2.1.8-r1:2
+[IP-] [  ] sys-process/procps-3.3.12:0/5
+[IP-] [  ] virtual/libudev-215-r1:0/1
+[IP-] [  ] virtual/udev-217:0
+[IP-] [  ] x11-apps/xinit-1.3.4-r1:0
+[IP-] [  ] x11-base/xorg-server-1.19.2:0/1.19.2
+[I-O] [  ] x11-misc/sddm-0.14.0-r4:0
+gentoo gentux # equery 
+Gentoo package query tool
+Usage: equery [global-options] module-name [module-options]
+
+global options
+ -h, --help              display this help message
+ -q, --quiet             minimal output
+ -C, --no-color          turn off colors
+ -N, --no-pipe           turn off pipe detection
+ -V, --version           display version info
+
+modules (short name)
+ (b)elongs               list what package FILES belong to
+ (c)hanges               list changelog entries for ATOM
+ chec(k)                 verify checksums and timestamps for PKG
+ (d)epends               list all packages directly depending on ATOM
+ dep(g)raph              display a tree of all dependencies for PKG
+ (f)iles                 list all files installed by PKG
+ h(a)s                   list all packages for matching ENVIRONMENT data stored in /var/db/pkg
+ (h)asuse                list all packages that have USE flag
+ ke(y)words              display keywords for specified PKG
+ (l)ist                  list package matching PKG
+ (m)eta                  display metadata about PKG
+ (s)ize                  display total size of all files owned by PKG
+ (u)ses                  display USE flags for PKG
+ (w)hich                 print full path to ebuild for PKG
+gentoo gentux # equery d polkit
+ * These packages depend on polkit:
+net-misc/modemmanager-1.6.4 (policykit ? >=sys-auth/polkit-0.106[introspection])
+net-misc/networkmanager-1.4.4-r14 (>=sys-auth/polkit-0.106)
+sys-apps/accountsservice-0.6.43-r2 (sys-auth/polkit)
+sys-auth/elogind-225.9999 (policykit ? sys-auth/polkit)
+sys-auth/polkit-qt-0.112.0-r1 (>=sys-auth/polkit-0.103)
+sys-fs/udisks-2.1.8-r1 (>=sys-auth/polkit-0.110)
+gentoo gentux # equery d elogind
+ * These packages depend on elogind:
+net-misc/networkmanager-1.4.4-r14 (elogind ? sys-auth/elogind)
+sys-apps/accountsservice-0.6.43-r2 (elogind ? >=sys-auth/elogind-219:0)
+sys-apps/dbus-1.10.16-r1 (elogind ? sys-auth/elogind)
+sys-auth/pambase-20150213-r2 (elogind ? sys-auth/elogind[pam])
+sys-auth/polkit-0.113-r2 (elogind ? sys-auth/elogind)
+sys-fs/udisks-2.1.8-r1 (elogind ? >=sys-auth/elogind-219)
+x11-misc/sddm-0.14.0-r4 (elogind ? sys-auth/elogind)
+gentoo gentux # equery d dbus
+ * These packages depend on dbus:
+app-accessibility/at-spi2-atk-2.20.1 (>=sys-apps/dbus-1.5[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+app-accessibility/at-spi2-core-2.20.2 (>=sys-apps/dbus-1[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+app-text/ghostscript-gpl-9.20-r1 (dbus ? sys-apps/dbus)
+dev-libs/dbus-glib-0.106 (>=sys-apps/dbus-1.8[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+dev-libs/glib-2.48.2 (>=sys-apps/dbus-1.2.14)
+dev-qt/qtdbus-5.7.1 (>=sys-apps/dbus-1.4.20)
+dev-qt/qtwebengine-5.7.1-r1 (sys-apps/dbus)
+dev-vcs/subversion-1.9.5 (gnome-keyring ? sys-apps/dbus)
+                         (kwallet ? sys-apps/dbus)
+gnome-base/dconf-0.26.0-r1 (sys-apps/dbus)
+kde-apps/akonadi-16.12.3 (test ? sys-apps/dbus)
+mail-client/thunderbird-bin-45.8.0 (>=sys-apps/dbus-0.60)
+media-libs/libsdl2-2.0.5 (dbus ? >=sys-apps/dbus-1.6.18-r1[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+media-video/vlc-9999 (dbus ? >=sys-apps/dbus-1.6:0)
+net-dns/avahi-0.6.32 (dbus ? sys-apps/dbus[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-libs/glib-networking-2.48.2 (test ? sys-apps/dbus[X])
+net-libs/libproxy-0.4.13-r2 (networkmanager ? sys-apps/dbus:0[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-misc/networkmanager-1.4.4-r14 (>=sys-apps/dbus-1.2[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-wireless/bluez-5.43-r1 (>=sys-apps/dbus-1.6[user-session=])
+net-wireless/wpa_supplicant-2.6 (dbus ? sys-apps/dbus)
+sys-auth/elogind-225.9999 (sys-apps/dbus)
+sys-power/upower-0.99.4 (sys-apps/dbus)
+www-client/firefox-bin-52.0 (>=sys-apps/dbus-0.60)
+x11-base/xorg-server-1.19.2 (systemd ? sys-apps/dbus)
+x11-misc/notification-daemon-3.20.0 (sys-apps/dbus)
+gentoo gentux # equery g polkit
+ * Searching for polkit ...
+
+ * dependency graph for sys-auth/polkit-0.113
+ `--  sys-auth/polkit-0.113  amd64 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.32) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-1) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113 stats: packages (19), max depth (1) ]
+
+ * dependency graph for sys-auth/polkit-0.113-r1
+ `--  sys-auth/polkit-0.113-r1  [~amd64 keyword] 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.32) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-1) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113-r1 stats: packages (20), max depth (1) ]
+
+ * dependency graph for sys-auth/polkit-0.113-r2
+ `--  sys-auth/polkit-0.113-r2  ~amd64 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (dev-libs/glib) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (dev-libs/expat) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (dev-libs/gobject-introspection) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113-r2 stats: packages (24), max depth (1) ]
+gentoo gentux # equery g elogind
+ * Searching for elogind ...
+
+ * dependency graph for sys-auth/elogind-219.12-r5
+ `--  sys-auth/elogind-219.12-r5  [~amd64 keyword] 
+   `--  sys-apps/util-linux-2.29.1-r1  (sys-apps/util-linux) ~amd64 
+   `--  sys-libs/libcap-2.25  (sys-libs/libcap) ~amd64 
+   `--  virtual/libudev-215-r1  (virtual/libudev) amd64 
+   `--  sys-apps/acl-2.2.52-r1  (sys-apps/acl) amd64 
+   `--  sys-libs/libapparmor-2.11.0  (sys-libs/libapparmor) [~amd64 keyword] 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-libs/libseccomp-2.3.1  (sys-libs/libseccomp) ~amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  app-text/docbook-xml-dtd-4.2-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xml-dtd-4.5-r1  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-util/gperf-3.1  (dev-util/gperf) ~amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (sys-devel/libtool) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-auth/polkit-0.113-r2  (sys-auth/polkit) ~amd64 
+   `--  sys-apps/dbus-1.10.16-r1  (sys-apps/dbus) ~amd64 
+[ sys-auth/elogind-219.12-r5 stats: packages (20), max depth (1) ]
+
+ * dependency graph for sys-auth/elogind-225.9999
+ `--  sys-auth/elogind-225.9999  ~amd64 
+   `--  sys-apps/util-linux-2.29.1-r1  (sys-apps/util-linux) ~amd64 
+   `--  sys-libs/libcap-2.25  (sys-libs/libcap) ~amd64 
+   `--  virtual/libudev-215-r1  (virtual/libudev) amd64 
+   `--  sys-apps/acl-2.2.52-r1  (sys-apps/acl) amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  app-text/docbook-xml-dtd-4.2-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xml-dtd-4.5-r1  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-util/gperf-3.1  (dev-util/gperf) ~amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (sys-devel/libtool) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  dev-vcs/git-2.10.2  (>=dev-vcs/git-1.8.2.1) amd64 
+   `--  sys-auth/polkit-0.113-r2  (sys-auth/polkit) ~amd64 
+   `--  sys-apps/dbus-1.10.16-r1  (sys-apps/dbus) ~amd64 
+[ sys-auth/elogind-225.9999 stats: packages (19), max depth (1) ]
+gentoo gentux # equery g dbus
+!!! Ambiguous package name. Choose from:
+  sys-apps/dbus
+  dev-haskell/dbus
+ * Searching for dbus ...
+gentoo gentux # equery g sys-apps/dbus
+ * Searching for dbus in sys-apps ...
+
+ * dependency graph for sys-apps/dbus-1.10.12
+ `--  sys-apps/dbus-1.10.12  amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.12 stats: packages (18), max depth (1) ]
+
+ * dependency graph for sys-apps/dbus-1.10.12-r1
+ `--  sys-apps/dbus-1.10.12-r1  M[package.mask] 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.12-r1 stats: packages (19), max depth (1) ]
+
+ * dependency graph for sys-apps/dbus-1.10.14
+ `--  sys-apps/dbus-1.10.14  ~amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.14 stats: packages (18), max depth (1) ]
+
+ * dependency graph for sys-apps/dbus-1.10.14-r1
+ `--  sys-apps/dbus-1.10.14-r1  M[package.mask] 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.14-r1 stats: packages (19), max depth (1) ]
+
+ * dependency graph for sys-apps/dbus-1.10.16
+ `--  sys-apps/dbus-1.10.16  ~amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.16 stats: packages (18), max depth (1) ]
+
+ * dependency graph for sys-apps/dbus-1.10.16-r1
+ `--  sys-apps/dbus-1.10.16-r1  ~amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  sys-libs/libselinux-2.6  (sys-libs/libselinux) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  x11-libs/libX11-1.6.5  (x11-libs/libX11) amd64 
+   `--  x11-libs/libXt-1.1.5  (x11-libs/libXt) ~amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-text/docbook-xml-dtd-4.4-r2  (app-text/docbook-xml-dtd) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-doc/doxygen-1.8.13-r1  (app-doc/doxygen) amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.36) amd64 
+   `--  dev-lang/python-2.7.12  (>=dev-lang/python-2.7.5-r2) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  x11-base/xorg-server-1.19.2  (x11-base/xorg-server) amd64  [xvfb]
+   `--  x11-apps/xhost-1.0.7  (x11-apps/xhost) amd64 
+   `--  sec-policy/selinux-dbus-2.20161023-r3  (sec-policy/selinux-dbus) amd64 
+[ sys-apps/dbus-1.10.16-r1 stats: packages (19), max depth (1) ]
+gentoo gentux # equery g sddm
+ * Searching for sddm ...
+
+ * dependency graph for x11-misc/sddm-0.14.0-r2
+ `--  x11-misc/sddm-0.14.0-r2  amd64 
+   `--  dev-qt/qtcore-5.7.1-r1  (>=dev-qt/qtcore-5.6) ~amd64 
+   `--  dev-qt/qtdbus-5.7.1  (>=dev-qt/qtdbus-5.6) ~amd64 
+   `--  dev-qt/qtgui-5.7.1  (>=dev-qt/qtgui-5.6) ~amd64 
+   `--  dev-qt/qtdeclarative-5.7.1  (>=dev-qt/qtdeclarative-5.6) ~amd64 
+   `--  dev-qt/qtnetwork-5.7.1  (>=dev-qt/qtnetwork-5.6) ~amd64 
+   `--  x11-base/xorg-server-1.19.2  (>=x11-base/xorg-server-1.15.1) amd64 
+   `--  x11-libs/libxcb-1.12-r2  (x11-libs/libxcb) ~amd64  [xkb(-)]
+   `--  sys-auth/consolekit-1.1.0-r1  (>=sys-auth/consolekit-0.9.4) amd64 
+   `--  sys-libs/pam-1.3.0  (sys-libs/pam) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  sys-power/upower-0.99.4  (sys-power/upower) ~amd64 
+   `--  sys-power/upower-pm-utils-0.9.23-r2  (sys-power/upower-pm-utils) amd64 
+   `--  dev-python/docutils-0.12  (dev-python/docutils) amd64 
+   `--  dev-qt/linguist-tools-5.7.1  (>=dev-qt/linguist-tools-5.6) ~amd64 
+   `--  dev-qt/qttest-5.7.1  (>=dev-qt/qttest-5.6) ~amd64 
+   `--  kde-frameworks/extra-cmake-modules-5.32.0  (kde-frameworks/extra-cmake-modules) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/make-4.2.1  (sys-devel/make) amd64 
+   `--  dev-util/cmake-3.7.2  (>=dev-util/cmake-3.6.3) amd64 
+[ x11-misc/sddm-0.14.0-r2 stats: packages (20), max depth (1) ]
+
+ * dependency graph for x11-misc/sddm-0.14.0-r3
+ `--  x11-misc/sddm-0.14.0-r3  M[package.mask] 
+   `--  dev-qt/qtcore-5.7.1-r1  (>=dev-qt/qtcore-5.6) ~amd64 
+   `--  dev-qt/qtdbus-5.7.1  (>=dev-qt/qtdbus-5.6) ~amd64 
+   `--  dev-qt/qtgui-5.7.1  (>=dev-qt/qtgui-5.6) ~amd64 
+   `--  dev-qt/qtdeclarative-5.7.1  (>=dev-qt/qtdeclarative-5.6) ~amd64 
+   `--  dev-qt/qtnetwork-5.7.1  (>=dev-qt/qtnetwork-5.6) ~amd64 
+   `--  x11-base/xorg-server-1.19.2  (>=x11-base/xorg-server-1.15.1) amd64 
+   `--  x11-libs/libxcb-1.12-r2  (x11-libs/libxcb) ~amd64  [xkb(-)]
+   `--  sys-auth/consolekit-1.1.0-r1  (>=sys-auth/consolekit-0.9.4) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  sys-libs/pam-1.3.0  (sys-libs/pam) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  sys-power/upower-0.99.4  (sys-power/upower) ~amd64 
+   `--  sys-power/upower-pm-utils-0.9.23-r2  (sys-power/upower-pm-utils) amd64 
+   `--  dev-python/docutils-0.12  (dev-python/docutils) amd64 
+   `--  dev-qt/linguist-tools-5.7.1  (>=dev-qt/linguist-tools-5.6) ~amd64 
+   `--  dev-qt/qttest-5.7.1  (>=dev-qt/qttest-5.6) ~amd64 
+   `--  kde-frameworks/extra-cmake-modules-5.32.0  (kde-frameworks/extra-cmake-modules) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/make-4.2.1  (sys-devel/make) amd64 
+   `--  dev-util/cmake-3.7.2  (>=dev-util/cmake-3.6.3) amd64 
+[ x11-misc/sddm-0.14.0-r3 stats: packages (21), max depth (1) ]
+
+ * dependency graph for x11-misc/sddm-0.14.0-r4
+ `--  x11-misc/sddm-0.14.0-r4  ~amd64 
+   `--  dev-qt/qtcore-5.7.1-r1  (>=dev-qt/qtcore-5.6) ~amd64 
+   `--  dev-qt/qtdbus-5.7.1  (>=dev-qt/qtdbus-5.6) ~amd64 
+   `--  dev-qt/qtgui-5.7.1  (>=dev-qt/qtgui-5.6) ~amd64 
+   `--  dev-qt/qtdeclarative-5.7.1  (>=dev-qt/qtdeclarative-5.6) ~amd64 
+   `--  dev-qt/qtnetwork-5.7.1  (>=dev-qt/qtnetwork-5.6) ~amd64 
+   `--  x11-base/xorg-server-1.19.2  (>=x11-base/xorg-server-1.15.1) amd64 
+   `--  x11-libs/libxcb-1.12-r2  (x11-libs/libxcb) ~amd64  [xkb(-)]
+   `--  sys-auth/consolekit-1.1.0-r1  (>=sys-auth/consolekit-0.9.4) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  sys-libs/pam-1.3.0  (sys-libs/pam) ~amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  sys-power/upower-0.99.4  (sys-power/upower) ~amd64 
+   `--  sys-power/upower-pm-utils-0.9.23-r2  (sys-power/upower-pm-utils) amd64 
+   `--  dev-python/docutils-0.12  (dev-python/docutils) amd64 
+   `--  dev-qt/linguist-tools-5.7.1  (>=dev-qt/linguist-tools-5.6) ~amd64 
+   `--  dev-qt/qttest-5.7.1  (>=dev-qt/qttest-5.6) ~amd64 
+   `--  kde-frameworks/extra-cmake-modules-5.32.0  (kde-frameworks/extra-cmake-modules) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/make-4.2.1  (sys-devel/make) amd64 
+   `--  dev-util/cmake-3.7.2  (>=dev-util/cmake-3.6.3) amd64 
+[ x11-misc/sddm-0.14.0-r4 stats: packages (21), max depth (1) ]
+gentoo gentux # equery g polkit 
+ * Searching for polkit ...
+
+ * dependency graph for sys-auth/polkit-0.113
+ `--  sys-auth/polkit-0.113  amd64 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.32) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-1) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113 stats: packages (19), max depth (1) ]
+
+ * dependency graph for sys-auth/polkit-0.113-r1
+ `--  sys-auth/polkit-0.113-r1  [~amd64 keyword] 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.32) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (>=dev-libs/expat-2) amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-1) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113-r1 stats: packages (20), max depth (1) ]
+
+ * dependency graph for sys-auth/polkit-0.113-r2
+ `--  sys-auth/polkit-0.113-r2  ~amd64 
+   `--  dev-lang/spidermonkey-1.8.5-r6  (dev-lang/spidermonkey) ~amd64  [-debug]
+   `--  dev-libs/glib-2.48.2  (dev-libs/glib) amd64 
+   `--  dev-libs/expat-2.2.0-r1  (dev-libs/expat) amd64 
+   `--  sys-auth/elogind-225.9999  (sys-auth/elogind) ~amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (dev-libs/gobject-introspection) amd64 
+   `--  sys-auth/pambase-20150213-r2  (sys-auth/pambase) ~amd64 
+   `--  virtual/pam-0-r1  (virtual/pam) amd64 
+   `--  sys-apps/systemd-226-r2  (sys-apps/systemd) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/docbook-xsl-stylesheets-1.79.1-r1  (app-text/docbook-xsl-stylesheets) ~amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (dev-util/gtk-doc-am) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (dev-util/intltool) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  gnome-extra/polkit-gnome-0.105-r1  (>=gnome-extra/polkit-gnome-0.105) amd64 
+   `--  kde-plasma/polkit-kde-agent-5.9.3  (kde-plasma/polkit-kde-agent) ~amd64 
+   `--  sys-auth/polkit-kde-agent-0.99.1-r1  (sys-auth/polkit-kde-agent) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64  [policykit]
+   `--  sec-policy/selinux-policykit-2.20161023-r3  (sec-policy/selinux-policykit) amd64 
+[ sys-auth/polkit-0.113-r2 stats: packages (24), max depth (1) ]
+gentoo gentux # equery d polkit
+ * These packages depend on polkit:
+net-misc/modemmanager-1.6.4 (policykit ? >=sys-auth/polkit-0.106[introspection])
+net-misc/networkmanager-1.4.4-r14 (>=sys-auth/polkit-0.106)
+sys-apps/accountsservice-0.6.43-r2 (sys-auth/polkit)
+sys-auth/elogind-225.9999 (policykit ? sys-auth/polkit)
+sys-auth/polkit-qt-0.112.0-r1 (>=sys-auth/polkit-0.103)
+sys-fs/udisks-2.1.8-r1 (>=sys-auth/polkit-0.110)
+gentoo gentux # equery d sys-apps/dbus
+ * These packages depend on sys-apps/dbus:
+app-accessibility/at-spi2-atk-2.20.1 (>=sys-apps/dbus-1.5[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+app-accessibility/at-spi2-core-2.20.2 (>=sys-apps/dbus-1[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+app-text/ghostscript-gpl-9.20-r1 (dbus ? sys-apps/dbus)
+dev-libs/dbus-glib-0.106 (>=sys-apps/dbus-1.8[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+dev-libs/glib-2.48.2 (>=sys-apps/dbus-1.2.14)
+dev-qt/qtdbus-5.7.1 (>=sys-apps/dbus-1.4.20)
+dev-qt/qtwebengine-5.7.1-r1 (sys-apps/dbus)
+dev-vcs/subversion-1.9.5 (gnome-keyring ? sys-apps/dbus)
+                         (kwallet ? sys-apps/dbus)
+gnome-base/dconf-0.26.0-r1 (sys-apps/dbus)
+kde-apps/akonadi-16.12.3 (test ? sys-apps/dbus)
+mail-client/thunderbird-bin-45.8.0 (>=sys-apps/dbus-0.60)
+media-libs/libsdl2-2.0.5 (dbus ? >=sys-apps/dbus-1.6.18-r1[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+media-video/vlc-9999 (dbus ? >=sys-apps/dbus-1.6:0)
+net-dns/avahi-0.6.32 (dbus ? sys-apps/dbus[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-libs/glib-networking-2.48.2 (test ? sys-apps/dbus[X])
+net-libs/libproxy-0.4.13-r2 (networkmanager ? sys-apps/dbus:0[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-misc/networkmanager-1.4.4-r14 (>=sys-apps/dbus-1.2[abi_x86_32(-)?,abi_x86_64(-)?,abi_x86_x32(-)?,abi_mips_n32(-)?,abi_mips_n64(-)?,abi_mips_o32(-)?,abi_ppc_32(-)?,abi_ppc_64(-)?,abi_s390_32(-)?,abi_s390_64(-)?])
+net-wireless/bluez-5.43-r1 (>=sys-apps/dbus-1.6[user-session=])
+net-wireless/wpa_supplicant-2.6 (dbus ? sys-apps/dbus)
+sys-auth/elogind-225.9999 (sys-apps/dbus)
+sys-power/upower-0.99.4 (sys-apps/dbus)
+www-client/firefox-bin-52.0 (>=sys-apps/dbus-0.60)
+x11-base/xorg-server-1.19.2 (systemd ? sys-apps/dbus)
+x11-misc/notification-daemon-3.20.0 (sys-apps/dbus)
+gentoo gentux # equery d elogind
+ * These packages depend on elogind:
+net-misc/networkmanager-1.4.4-r14 (elogind ? sys-auth/elogind)
+sys-apps/accountsservice-0.6.43-r2 (elogind ? >=sys-auth/elogind-219:0)
+sys-apps/dbus-1.10.16-r1 (elogind ? sys-auth/elogind)
+sys-auth/pambase-20150213-r2 (elogind ? sys-auth/elogind[pam])
+sys-auth/polkit-0.113-r2 (elogind ? sys-auth/elogind)
+sys-fs/udisks-2.1.8-r1 (elogind ? >=sys-auth/elogind-219)
+x11-misc/sddm-0.14.0-r4 (elogind ? sys-auth/elogind)
+gentoo gentux # equery g accountsservice
+ * Searching for accountsservice ...
+
+ * dependency graph for sys-apps/accountsservice-0.6.42-r5
+ `--  sys-apps/accountsservice-0.6.42-r5  M[package.mask] 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.37.3) amd64 
+   `--  sys-auth/polkit-0.113-r2  (sys-auth/polkit) ~amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-0.9.12) amd64 
+   `--  sys-auth/elogind-225.9999  (>=sys-auth/elogind-219) ~amd64 
+   `--  sys-apps/systemd-226-r2  (>=sys-apps/systemd-186) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gdbus-codegen-2.48.2  (dev-util/gdbus-codegen) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (>=dev-util/gtk-doc-am-1.15) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (>=dev-util/intltool-0.40) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  app-arch/xz-utils-5.2.3  (app-arch/xz-utils) amd64 
+   `--  sys-apps/sed-4.2.2  (>=sys-apps/sed-4) ~amd64 
+   `--  dev-util/desktop-file-utils-0.23  (dev-util/desktop-file-utils) amd64 
+   `--  x11-misc/shared-mime-info-1.8  (x11-misc/shared-mime-info) ~amd64 
+   `--  sec-policy/selinux-accountsd-2.20161023-r3  (sec-policy/selinux-accountsd) amd64 
+[ sys-apps/accountsservice-0.6.42-r5 stats: packages (23), max depth (1) ]
+
+ * dependency graph for sys-apps/accountsservice-0.6.43
+ `--  sys-apps/accountsservice-0.6.43  amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.37.3) amd64 
+   `--  sys-auth/polkit-0.113-r2  (sys-auth/polkit) ~amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-0.9.12) amd64 
+   `--  sys-apps/systemd-226-r2  (>=sys-apps/systemd-186) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gdbus-codegen-2.48.2  (dev-util/gdbus-codegen) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (>=dev-util/gtk-doc-am-1.15) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (>=dev-util/intltool-0.40) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  app-arch/xz-utils-5.2.3  (app-arch/xz-utils) amd64 
+   `--  sys-apps/sed-4.2.2  (>=sys-apps/sed-4) ~amd64 
+   `--  dev-util/desktop-file-utils-0.23  (dev-util/desktop-file-utils) amd64 
+   `--  x11-misc/shared-mime-info-1.8  (x11-misc/shared-mime-info) ~amd64 
+   `--  sec-policy/selinux-accountsd-2.20161023-r3  (sec-policy/selinux-accountsd) amd64 
+[ sys-apps/accountsservice-0.6.43 stats: packages (19), max depth (1) ]
+
+ * dependency graph for sys-apps/accountsservice-0.6.43-r2
+ `--  sys-apps/accountsservice-0.6.43-r2  ~amd64 
+   `--  dev-libs/glib-2.48.2  (>=dev-libs/glib-2.37.3) amd64 
+   `--  sys-auth/polkit-0.113-r2  (sys-auth/polkit) ~amd64 
+   `--  dev-libs/gobject-introspection-1.48.0  (>=dev-libs/gobject-introspection-0.9.12) amd64 
+   `--  sys-auth/elogind-225.9999  (>=sys-auth/elogind-219) ~amd64 
+   `--  sys-apps/systemd-226-r2  (>=sys-apps/systemd-186) amd64 
+   `--  sys-auth/consolekit-1.1.0-r1  (sys-auth/consolekit) amd64 
+   `--  dev-libs/libxslt-1.1.29-r1  (dev-libs/libxslt) amd64 
+   `--  dev-util/gdbus-codegen-2.48.2  (dev-util/gdbus-codegen) amd64 
+   `--  dev-util/gtk-doc-am-1.25-r1  (>=dev-util/gtk-doc-am-1.15) amd64 
+   `--  dev-util/intltool-0.51.0-r1  (>=dev-util/intltool-0.40) amd64 
+   `--  sys-devel/gettext-0.19.8.1  (sys-devel/gettext) ~amd64 
+   `--  virtual/pkgconfig-0-r1  (virtual/pkgconfig) amd64 
+   `--  app-text/docbook-xml-dtd-4.1.2-r6  (app-text/docbook-xml-dtd) amd64 
+   `--  app-text/xmlto-0.0.28-r1  (app-text/xmlto) ~amd64 
+   `--  sys-devel/automake-1.15-r2  (>=sys-devel/automake-1.15) ~amd64 
+   `--  sys-devel/autoconf-2.69-r2  (>=sys-devel/autoconf-2.69) ~amd64 
+   `--  sys-devel/libtool-2.4.6-r3  (>=sys-devel/libtool-2.4) amd64 
+   `--  app-arch/xz-utils-5.2.3  (app-arch/xz-utils) amd64 
+   `--  sys-apps/sed-4.2.2  (>=sys-apps/sed-4) ~amd64 
+   `--  dev-util/desktop-file-utils-0.23  (dev-util/desktop-file-utils) amd64 
+   `--  x11-misc/shared-mime-info-1.8  (x11-misc/shared-mime-info) ~amd64 
+   `--  sec-policy/selinux-accountsd-2.20161023-r3  (sec-policy/selinux-accountsd) amd64 
+[ sys-apps/accountsservice-0.6.43-r2 stats: packages (23), max depth (1) ]
+gentoo gentux # equery h dbus
+ * Searching for USE flag dbus ... 
+[IP-] [  ] app-text/ghostscript-gpl-9.20-r1:0
+[IP-] [  ] dev-libs/glib-2.48.2:2
+[IP-] [  ] dev-qt/qtgui-5.7.1:5/5.7
+[IP-] [  ] kde-frameworks/knotifications-5.32.0:5/5.32
+[IP-] [  ] media-libs/libsdl2-2.0.5:0
+[IP-] [  ] media-video/vlc-9999:0/5-8
+[IP-] [  ] net-dns/avahi-0.6.32:0
+[IP-] [  ] net-wireless/wpa_supplicant-2.6:
