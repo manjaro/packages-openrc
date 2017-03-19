@@ -13,7 +13,7 @@ arch=('i686' 'x86_64')
 depends=('ncurses' 'libelogind')
 provides=('procps' "procps-ng=$pkgver" 'sysvinit-tools')
 conflicts=('procps' 'procps-ng' 'sysvinit-tools' 'sysctl-default-conf')
-replaces=('procps' 'procps-ng' 'sysvinit-tools' 'sysctl-default-conf')
+replaces=('procps' 'sysvinit-tools' 'sysctl-default-conf')
 backup=('etc/sysctl.conf')
 install=procps-ng.install
 source=("http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${pkgver}.tar.xz"
