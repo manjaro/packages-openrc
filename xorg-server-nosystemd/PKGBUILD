@@ -7,7 +7,7 @@ pkgname=('xorg-server-nosystemd' 'xorg-server-xephyr-nosystemd' 'xorg-server-xdm
 		 'xorg-server-xnest-nosystemd' 'xorg-server-xwayland-nosystemd' 'xorg-server-common-nosystemd' 'xorg-server-devel-nosystemd')
 _pkgbase=xorg-server
 pkgver=1.19.3
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('custom')
 groups=('xorg-nosystemd')
@@ -18,14 +18,13 @@ makedepends=('pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscproto' 
              'xf86dgaproto' 'libxmu' 'libxrender' 'libxi' 'dmxproto' 'libxaw' 'libdmx' 'libxtst' 'libxres'
              'xorg-xkbcomp' 'xorg-util-macros' 'xorg-font-util' 'glproto' 'dri2proto' 'libgcrypt' 'libepoxy'
              'xcb-util' 'xcb-util-image' 'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'dri3proto'
-             'libxshmfence' 'libunwind' 'wayland-protocols' 'udev'
-             dbus libgl xkeyboard-config xorg-fonts-misc xorg-setxkbmap xorg-xauth
-              libinput libusb xf86-input-evdev)
-source=(https://xorg.freedesktop.org/releases/individual/xserver/${_pkgbase}-${pkgver}.tar.bz2
-        nvidia-add-modulepath-support.patch
-        xvfb-run
-        xvfb-run.1
-        xserver-autobind-hotplug.patch)
+             'libxshmfence' 'libunwind' 'wayland-protocols' 'eudev' 'dbus-elogind' 'libgl' 'xkeyboard-config'
+             'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xauth' 'xf86-input-libinput-nosystemd')
+source=("https://xorg.freedesktop.org/releases/individual/xserver/${_pkgbase}-${pkgver}.tar.bz2"
+        'nvidia-add-modulepath-support.patch'
+        'xvfb-run'
+        'xvfb-run.1'
+        'xserver-autobind-hotplug.patch')
 sha256sums=('677a8166e03474719238dfe396ce673c4234735464d6dadf2959b600d20e5a98'
             '914a8d775b708f836ae3f0eeca553da3872727a2e4262190f4d5c01241cb14e8'
             'ff0156309470fc1d378fd2e104338020a884295e285972cc88e250e031cc35b9'
@@ -115,8 +114,8 @@ package_xorg-server-common-nosystemd() {
 
 package_xorg-server-nosystemd() {
     pkgdesc="Xorg X server"
-    depends=('libepoxy' 'libxfont2' 'pixman' 'xorg-server-common-nosystemd' 'libunwind' 'dbus'
-                'libgl' 'xf86-input-evdev' 'udev' 'libpciaccess' 'libdrm' 'libxshmfence') 
+    depends=('libepoxy' 'libxfont2' 'pixman' 'xorg-server-common-nosystemd' 'libunwind' 'dbus-elogind'
+                'libgl' 'eudev' 'libpciaccess' 'libdrm' 'libxshmfence' 'xf86-input-libinput-nosystemd') 
     # FS#52949
     # see xorg-server-*/hw/xfree86/common/xf86Module.h for ABI versions - we provide major numbers that drivers can depend on
     # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
@@ -148,7 +147,7 @@ package_xorg-server-nosystemd() {
 package_xorg-server-xephyr-nosystemd() {
     pkgdesc="A nested X server that runs as an X application"
     depends=('libxfont2' 'libgl' 'libepoxy' 'libunwind' 'libxv' 'pixman' 'xorg-server-common-nosystemd' 'xcb-util-image'
-            'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' libudev.so)
+            'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'libeudev')
     provides=("xorg-server-xephyr=${pkgver}")
     conflicts=('xorg-server-xephyr')
     #   replaces=('xorg-server-xephyr')
