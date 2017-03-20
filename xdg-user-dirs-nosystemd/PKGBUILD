@@ -6,7 +6,7 @@
 pkgname=xdg-user-dirs-nosystemd
 _pkgname=xdg-user-dirs
 pkgver=0.15
-pkgrel=2
+pkgrel=5
 pkgdesc="Manage user directories like ~/Desktop and ~/Music"
 arch=(i686 x86_64)
 url="http://www.freedesktop.org/wiki/Software/xdg-user-dirs"
