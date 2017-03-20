@@ -5,7 +5,7 @@ _pkgname=libmbim
 
 pkgname=libmbim-nosystemd
 pkgver=1.14.0
-pkgrel=2
+pkgrel=1
 pkgdesc="MBIM modem protocol helper library"
 arch=(i686 x86_64)
 url="http://www.freedesktop.org/wiki/Software/libmbim/"

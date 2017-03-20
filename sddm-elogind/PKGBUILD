@@ -5,13 +5,13 @@ _pkgname=sddm
 
 pkgname=sddm-elogind
 pkgver=0.14.0
-pkgrel=4
+pkgrel=5
 pkgdesc='QML based X11 display manager'
 arch=('i686' 'x86_64')
 url='http://github.com/sddm/sddm'
 license=('GPL')
 provides=('display-manager' 'sddm')
-depends=('qt5-declarative' 'elogind' 'upower' 'eudev-systemd')
+depends=('qt5-declarative' 'libelogind' 'upower-nosystemd' 'qt5-base-nosystemd')
 makedepends=('extra-cmake-modules' 'python-docutils' 'qt5-tools')
 optdepends=('displaymanager-openrc: displaymanager initscript')
 conflicts=('display-manager' 'sddm' 'sddm-consolekit')

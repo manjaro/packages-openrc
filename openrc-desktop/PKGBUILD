@@ -134,7 +134,7 @@ package_displaymanager-openrc() {
         -e 's|use consolekit dbus xfs|use consolekit dbus xfs elogind|' \
         -i "${pkgdir}/etc/init.d/xdm"
 
-    install -D ${srcdir}/xdg-user-dirs "$pkgdir/etc/X11/xinit/xinitrc.d/xdg-user-dirs"
+#     install -D ${srcdir}/xdg-user-dirs "$pkgdir/etc/X11/xinit/xinitrc.d/xdg-user-dirs"
 }
 
 package_elogind-openrc() {

@@ -1,0 +1,57 @@
+# $Id$
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+# Contributor: Alexander Baldeck <alexander@archlinux.org>
+
+_pkgname=xf86-video-ati
+
+pkgname=xf86-video-ati-nosystemd
+_commit=9035b6a # 7 digits
+pkgver=7.8.99.r38.g9035b6ab
+epoch=1
+pkgrel=1
+pkgdesc="X.org ati video driver"
+arch=('i686' 'x86_64')
+url="https://xorg.freedesktop.org/"
+license=('custom')
+depends=('libudev.so' 'mesa')
+makedepends=('xorg-server-devel' 'udev' 'X-ABI-VIDEODRV_VERSION=23'
+             # additional for git snapshot
+             'git')
+backup=(etc/X11/xorg.conf.d/10-radeon.conf)
+conflicts=('xorg-server<1.19.0' 'X-ABI-VIDEODRV_VERSION<23' 'X-ABI-VIDEODRV_VERSION>=24' "$_pkgname")
+provides=("$_pkgname=$pkgver")
+# groups=('xorg-drivers')
+#source=(${url}/releases/individual/driver/${_pkgname}-${pkgver}.tar.bz2{,.sig})
+source=("git://anongit.freedesktop.org/xorg/driver/xf86-video-ati#commit=${_commit}")
+sha256sums=('SKIP')
+#validpgpkeys=('B09FAF35BE914521980951145A81AF8E6ADBB200') # Michel Daenzer <michel@daenzer.net>
+
+pkgver() {
+  cd $_pkgname
+  # from ati-git AUR pkg
+  # git describe --long | sed 's/^xf86-video-ati-//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  # use version already commited into configure.ac "7.8.99"
+  git describe --long | sed 's/^xf86-video-ati-7.8.0/7.8.99/;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd $_pkgname
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+  cd ${_pkgname} #-${pkgver}
+
+  ./configure --prefix=/usr \
+    --with-xorg-conf-dir=/etc/X11/xorg.conf.d \
+    --enable-glamor
+  make
+}
+
+package() {
+  cd ${_pkgname} #-${pkgver}
+
+  make "DESTDIR=${pkgdir}" install
+  install -m755 -d "${pkgdir}/usr/share/licenses/${_pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${_pkgname}/"
+}
