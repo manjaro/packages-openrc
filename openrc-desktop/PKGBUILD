@@ -13,7 +13,7 @@ pkgname=('acpid-openrc'
 		'wpa_supplicant-openrc'
 		'elogind-openrc')
 
-pkgver=20170312
+pkgver=20170320
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -42,8 +42,7 @@ source=("acpid.confd::${_url}/sys-power/acpid/files/acpid-2.0.16-conf.d"
         "elogind.initd::${_url}/sys-auth/elogind/files/elogind.init"
         '10-openrc-status'
         'avahi-daemon.initd'
-        'avahi-dnsconfd.initd'
-        'xdg-user-dirs')
+        'avahi-dnsconfd.initd')
 sha256sums=('3755d4eb8bb64a1304e5defedb949305ac550565da36fe4f94d5f31beee821ba'
             '5dcf5721a129b3782c13fc453853c390c34e2ad4ee00706388ce014454b063ee'
             'd1c55400b701a72dcb8bb85e016b5013fa3eb6a2766ffc20dae278d0ee4c1a43'
@@ -65,8 +64,7 @@ sha256sums=('3755d4eb8bb64a1304e5defedb949305ac550565da36fe4f94d5f31beee821ba'
             '0113e93f3dd2c7e2ee581a39e7625d49d8e64c6089d432721a6be9df85e36531'
             '1535237db113a76261d6f1ce0b24a55e956934b0c1c59e9fd624f621961327b6'
             '876788303553fe773e64917f76f0208f5e8adf7b91d4af24aa9d6a68a147d646'
-            'e128576d72981e402ff106bb481108ab6d5ba941ab1b0f5f53e96a7831fc1d15'
-            'f0f27de23d849b2fa4ebf59e448b5a843b577d14dc2c1070e228999091fa7f5e')
+            'e128576d72981e402ff106bb481108ab6d5ba941ab1b0f5f53e96a7831fc1d15')
 
 pkgver() {
 	date +%Y%m%d
@@ -74,7 +72,7 @@ pkgver() {
 
 _inst_initd(){
     install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
-
+    
     sed -e 's|/var/run|/run|g' \
         -e 's|/usr/sbin|/usr/bin|g' \
         -i ${pkgdir}/etc/init.d/$1
@@ -133,8 +131,6 @@ package_displaymanager-openrc() {
         -e 's|{ROOTPATH}|{PATH}|g' \
         -e 's|use consolekit dbus xfs|use consolekit dbus xfs elogind|' \
         -i "${pkgdir}/etc/init.d/xdm"
-
-#     install -D ${srcdir}/xdg-user-dirs "$pkgdir/etc/X11/xinit/xinitrc.d/xdg-user-dirs"
 }
 
 package_elogind-openrc() {
