@@ -7,7 +7,7 @@ pkgbase=util-linux
 pkgname=('util-linux-nosystemd' 'libutil-linux-nosystemd')
 _pkgmajor=2.29
 pkgver=${_pkgmajor}.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Miscellaneous system utilities for Linux"
 url="https://www.kernel.org/pub/linux/utils/util-linux/"
 arch=('i686' 'x86_64')
@@ -54,6 +54,7 @@ build() {
 package_util-linux-nosystemd() {
     pkgdesc="Miscellaneous system utilities for Linux"
     depends=('pam' 'shadow' 'coreutils' 'libutil-linux-nosystemd' 'libeudev')
+    groups=('base-nosystemd' 'base-devel-nosystemd')
     optdepends=('python: python bindings to libmount')
     provides=("util-linux=${pkgver}" "util-linux-ng=${pkgver}" 'eject' 'zramctl')
     conflicts=('util-linux' 'util-linux-ng' 'eject' 'zramctl')

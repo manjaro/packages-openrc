@@ -8,7 +8,6 @@ pkgdesc="The CUPS Printing System - daemon package"
 arch=('i686' 'x86_64')
 license=('GPL')
 url="https://www.cups.org/"
-# groups=('eudev-base')
 depends=('acl' 'pam' "libcups>=${pkgver}" 'cups-filters' 'bc'
          'dbus-elogind' 'hicolor-icon-theme' 'libpaper' 'libusb-nosystemd')
 makedepends=('libtiff>=4.0.0' 'libpng>=1.5.7' 'xdg-utils' 'krb5' 'xinetd'

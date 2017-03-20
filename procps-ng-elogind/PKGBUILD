@@ -4,12 +4,12 @@
 
 pkgname=procps-ng-elogind
 pkgver=3.3.12
-pkgrel=2
+pkgrel=3
 pkgdesc='Utilities for monitoring your system and its processes'
 url='https://gitlab.com/procps-ng/procps'
 license=('GPL' 'LGPL')
 arch=('i686' 'x86_64')
-# groups=('base')
+groups=('base-nosystemd' 'elogind-nosystemd')
 depends=('ncurses' 'libelogind')
 provides=('procps' "procps-ng=$pkgver" 'sysvinit-tools')
 conflicts=('procps' 'procps-ng' 'sysvinit-tools' 'sysctl-default-conf')

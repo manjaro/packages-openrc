@@ -12,5 +12,10 @@ OpenRC pkgbuilds
 * openrc-video
 * openrc-accessible
 
+* base-nosystemd
+* base-devel-nosystemd
+* elogind-nosystemd
+* xorg-nosystemd
+
 ###Consolekit builds moved here:###
 https://github.com/udeved/packages-testing

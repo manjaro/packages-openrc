@@ -11,7 +11,7 @@ pkgrel=4
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
-makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod' util-linux-nosystemd)
+makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod' 'util-linux-nosystemd')
 options=('!libtool' '!staticlibs')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
 	'initcpio_hooks'
@@ -58,7 +58,7 @@ package_eudev() {
 	provides=("udev=${_udev_ver}")
 	depends=("libeudev" 'kbd' 'kmod' 'hwids')
 	optdepends=('eudev-systemd: makes packages compiled with systemd features run'
-		'udev-openrc: udev starup scripts for openrc')
+                'udev-openrc: udev starup scripts for openrc')
 	backup=('etc/udev/udev.conf')
 
 
@@ -77,8 +77,9 @@ package_eudev() {
 
 package_libeudev() {
 	pkgdesc="eudev client libraries"
-	depends=('glib2' 'glibc')
+	depends=('glibc')
 	optdepends=('libeudev-systemd: systemd client libraries')
+	groups=('base-devel-nosystemd')
 	conflicts=('libudev.so')
 	provides=("libudev=${_udev_ver}" 'libudev.so')
 
