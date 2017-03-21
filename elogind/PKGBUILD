@@ -8,7 +8,7 @@ pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
 license=('GPL' 'LGPL2.1')
-makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-elogind' 'git' 'libcap' 'eudev' 'polkit-elogind' 'libseccomp' 'util-linux-nosystemd')
+makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'git')
 options=('!libtool')
 source=("${pkgbase}-${pkgver}.tar.gz::https://github.com/elogind/elogind/archive/v226.4.tar.gz")
 sha256sums=('585ac8746cd81a74f47b4e93cb5f000494da4104ad53da0bae023e1758d0456d')
@@ -41,7 +41,7 @@ package_elogind() {
     pkgdesc="The systemd project's logind, extracted to a standalone package"
     groups=('base-nosystemd' 'elogind-nosystemd')
     provides=("elogind=${pkgver}")
-    depends=('pam' 'acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp' 'util-linux-nosystemd')
+    depends=('acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp')
     conflicts=('systemd-sysvcompat' 'consolekit')
     # replaces=('consolekit')
     optdepends=('elogind-openrc: elogind initscript')
