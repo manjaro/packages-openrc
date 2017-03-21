@@ -5,20 +5,20 @@
 _udev_ver=220
 
 pkgbase=eudev
-pkgname=( 'eudev' 'libeudev')
+pkgname=('eudev' 'libeudev')
 pkgver=3.2.1
-pkgrel=4
+pkgrel=5
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
 makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod' 'util-linux-nosystemd')
 options=('!libtool' '!staticlibs')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
-	'initcpio_hooks'
-	'initcpio_install'
-	'udev-hwdb.hook'
-	"gperf-build-fix.patch::https://github.com/gentoo/eudev/commit/5bab4d8de0dcbb8e2e7d4d5125b4aea1652a0d60.patch"
-	"global-properties-fix.patch::https://github.com/gentoo/eudev/commit/90a8c95446b345cc9b388fdb30866e1cb77fe711.patch")
+    'initcpio_hooks'
+    'initcpio_install'
+    'udev-hwdb.hook'
+    "gperf-build-fix.patch::https://github.com/gentoo/eudev/commit/5bab4d8de0dcbb8e2e7d4d5125b4aea1652a0d60.patch"
+    "global-properties-fix.patch::https://github.com/gentoo/eudev/commit/90a8c95446b345cc9b388fdb30866e1cb77fe711.patch")
 sha256sums=('88f530c1540750e6daa91b5eaeebf88e761e6f0c86515c1c28eedfd871f027c6'
             '892ce43218e0a458981bbce451252c8987dc398e60b8de288e7542b8f2409c13'
             '77dd1fd318b4456409aceb077f060b87944defb07cf39d29ad1968dc6f361875'
@@ -34,55 +34,57 @@ prepare(){
         -i rules/*.rules
     patch -p1 -i ${srcdir}/gperf-build-fix.patch
     patch -p1 -i ${srcdir}/global-properties-fix.patch
+    ./autogen.sh
 }
 
 build() {
-	cd "${srcdir}/${pkgbase}-${pkgver}"
-	./autogen.sh
-	./configure \
-		--prefix=/usr \
-		--with-rootprefix=/usr \
-		--sysconfdir=/etc \
-		--libdir=/usr/lib \
-		--sbindir=/usr/bin \
-		--enable-introspection \
-		--enable-kmod \
-		--enable-manpages \
-		--enable-split-usr
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+    
+    ./configure \
+        --prefix=/usr \
+        --with-rootprefix=/usr \
+        --sysconfdir=/etc \
+        --libdir=/usr/lib \
+        --sbindir=/usr/bin \
+        --enable-introspection \
+        --enable-kmod \
+        --enable-manpages \
+        --enable-split-usr
 
-	make
+    make
 }
 
 package_eudev() {
-	pkgdesc="The userspace dev tools (udev) forked by Gentoo"
-	provides=("udev=${_udev_ver}")
-	depends=("libeudev" 'kbd' 'kmod' 'hwids')
-	optdepends=('eudev-systemd: makes packages compiled with systemd features run'
+    pkgdesc="The userspace dev tools (udev) forked by Gentoo"
+    groups=('base-nosystemd')
+    provides=("udev=${_udev_ver}")
+    depends=("libeudev" 'kbd' 'kmod' 'hwids')
+    optdepends=('eudev-systemd: makes packages compiled with systemd features run'
                 'udev-openrc: udev starup scripts for openrc')
-	backup=('etc/udev/udev.conf')
+    backup=('etc/udev/udev.conf')
 
 
-	cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}"
 
-	make DESTDIR="${pkgdir}" install
+    make DESTDIR="${pkgdir}" install
 
-	rm -rv "$pkgdir"/usr/lib/pkgconfig
-	rm -v "$pkgdir"/usr/include/libudev.h
-	rm -v "$pkgdir"/usr/lib/libudev*.{so*,a}
+    rm -rv "$pkgdir"/usr/lib/pkgconfig
+    rm -v "$pkgdir"/usr/include/libudev.h
+    rm -v "$pkgdir"/usr/lib/libudev*.{so*,a}
 
-	install -Dm644 "${srcdir}/initcpio_hooks" "${pkgdir}/usr/lib/initcpio/hooks/udev"
-	install -Dm644 "${srcdir}/initcpio_install" "${pkgdir}/usr/lib/initcpio/install/udev"
-	install -Dm644 "$srcdir/udev-hwdb.hook" "$pkgdir/usr/share/libalpm/hooks/udev-hwdb.hook"
+    install -Dm644 "${srcdir}/initcpio_hooks" "${pkgdir}/usr/lib/initcpio/hooks/udev"
+    install -Dm644 "${srcdir}/initcpio_install" "${pkgdir}/usr/lib/initcpio/install/udev"
+    install -Dm644 "$srcdir/udev-hwdb.hook" "$pkgdir/usr/share/libalpm/hooks/udev-hwdb.hook"
 }
 
 package_libeudev() {
-	pkgdesc="eudev client libraries"
-	depends=('glibc')
-	optdepends=('libeudev-systemd: systemd client libraries')
-	groups=('base-devel-nosystemd')
-	conflicts=('libudev.so')
-	provides=("libudev=${_udev_ver}" 'libudev.so')
+    pkgdesc="eudev client libraries"
+    groups=('base-devel-nosystemd')
+    depends=('glibc')
+    optdepends=('libeudev-systemd: systemd client libraries')
+    conflicts=('libudev.so')
+    provides=("libudev=${_udev_ver}" 'libudev.so')
 
-	cd "${srcdir}/${pkgbase}-${pkgver}"
-	make -C src/libudev DESTDIR="$pkgdir" install
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+    make -C src/libudev DESTDIR="$pkgdir" install
 }
