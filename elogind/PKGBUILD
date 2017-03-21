@@ -1,34 +1,25 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
-_pkgname=elogind
-_commit=e69300ab97589a235167b85867a0e8feb8378348
-_ver=226
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
-pkgver=226 #${_ver}.3
-# _branch=dev_v${_ver}-r1
-pkgrel=7
+pkgver=226.4
+pkgrel=1
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
-license=('GPL')
+license=('GPL' 'LGPL2.1')
 makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc' 'dbus-elogind' 'git' 'libcap' 'eudev' 'polkit-elogind' 'libseccomp' 'util-linux-nosystemd')
 options=('!libtool')
-source=("elogind-${_commit}.tar.gz::${url}/archive/${_commit}.tar.gz"
-        "elogind-docs.patch")
-# source=("https://github.com/elogind/elogind/archive/$_branch.zip"
-#         "elogind-docs.patch")
-sha256sums=('ecfbe4a9ed12e835c90b85aaf15dac68abbd889fe4d219805449f80919e22ff1'
-            '25643e563250b0d322f817288cbe999f1cc2e4804c875725bb92fe5094a902b4')
+source=("${pkgbase}-${pkgver}.tar.gz::https://github.com/elogind/elogind/archive/v226.4.tar.gz")
+sha256sums=('585ac8746cd81a74f47b4e93cb5f000494da4104ad53da0bae023e1758d0456d')
 
 prepare() {
-    cd ${_pkgname}-${_commit}
-    patch -Np 1 -i ${srcdir}/elogind-docs.patch
-    autoreconf -fi
+    cd ${pkgbase}-${pkgver}
+    ./autogen.sh
 }
 
 build() {
-    cd ${_pkgname}-${_commit}
+    cd ${pkgbase}-${pkgver}
     intltoolize
     ./configure \
         --sysconfdir=/etc \
@@ -50,14 +41,13 @@ package_elogind() {
     pkgdesc="The systemd project's logind, extracted to a standalone package"
     groups=('base-nosystemd' 'elogind-nosystemd')
     provides=("elogind=${pkgver}")
-    depends=('libelogind' 'pam' 'acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp' 'util-linux-nosystemd')
+    depends=('pam' 'acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp' 'util-linux-nosystemd')
     conflicts=('systemd-sysvcompat' 'consolekit')
     # replaces=('consolekit')
-    optdepends=('elogind-openrc: elogind initscript'
-                'dbus-openrc: dbus initscript')
+    optdepends=('elogind-openrc: elogind initscript')
     install=elogind.install
 
-    cd ${_pkgname}-${_commit}
+    cd ${pkgbase}-${pkgver}
     make DESTDIR="${pkgdir}" install
 
     mkdir ${srcdir}/_libelogind
@@ -72,7 +62,8 @@ package_libelogind(){
     provides=('libelogind.so' "libelogind=${pkgver}")
     depends=('libcap')
 
-    cd ${_pkgname}-${_commit}
+    cd ${pkgbase}-${pkgver}
+
     install -dm755 ${pkgdir}/usr/lib
     mv ${srcdir}/_libelogind/include ${pkgdir}/usr
     mv ${srcdir}/_libelogind/pkgconfig ${pkgdir}/usr/lib
