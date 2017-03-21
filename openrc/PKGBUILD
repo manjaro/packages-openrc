@@ -3,6 +3,8 @@
 
 _url="https://github.com/OpenRC/openrc/archive"
 
+_prefix=true
+
 pkgname=openrc
 pkgver=0.24.1
 pkgrel=2
@@ -26,64 +28,71 @@ backup=('etc/rc.conf'
         'etc/inittab')
 #options=('emptydirs')
 source=("${pkgname}-${pkgver}.tar.gz::${_url}/${pkgver}.tar.gz"
-	"${pkgname}.logrotate"
-	'openrc-install.hook'
-	'openrc-remove.hook')
+        "${pkgname}.logrotate"
+        'openrc-install.hook'
+        'openrc-remove.hook')
 sha256sums=('8bf65090e4881cafc8cdfe4a160d2ad64a940b19a0c76b18fdb5bbabf4a086d2'
             '0b44210db9770588bd491cd6c0ac9412d99124c6be4c9d3f7d31ec8746072f5c'
             '1d4d31a7275660e7b23778e6fceb0714cab8ed2793b04aa004b01d8e7bcd43bd'
             'cbb4d00262a55a508114cb31e3903350be2cff748a4fb5e120dc745292e3987e')
 
 _args=(SYSCONFDIR=/etc)
-# _args+=(PREFIX=/usr)
-# _args+=(SBINDIR=/usr/bin)
-_args+=(LIBEXECDIR=/usr/lib/rc)
 _args+=(MKSELINUX=no)
 _args+=(MKPAM=pam)
 _args+=(MKTERMCAP=ncurses)
 _args+=(MKNET=no)
-if [ -f /etc/os-release ]; then
-	. /etc/os-release
-	_args+=(BRANDING="${NAME}")
+if ${_prefix};then
+    _args+=(PREFIX=/usr)
+    _args+=(SBINDIR=/usr/bin)
+    _args+=(LIBEXECDIR=/usr/lib/rc)
 else
-	_args+=(BRANDING='Unknown Linux')
+    _args+=(LIBEXECDIR=/lib/rc)
+fi
+
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    _args+=(BRANDING="${NAME}")
+else
+    _args+=(BRANDING='Unknown Linux')
 fi
 
 prepare(){
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	sed -e "s|/sbin|/usr/bin|g" -i support/sysvinit/inittab
-	sed -i 's:0444:0644:' mk/sys.mk
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed -e "s|/sbin|/usr/bin|g" -i support/sysvinit/inittab
+    sed -i 's:0444:0644:' mk/sys.mk
 }
 
 build(){
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	make "${_args[@]}"
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make "${_args[@]}"
 }
 
 package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+    cd "${srcdir}/${pkgname}-${pkgver}"
     
-    mkdir -pv "${pkgdir}"/usr/{bin,lib}
-	ln -sv usr/bin "${pkgdir}/bin"
-	ln -sv usr/bin "${pkgdir}/sbin"
-	ln -sv usr/lib "${pkgdir}/lib"
-	
-	make DESTDIR="${pkgdir}" "${_args[@]}" install
+    if ! ${_prefix};then
+        mkdir -pv "${pkgdir}"/usr/{bin,lib}
+        ln -sv usr/bin "${pkgdir}/bin"
+        ln -sv usr/bin "${pkgdir}/sbin"
+        ln -sv usr/lib "${pkgdir}/lib"
+    fi
+    make DESTDIR="${pkgdir}" "${_args[@]}" install
 
-	install -m644 "${srcdir}/${pkgname}-${pkgver}/support/sysvinit/inittab" "${pkgdir}/etc/inittab"
-	install -Dm644 "${srcdir}/${pkgname}.logrotate" "${pkgdir}/etc/logrotate.d/${pkgname}"
+    install -m644 "${srcdir}/${pkgname}-${pkgver}/support/sysvinit/inittab" "${pkgdir}/etc/inittab"
+    install -Dm644 "${srcdir}/${pkgname}.logrotate" "${pkgdir}/etc/logrotate.d/${pkgname}"
 
-	sed -e 's/#unicode="NO"/unicode="YES"/' \
-	    -e 's/#rc_logger="YES"/rc_logger="YES"/' \
-	    -i "${pkgdir}/etc/rc.conf"
+    sed -e 's/#unicode="NO"/unicode="YES"/' \
+        -e 's/#rc_logger="YES"/rc_logger="YES"/' \
+        -i "${pkgdir}/etc/rc.conf"
 
-	install -d ${pkgdir}/usr/lib/rc/cache
+    install -d ${pkgdir}/usr/lib/rc/cache
 
-	install -Dm644 ${srcdir}/${pkgname}-${pkgver}/LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 ${srcdir}/${pkgname}-${pkgver}/LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
 
-	for f in openrc-{install,remove}.hook;do
-		install -Dm644 ${srcdir}/$f ${pkgdir}/usr/share/libalpm/hooks/$f
-	done
-	
-	rm "${pkgdir}"/{bin,sbin,lib}
+    for f in openrc-{install,remove}.hook;do
+        install -Dm644 ${srcdir}/$f ${pkgdir}/usr/share/libalpm/hooks/$f
+    done
+    if ! ${_prefix};then
+        rm "${pkgdir}"/{bin,sbin,lib}
+    fi
 }

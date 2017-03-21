@@ -3,6 +3,11 @@
 _url="http://dev.gentoo.org/~williamh/dist"
 _pkgname=udev-init-scripts
 
+_sed_args=(-e "s|/bin/udevadm|/usr/bin/udevadm|g" -e "s|/sbin/udevd|/usr/bin/udevd|g")
+_prefix=true
+
+$_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
+
 pkgname=udev-openrc
 pkgver=32
 pkgrel=2
@@ -22,9 +27,7 @@ package(){
     cd "${srcdir}/${_pkgname}-${pkgver}"
     make DESTDIR="${pkgdir}" install
     for f in ${pkgdir}/etc/init.d/*;do
-        sed -e "s|/bin/udevadm|/usr/bin/udevadm|g" \
-            -e "s|/sbin/udevd|/usr/bin/udevd|g" \
-            -i "$f"
+        sed ${_sed_args[@]} -i "$f"
     done
     install -d "${pkgdir}/etc/runlevels/sysinit"
 
