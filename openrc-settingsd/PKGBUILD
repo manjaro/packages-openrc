@@ -3,19 +3,16 @@
 
 _url=https://dev.gentoo.org/~tetromino/distfiles/openrc-settingsd/
 
-_sed_args=(-e 's|/usr/libexec|/usr/lib|g')
-_prefix=true
-
-$_prefix && _sed_args+=(-e 's|#!/sbin/runscript|#!/usr/bin/openrc-run|g')
-
+# _sed_args=(-e 's|/usr/libexec|/usr/lib|g')
+_sed_args+=(-e 's|#!/sbin/runscript|#!/usr/bin/openrc-run|g')
 
 pkgname=openrc-settingsd
 pkgver=1.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="System settings D-Bus service for OpenRC"
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/base/openrc/"
-license=('BSD2')
+license=('GPL')
 groups=('openrc-desktop')
 depends=('libdaemon' 'dbus-elogind' 'openrc' 'polkit-elogind')
 conflicts=('systemd-sysvcompat')
@@ -30,20 +27,16 @@ build(){
         --prefix=/usr \
         --libdir=/usr/lib \
         --libexecdir=/usr/lib \
-        --with-pidfile="${EPREFIX}"/run/openrc-settingsd.pid
+        --datarootdir=/usr/share \
+        --localstatedir=/var \
+        --sbindir=/usr/bin \
+        --with-pidfile=/run/openrc-settingsd.pid
     make
 }
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    
-    if ! ${_prefix};then
-        mkdir -pv "${pkgdir}"/usr/{bin,lib}
-        ln -sv usr/bin "${pkgdir}/bin"
-        ln -sv usr/bin "${pkgdir}/sbin"
-        ln -sv usr/lib "${pkgdir}/lib"
-    fi
-    
+      
     make DESTDIR="${pkgdir}" install
 
     sed "${_sed_args[@]}" -i ${pkgdir}/etc/init.d/openrc-settingsd
@@ -51,8 +44,4 @@ package() {
     rm -r ${pkgdir}/usr/share/{dbus,polkit}-1
     
     install -Dm644 ${srcdir}/${pkgname}-${pkgver}/COPYING "$pkgdir/usr/share/licenses/${pkgname}/COPYING"
-    
-    if ! ${_prefix};then
-        rm "${pkgdir}"/{bin,sbin,lib}
-    fi
 }
