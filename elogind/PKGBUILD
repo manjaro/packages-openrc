@@ -3,7 +3,7 @@
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
 pkgver=226.4
-pkgrel=1
+pkgrel=2
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
