@@ -4,9 +4,7 @@ _url="http://dev.gentoo.org/~williamh/dist"
 _pkgname=udev-init-scripts
 
 _sed_args=(-e "s|/bin/udevadm|/usr/bin/udevadm|g" -e "s|/sbin/udevd|/usr/bin/udevd|g")
-_prefix=true
-
-$_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
+_sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgname=udev-openrc
 pkgver=32
@@ -16,7 +14,7 @@ arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
 groups=('openrc-base' 'openrc-desktop')
-depends=('openrc' 'udev')
+depends=('openrc' 'eudev')
 conflicts=('systemd-sysvcompat')
 source=("${_url}/${_pkgname}-${pkgver}.tar.gz"
         "kmod-static-nodes.initd")

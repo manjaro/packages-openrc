@@ -1,20 +1,20 @@
 # Maintainer: artoo <artoo@manjaro.org>
 # Contributor: williamh <williamh@gentoo.org>
 
-_prefix=true
+_sed_args+=(-e 's|#!/sbin/runscript|#!/usr/bin/openrc-run|g')
 
 pkgname=opentmpfiles
 pkgver=0.1.3
 pkgrel=2
 pkgdesc="A standalone utility for handling systemd-style tmpfiles.d settings"
 arch=('any')
-url="https://github.com/OpenRC/opentmpfiles/archive"
+url="https://github.com/OpenRC/opentmpfiles"
 license=('BSD2')
 groups=('openrc-base')
 depends=('openrc')
 backup=('etc/conf.d/opentmpfiles-dev'
         'etc/conf.d/opentmpfiles-setup')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/${pkgver}.tar.gz")
 sha256sums=('1fdd4587c62d815296fb4162002cf001e3ed7aae8727d9b4360f527169e6b3be')
 
 _inst_initd(){
@@ -23,21 +23,13 @@ _inst_initd(){
 
 _inst_confd(){
     install -Dm755 openrc/$1.confd ${pkgdir}/etc/conf.d/$1
+    
+    sed "${_sed_args[@]}" -i ${pkgdir}/etc/conf.d/$1
 }
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    
-    local _arg=()
-        
-    if ! ${_prefix};then
-        _arg+=(bindir="/bin")
-        mkdir -pv "${pkgdir}"/usr/bin
-        ln -sv usr/bin "${pkgdir}/bin"
-    else
-        _arg+=(bindir="/usr/bin")
-    fi
-    
+       
     make ${_arg[@]} DESTDIR="${pkgdir}" install
     
     for f in opentmpfiles-dev opentmpfiles-setup; do
@@ -53,8 +45,4 @@ package() {
 
     install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
     install -m644 "${srcdir}/${pkgname}-${pkgver}/license" "${pkgdir}/usr/share/licenses/${pkgname}/"
-    
-    if ! ${_prefix};then
-        rm "${pkgdir}"/bin
-    fi
 }

@@ -8,8 +8,6 @@ _func_url="${_url}/gentoo/gentoo-functions/archive"
 
 _func_ver=0.11
 
-_prefix=false
-
 pkgname=netifrc
 pkgver=0.5.1
 pkgrel=3
@@ -35,19 +33,14 @@ else
 fi
 
 _net_args=(SYSCONFDIR=/etc)
-if ${_prefix};then
-    _net_args+=(PREFIX=/usr)
-    _net_args+=(SBINDIR=/usr/bin)
-    _net_args+=(LIBEXECDIR=/usr/lib/${pkgname})
-    
-    _func_args+=(ROOTPREFIX=/usr)
-    _func_args+=(ROOTSBINDIR=/usr/bin)
-    _func_args+=(ROOTLIBEXECDIR=/usr/lib/$_id)
-else
-    _net_args+=(LIBEXECDIR=/lib/${pkgname})
+_net_args+=(PREFIX=/usr)
+_net_args+=(SBINDIR=/usr/bin)
+_net_args+=(LIBEXECDIR=/usr/lib/${pkgname})
 
-    _func_args+=(ROOTLIBEXECDIR=/lib/$_id)
-fi
+_func_args+=(ROOTPREFIX=/usr)
+_func_args+=(ROOTSBINDIR=/usr/bin)
+_func_args+=(ROOTLIBEXECDIR=/usr/lib/$_id)
+
 
 build(){
     # make netifrc
@@ -59,13 +52,6 @@ build(){
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    
-    if ! ${_prefix};then
-        mkdir -pv "${pkgdir}"/usr/{bin,lib}
-        ln -sv usr/bin "${pkgdir}/bin"
-        ln -sv usr/bin "${pkgdir}/sbin"
-        ln -sv usr/lib "${pkgdir}/lib"
-    fi
     
     make DESTDIR="${pkgdir}" "${_net_args[@]}" install
     
@@ -81,7 +67,4 @@ package() {
         -i "${pkgdir}/usr/lib/${pkgname}/sh/functions.sh"
 
     install -Dm644 ${srcdir}/${pkgname}-${pkgver}/LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
-    if ! ${_prefix};then
-        rm "${pkgdir}"/{bin,sbin,lib}
-    fi
 }
