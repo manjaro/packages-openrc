@@ -11,6 +11,7 @@ pkgrel=2
 arch=('i686' 'x86_64')
 url='http://qt-project.org/'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
+groups=('elogind-nosystemd')
 pkgdesc='A cross-platform application and UI framework'
 provides=('qt5-base')
 depends=('libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-renderutil' 'libgl' 'fontconfig'
@@ -26,7 +27,6 @@ optdepends=('qt5-svg: to use SVG icon themes'
             'freetds: MS SQL driver'
             'gtk3: GTK platform plugin')
 conflicts=('qtchooser' 'qt5-base')
-# groups=('qt' 'qt5')
 _pkgfqn="${_pkgname/5-/}-opensource-src-${_qtver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
         qt5-base-journald.patch::"https://github.com/qt/qtbase/commit/0c8f3229.patch"
