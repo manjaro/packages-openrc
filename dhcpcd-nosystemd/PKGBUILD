@@ -1,0 +1,62 @@
+# $Id$
+# Maintainer: Ronald van Haren <ronald.archlinux.org>
+# Contributor: Tom Killian <tom.archlinux.org>
+# Contributor: Judd Vinet <jvinet.zeroflux.org>
+
+_pkgname=dhcpcd
+
+pkgname=dhcpcd-nosystemd
+pkgver=6.11.5
+pkgrel=1
+pkgdesc="RFC2131 compliant DHCP client daemon"
+url="http://roy.marples.name/projects/dhcpcd/"
+arch=('i686' 'x86_64')
+license=('BSD')
+groups=('base')
+depends=('glibc' 'sh' 'eudev')
+optdepends=('openresolv: resolvconf support')
+provides=('dhcp-client' "$_pkgname")
+conflicts=("$_pkgname")
+backup=('etc/dhcpcd.conf')
+options=('emptydirs')  # We Need the Empty /var/lib/dhcpcd Directory
+source=("http://roy.marples.name/downloads/$_pkgname/$_pkgname-$pkgver.tar.xz")
+sha1sums=('aa0a97682cb7dad3ea0acfe623a67da42614a2d8')
+
+build() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+
+  # configure variables
+  ./configure \
+      --prefix=/usr \
+      --sysconfdir=/etc \
+      --sbindir=/usr/bin \
+      --libexecdir=/usr/lib/dhcpcd \
+      --dbdir=/var/lib/dhcpcd \
+      --rundir=/run
+
+  # Build
+  make
+}
+
+check() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+
+  make test
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+
+  # Install License
+  install -d "$pkgdir/usr/share/licenses/$_pkgname"
+  sed 26q "$srcdir/$_pkgname-$pkgver/control.h" \
+      >>"$pkgdir/usr/share/licenses/$_pkgname/LICENSE"
+
+  # Set Options in /etc/dhcpcd.conf
+  echo noipv4ll >> "${pkgdir}/etc/dhcpcd.conf" # Disable ip4vall
+
+  # install systemd files
+#   install -Dm644 "${srcdir}/dhcpcd_.service" "${pkgdir}/usr/lib/systemd/system/dhcpcd@.service"
+#   install -Dm644 "${srcdir}/dhcpcd.service" "${pkgdir}/usr/lib/systemd/system/dhcpcd.service" # FS#31543
+}
