@@ -1,9 +1,5 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
-_apver=2.4.18-r1
-_aprel=20160303
-
-_dev_url="http://dev.gentoo.org/~polynomial-c/dist/apache"
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 _sed_args=(-e 's|/var/run|/run|g')
@@ -13,7 +9,6 @@ $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgbase=openrc-net
 pkgname=('autofs-openrc'
-        'apache-openrc'
         'bind-openrc'
         'cyrus-sasl-openrc'
         'dhcp-openrc'
@@ -21,7 +16,6 @@ pkgname=('autofs-openrc'
         'iptables-openrc'
         'krb5-openrc'
         'lighttpd-openrc'
-        'nfs-utils-openrc'
         'openldap-openrc'
         'openslp-openrc'
         'openssh-openrc'
@@ -30,8 +24,6 @@ pkgname=('autofs-openrc'
         'polipo-openrc'
         'postfix-openrc'
         'privoxy-openrc'
-        'quota-tools-openrc'
-        'rpcbind-openrc'
         'rsync-openrc'
         'samba-openrc'
         'squid-openrc'
@@ -56,8 +48,7 @@ url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
 groups=('openrc-net')
 conflicts=('systemd-sysvcompat')
-source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
-        "named.confd::${_url}/net-dns/bind/files/named.confd-r7"
+source=("named.confd::${_url}/net-dns/bind/files/named.confd-r7"
         "named.initd::${_url}/net-dns/bind/files/named.init-r13"
         "saslauthd.initd::${_url}/dev-libs/cyrus-sasl/files/saslauthd2.rc7"
         "dhcpd.confd::${_url}/net-misc/dhcp/files/dhcpd.conf2"
@@ -75,15 +66,6 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "krb5kpropd.initd::${_url}/app-crypt/mit-krb5/files/mit-krb5kpropd.initd-r2"
         "lighttpd.confd::${_url}/www-servers/lighttpd/files/lighttpd.confd"
         "lighttpd.initd::${_url}/www-servers/lighttpd/files/lighttpd.initd"
-        "nfs.confd::${_url}/net-fs/nfs-utils/files/nfs.confd"
-        "nfs.initd::${_url}/net-fs/nfs-utils/files/nfs.initd"
-        "nfsclient.confd::${_url}/net-fs/nfs-utils/files/nfsclient.confd"
-        "nfsclient.initd::${_url}/net-fs/nfs-utils/files/nfsclient.initd"
-        "rpc.idmapd.initd::${_url}/net-fs/nfs-utils/files/rpc.idmapd.initd"
-        "rpc.pipefs.initd::${_url}/net-fs/nfs-utils/files/rpc.pipefs.initd"
-        "rpc.gssd.initd::${_url}/net-fs/nfs-utils/files/rpc.gssd.initd"
-        "rpc.svcgssd.initd::${_url}/net-fs/nfs-utils/files/rpc.svcgssd.initd"
-        "rpc.statd.initd::${_url}/net-fs/nfs-utils/files/rpc.statd.initd"
         "slapd.confd::${_url}/net-nds/openldap/files/slapd-confd-2.4.28-r1"
         "slapd.initd::${_url}/net-nds/openldap/files/slapd-initd-2.4.40-r2"
         "slpd.initd::${_url}/net-libs/openslp/files/slpd-init"
@@ -92,11 +74,6 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "polipo.initd::${_url}/net-proxy/polipo/files/polipo.initd-5"
         "postfix.initd::${_url}/mail-mta/postfix/files/postfix.rc6.2.7"
         "privoxy.initd::${_url}/net-proxy/privoxy/files/privoxy.initd-3"
-        "quota.confd::${_url}/sys-fs/quota/files/quota.confd"
-        "quota.initd::${_url}/sys-fs/quota/files/quota.rc7"
-        "rpc.rquotad.initd::${_url}/sys-fs/quota/files/rpc.rquotad.initd"
-#         "rpcbind.confd::${_url}/net-nds/rpcbind/files/rpcbind.confd"
-        "rpcbind.initd::${_url}/net-nds/rpcbind/files/rpcbind.initd"
         "rsyncd.confd::${_url}/net-misc/rsync/files/rsyncd.conf.d"
         "rsyncd.initd::${_url}/net-misc/rsync/files/rsyncd.init.d-r1"
         "smb.confd::${_url}/net-fs/samba/files/4.4/samba4.confd"
@@ -120,12 +97,12 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "rpc.yppasswdd.initd::${_url}/net-nds/ypserv/files/rpc.yppasswdd-r1"
         "rpc.ypxfrd.initd::${_url}/net-nds/ypserv/files/rpc.ypxfrd-2.23"
         "autofs.initd::${_url}/net-fs/autofs/files/autofs5.initd"
-        "openvpn.confd::${_url}/net-misc/openvpn/files/openvpn-2.1.conf"
-        "openvpn.initd::${_url}/net-misc/openvpn/files/openvpn-2.1.init"
+        "openvpn.confd::${_url}/net-vpn/openvpn/files/openvpn-2.1.conf"
+        "openvpn.initd::${_url}/net-vpn/openvpn/files/openvpn-2.1.init"
         "ntpd.confd::${_url}/net-misc/openntpd/files/openntpd.conf.d-20080406-r6"
         "ntpd.initd::${_url}/net-misc/openntpd/files/openntpd.init.d-20080406-r6"
-        "tor.confd::${_url}/net-misc/tor/files/tor.confd"
-        "tor.initd::${_url}/net-misc/tor/files/tor.initd-r8"
+        "tor.confd::${_url}/net-vpn/tor/files/tor.confd"
+        "tor.initd::${_url}/net-vpn/tor/files/tor.initd-r8"
         "nginx.confd::${_url}/www-servers/nginx/files/nginx.confd"
         "nginx.initd::${_url}/www-servers/nginx/files/nginx.initd-r4"
         "vnstatd.confd::${_url}/net-analyzer/vnstat/files/vnstatd.confd"
@@ -137,8 +114,7 @@ source=("${_dev_url}/gentoo-apache-${_apver}-${_aprel}.tar.bz2"
         "snort.initd::${_url}/net-analyzer/snort/files/snort.rc12"
         "unbound.confd::${_url}/net-dns/unbound/files/unbound.confd"
         "unbound.initd::${_url}/net-dns/unbound/files/unbound.initd")
-sha256sums=('d81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa'
-            '3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
+sha256sums=('3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
             'a1a25bd66fa2edac593e77c5469e110466b7d8dc1bfa3f72a49c7117196986a4'
             'dea35c48fdc94e475b427cb47ff47b914a66311afbd2d8397a833a60e4c1a7a4'
             'e8a413e9102948b336f60041fc3cade33125faf56d8319ee65d9f3c63199a8e7'
@@ -156,15 +132,6 @@ sha256sums=('d81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa'
             'bf8539b70561d9eb495f55141a5295a8c2e8246af4d1990af94e98be952dcdf9'
             '0be7c9c04ce508cbefb3e913951d83c5ed7f0e01fe5aebcf3a5071f30ef3dbc2'
             'aceed021f24b817347fdf216ccc61e7f34cb8fd831a377c2fbbf1230873498e2'
-            'c652a4fe8a43dc68a818345db2b3acc560663b5b6c969324d4f23afb0fb96a94'
-            '247456e845e70badb44d9155b68e5f76d502361769e4332a9d1bd6345f85fbfa'
-            'e8842fca856eae598fb8fe15ed8d3cef13e61851217be66b8cc4087af8cee8ad'
-            '56973f5c8196b4227114d94a1d3c8c95518be5a02c6b5dc97da243d0b6086843'
-            'dc21ce6ba28f45eb450d5d0dbe7e5ea706b1547c8bece4ddb6836a5433427bd6'
-            '04102bff9b13d2e7c4e30603e7c98fe412d5f6c907a37dcea95f420f153c29ae'
-            '83c318a7502718a3e1693869297b95db1c32270b37d45b26b2bc151ec06f3c08'
-            '272905335a7c82034c6bac007bd4477aae21d8ce49e82355c48301db771ba77e'
-            '6f3d93442db0c17436547a16155e0d61dd5cd17f49fd3a642a9a5de833411d51'
             '5bca003ec3b67c7c78519aede1d82002579006ccfecce8f87b559df719f82e92'
             'bcd84fca8efc1eec3aea489f238b51ce7226ffcdb1562044e48106897bc5a6fc'
             '903fdfdd8a5b482af011fc12f9050a9afceac09e4eed9e9cd4fa58240ab61349'
@@ -173,10 +140,6 @@ sha256sums=('d81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa'
             '81c0bf86e26770ae9e522fcce86ab05528d37ce8ad3ce1bcf17250bbd0285a6a'
             '34cb4ef8067b9001005931c30ab87be41f47c20ef1185a3afbc86d3d6f01996e'
             '7a2e3996dd9dd02307b11ffb2dca8915490283820a6b6c124d808a38badcc505'
-            '00d1dfb3b893db5d6a213a4edda622c7d64dcafa40b3019f15e070c164286632'
-            '2a4dc1f695a881d0715e6220dad54b3690d98bf26b618b0fe6cb4ab26823e047'
-            'ef7eec0fd1921f786580169628c9cc7af82c73d0b2cf420fba0e87f8fd428651'
-            'da992f87b5043e22dfd340b4a5440b76dce29cc14d3ef7b0ce586726fe4b220b'
             'de758791b16b89a648c01867af7f51bc9bd44e40cbe868e439b753ff5d9572e5'
             'fc6240c77448d36cf3255e6c264737a6ce69424b5b62d0986eb322c4d8a1a85b'
             '53755809cc27fdbaf98752cd3da45b5c2bda62dd46fcc37570c6e237f7954ffa'
@@ -202,8 +165,8 @@ sha256sums=('d81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa'
             '5ee23ee05da536fb67456c034e757841b27bc8528d93d2bc835e7427fe77d05e'
             '330149a83684ddabe413d134d4c8efad4c88b18c2ab67165014deff5f7fffad2'
             '89f69bcd627868830c421bc6270f08a1c3edf1a1e5fbdedf33c7a7d530bdfccf'
-            '40803821f498267f6567436eedc18201b5ae4b5390d6872fb15a94200c2ac06f'
-            'cdccb5f0009d1498be90a3f423158d7a3c603a1398f8993ae6fb828224a7cdaa'
+            '91fb1497b3a6ef0bb3a3d5baefdff801d8ff1cba27aaf742303415550814a09b'
+            'e3ddd2620be927f66e9fb325ad3dbe89e7845b5a30de09fbe25fad2d13df641b'
             '41d780f291847e19f632428bbf27c3f289414afd237546d2974da1b75384c25c'
             'b637006715ab1cb0b321dc9e703b1dcaf61878c13134669eabebe4b422da96d3'
             '29677faab40d1fff740d743614788fd73c8c2d4167c3bd64d3e8bd4b0eb90d2b'
@@ -230,31 +193,6 @@ _inst_initd(){
 
 _inst_confd(){
 	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
-}
-
-package_apache-openrc() {
-	pkgdesc="OpenRC apache init script"
-	depends=('openrc' 'apache')
-	backup=('etc/conf.d/httpd')
-
-	install -Dm644 "${srcdir}/gentoo-apache-${_apver}/init/apache2.confd" "${pkgdir}/etc/conf.d/httpd"
-	install -Dm755 "${srcdir}/gentoo-apache-${_apver}/init/apache2.initd" "${pkgdir}/etc/init.d/httpd"
-
-	sed -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
-            -e 's|/usr/sbin/apache2|/usr/bin/apachectl|' \
-            -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
-            -e 's/! test -f/test -f/' \
-            -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
-            -e 's|apache2.pid|httpd/httpd.pid|' \
-            -e 's|apache2 >/dev/null|httpd >/dev/null|' \
-            -e 's|/run/apache_ssl_mutex|/run/httpd|' \
-            -i "${pkgdir}/etc/init.d/httpd"
-
-	sed -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
-            -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
-            -e 's|apache2.pid|httpd/httpd.pid|' \
-            -e 's|apache2|httpd|g' \
-            -i "${pkgdir}/etc/conf.d/httpd"
 }
 
 package_autofs-openrc() {
@@ -377,42 +315,6 @@ package_lighttpd-openrc() {
             -i "${pkgdir}/etc/init.d/lighttpd"
 }
 
-package_rpcbind-openrc() {
-	pkgdesc="OpenRC rpcbind init script"
-	depends=('openrc' 'rpcbind')
-# 	backup=('etc/conf.d/rpcbind')
-
-# 	_inst_confd 'rpcbind'
-	_inst_initd 'rpcbind'
-
-	sed -e 's|/sbin|/usr/bin|g' \
-            -e 's|RPCBIND_OPTS|RPCBIND_ARGS|' \
-            -i "${pkgdir}/etc/init.d/rpcbind"
-}
-
-package_nfs-utils-openrc() {
-	pkgdesc="OpenRC nfs-utils init script"
-	depends=('nfs-utils' 'rpcbind-openrc' 'device-mapper-openrc')
-	optdepends=('ypbind-openrc: ypbind initscript'
-		'quota-tools-openrc: quota-tools initscript'
-		'bind-openrc: bind initscript')
-	backup=('etc/conf.d/nfs'
-		'etc/conf.d/nfsclient')
-
-        for f in nfs nfsclient;do
-            _inst_confd $f
-            _inst_initd $f
-        done
-
-        for f in rpc.gssd rpc.idmapd rpc.pipefs rpc.statd rpc.svcgssd;do
-            _inst_initd $f
-        done
-
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/usr/sbin|/usr/bin|g' -i $f
-	done
-}
-
 package_openntpd-openrc() {
 	pkgdesc="OpenRC openntpd init script"
 	depends=('openrc' 'openntpd')
@@ -514,21 +416,6 @@ package_privoxy-openrc() {
             -e 's|/usr/sbin|/usr/bin|g' \
             -e "${_runpath}" \
             -i "${pkgdir}/etc/init.d/privoxy"
-}
-
-package_quota-tools-openrc() {
-	pkgdesc="OpenRC quota-tools init script"
-	depends=('quota-tools' 'rpcbind-openrc')
-	optdepends=('ypbind-openrc: ypbind initscript')
-	backup=('etc/conf.d/quota')
-
-	_inst_confd 'quota'
-	_inst_initd 'quota'
-	_inst_initd 'rpc.rquotad'
-
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/usr/sbin|/usr/bin|g' -i $f
-	done
 }
 
 package_rsync-openrc() {
