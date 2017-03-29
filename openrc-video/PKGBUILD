@@ -8,11 +8,11 @@ _prefix=true
 $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgbase=openrc-video
-pkgname=('nvidia-utils-openrc'
-        'virtualgl-openrc'
+pkgname=(#'nvidia-utils-openrc'
+        #'virtualgl-openrc'
         'bumblebee-openrc')
         #'catalyst-utils-openrc'
-pkgver=20170314
+pkgver=20170324
 pkgrel=1
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
