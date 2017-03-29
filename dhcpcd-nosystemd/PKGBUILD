@@ -7,12 +7,12 @@ _pkgname=dhcpcd
 
 pkgname=dhcpcd-nosystemd
 pkgver=6.11.5
-pkgrel=1
+pkgrel=2
 pkgdesc="RFC2131 compliant DHCP client daemon"
 url="http://roy.marples.name/projects/dhcpcd/"
 arch=('i686' 'x86_64')
 license=('BSD')
-groups=('base')
+groups=('base-nosystemd')
 depends=('glibc' 'sh' 'eudev')
 optdepends=('openresolv: resolvconf support')
 provides=('dhcp-client' "$_pkgname")
@@ -55,8 +55,4 @@ package() {
 
   # Set Options in /etc/dhcpcd.conf
   echo noipv4ll >> "${pkgdir}/etc/dhcpcd.conf" # Disable ip4vall
-
-  # install systemd files
-#   install -Dm644 "${srcdir}/dhcpcd_.service" "${pkgdir}/usr/lib/systemd/system/dhcpcd@.service"
-#   install -Dm644 "${srcdir}/dhcpcd.service" "${pkgdir}/usr/lib/systemd/system/dhcpcd.service" # FS#31543
 }
