@@ -7,19 +7,19 @@ pkgname=('xorg-server-nosystemd' 'xorg-server-xephyr-nosystemd' 'xorg-server-xdm
 		 'xorg-server-xnest-nosystemd' 'xorg-server-xwayland-nosystemd' 'xorg-server-common-nosystemd' 'xorg-server-devel-nosystemd')
 _pkgbase=xorg-server
 pkgver=1.19.3
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 license=('custom')
-groups=('xorg-nosystemd')
+groups=('xorg-nosystemd' 'elogind-nosystemd')
 url="http://xorg.freedesktop.org"
-makedepends=('pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscproto' 'xtrans' 'bigreqsproto' 'randrproto' 
+makedepends=('pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscproto' 'xtrans' 'bigreqsproto' 'randrproto'
              'inputproto' 'fontsproto' 'videoproto' 'presentproto' 'compositeproto' 'recordproto' 'scrnsaverproto'
              'resourceproto' 'xineramaproto' 'libxkbfile' 'libxfont2' 'renderproto' 'libpciaccess' 'libxv'
              'xf86dgaproto' 'libxmu' 'libxrender' 'libxi' 'dmxproto' 'libxaw' 'libdmx' 'libxtst' 'libxres'
              'xorg-xkbcomp' 'xorg-util-macros' 'xorg-font-util' 'glproto' 'dri2proto' 'libgcrypt' 'libepoxy'
              'xcb-util' 'xcb-util-image' 'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'dri3proto'
              'libxshmfence' 'libunwind' 'wayland-protocols' 'eudev' 'dbus-elogind' 'libgl' 'xkeyboard-config'
-             'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xauth' 'xf86-input-libinput-nosystemd')
+             'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xauth' 'xf86-input-libinput-nosystemd'  'elogind')
 source=("https://xorg.freedesktop.org/releases/individual/xserver/${_pkgbase}-${pkgver}.tar.bz2"
         'nvidia-add-modulepath-support.patch'
         'xvfb-run'
@@ -36,7 +36,7 @@ prepare() {
 
     # merged upstream in trunk
     patch -Np1 -i ../nvidia-add-modulepath-support.patch
-    
+
     patch -Np1 -i ../xserver-autobind-hotplug.patch
 
     autoreconf -vfi
@@ -61,7 +61,7 @@ build() {
         --enable-kdrive-kbd \
         --enable-kdrive-mouse \
         --enable-config-udev \
-        --disable-systemd-logind \
+        --enable-systemd-logind \
         --enable-suid-wrapper \
         --enable-install-setuid \
         --enable-record \
@@ -76,7 +76,7 @@ build() {
         --with-fontrootdir=/usr/share/fonts \
         --with-sha1=libgcrypt \
         --without-systemd-daemon
-        
+
     #      --without-dtrace \
     #      --disable-linux-acpi --disable-linux-apm \
 
@@ -102,7 +102,7 @@ package_xorg-server-common-nosystemd() {
     cd "${_pkgbase}-${pkgver}"
     install -m755 -d "${pkgdir}/usr/share/licenses/xorg-server-common"
     install -m644 COPYING "${pkgdir}/usr/share/licenses/xorg-server-common"
-    
+
     make -C xkb DESTDIR="${pkgdir}" install-data
 
     install -m755 -d "${pkgdir}/usr/share/man/man1"
@@ -115,7 +115,7 @@ package_xorg-server-common-nosystemd() {
 package_xorg-server-nosystemd() {
     pkgdesc="Xorg X server"
     depends=('libepoxy' 'libxfont2' 'pixman' 'xorg-server-common-nosystemd' 'libunwind' 'dbus-elogind'
-                'libgl' 'eudev' 'libpciaccess' 'libdrm' 'libxshmfence' 'xf86-input-libinput-nosystemd') 
+                'libgl' 'eudev' 'elogind' 'libpciaccess' 'libdrm' 'libxshmfence' 'xf86-input-libinput-nosystemd')
     # FS#52949
     # see xorg-server-*/hw/xfree86/common/xf86Module.h for ABI versions - we provide major numbers that drivers can depend on
     # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
@@ -217,8 +217,8 @@ package_xorg-server-xwayland-nosystemd() {
 package_xorg-server-devel-nosystemd() {
     pkgdesc="Development files for the X.Org X server"
     depends=(# see pkgdir/usr/lib/pkgconfig/xorg-server.pc
-            'xproto' 'randrproto' 'renderproto' 'xextproto' 'inputproto' 'kbproto' 
-            'fontsproto' 'pixman' 'videoproto' 'xf86driproto' 'glproto' 
+            'xproto' 'randrproto' 'renderproto' 'xextproto' 'inputproto' 'kbproto'
+            'fontsproto' 'pixman' 'videoproto' 'xf86driproto' 'glproto'
             'mesa' 'dri2proto' 'dri3proto' 'xineramaproto' 'libpciaccess'
             'resourceproto' 'scrnsaverproto' 'presentproto'
             # not technically required but almost every Xorg pkg needs it to build

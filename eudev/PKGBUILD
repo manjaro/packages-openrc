@@ -7,18 +7,18 @@ _udev_ver=220
 pkgbase=eudev
 pkgname=('eudev' 'libeudev')
 pkgver=3.2.1
-pkgrel=5
+pkgrel=6
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
-makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod' 'util-linux-nosystemd')
-options=('!libtool' '!staticlibs')
+makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod')
+options=('!libtool')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
-    'initcpio_hooks'
-    'initcpio_install'
-    'udev-hwdb.hook'
-    "gperf-build-fix.patch::https://github.com/gentoo/eudev/commit/5bab4d8de0dcbb8e2e7d4d5125b4aea1652a0d60.patch"
-    "global-properties-fix.patch::https://github.com/gentoo/eudev/commit/90a8c95446b345cc9b388fdb30866e1cb77fe711.patch")
+        'initcpio_hooks'
+        'initcpio_install'
+        'udev-hwdb.hook'
+        "gperf-build-fix.patch::https://github.com/gentoo/eudev/commit/5bab4d8de0dcbb8e2e7d4d5125b4aea1652a0d60.patch"
+        "global-properties-fix.patch::https://github.com/gentoo/eudev/commit/90a8c95446b345cc9b388fdb30866e1cb77fe711.patch")
 sha256sums=('88f530c1540750e6daa91b5eaeebf88e761e6f0c86515c1c28eedfd871f027c6'
             '892ce43218e0a458981bbce451252c8987dc398e60b8de288e7542b8f2409c13'
             '77dd1fd318b4456409aceb077f060b87944defb07cf39d29ad1968dc6f361875'

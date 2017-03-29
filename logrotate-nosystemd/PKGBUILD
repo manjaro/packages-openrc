@@ -1,0 +1,60 @@
+# Maintainer: 0strodamus <0strodamus at cox dot net>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+#
+# logrotate with cron daily job restored from logrotate-3.8.7-1
+
+pkgname=logrotate-nosystemd
+_pkgname=logrotate
+pkgver=3.11.0
+pkgrel=1
+pkgdesc="Rotates system logs automatically"
+arch=('i686' 'x86_64')
+url="https://github.com/logrotate/logrotate"
+license=('GPL')
+# groups=('base')
+depends=('popt' 'gzip' 'acl')
+optdepends=('cron: scheduled log rotation')
+provides=('logrotate')
+conflicts=('logrotate')
+# replaces=('logrotate')
+backup=('etc/logrotate.conf')
+source=("https://github.com/logrotate/logrotate/releases/download/${pkgver}/${_pkgname}-${pkgver}.tar.xz"
+        'paths.patch'
+        'logrotate.conf'
+        'logrotate.cron.daily')
+sha256sums=('18ae0f2ec1f14d9550c9f6bd9a2b6a18440e6a0fd7d5923a6e3fcb7d45946261'
+            '403acf881abec733399d32ba8aebf2ea59cef68f3b1e95b2372a9d58137d0bb6'
+            '42e289081a4d6b144c89dbfc49bde7a01b383055bf90a05a764f8c3dee25a6ce'
+            '929b49a7383bb35db51ff625e622304e4e00b131886058e64d298b11cad19301')
+
+# validpgpkeys=('992A96E075056E79CD8214F9873DB37572A37B36')
+
+build() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+
+	patch -p0 -i "$srcdir/paths.patch"
+
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--sbindir=/usr/bin \
+		--mandir=/usr/share/man \
+		--with-acl
+	make
+}
+
+check() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+
+	make test
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+
+	make DESTDIR="${pkgdir}" install
+
+	install -dm755 "${pkgdir}/etc/logrotate.d"
+	install -Dm644 "${srcdir}/logrotate.conf" "${pkgdir}/etc/logrotate.conf"
+	install -Dm744 "${srcdir}/logrotate.cron.daily" "${pkgdir}/etc/cron.daily/logrotate"
+}

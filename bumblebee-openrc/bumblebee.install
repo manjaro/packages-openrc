@@ -1,0 +1,36 @@
+_svc="bumblebee"
+_rlvl="default"
+
+add_users() {
+    _l="/etc/login.defs"
+    _p="/etc/passwd"
+
+    ## get mini UID limit ##
+    l=$(grep "^UID_MIN" $_l)
+
+    ## get max UID limit ##
+    l1=$(grep "^UID_MAX" $_l)
+
+    ## use awk to print if UID >= $MIN and UID <= $MAX and shell is not /sbin/nologin   ##
+    users=$(awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max  && $7 != "/sbin/nologin" ) print $0 }' "$_p" | cut -d: -f1)
+    for i in $users; do
+        echo "Adding user '$i' to user-group 'bumblebee'"
+        usermod -a -G bumblebee $i
+    done
+}
+
+post_install() {
+	_cmd="rc-update add ${_svc} ${_rlvl}"
+	echo "	==> run '${_cmd}'"
+}
+
+post_upgrade() {
+	post_install "$1"
+	getent group "bumblebee" &>/dev/null || groupadd -g 56 bumblebee
+	add_users
+}
+
+post_remove() {
+	_cmd="rc-update del ${_svc} ${_rlvl}"
+	echo "	==> run '${_cmd}'"
+}
