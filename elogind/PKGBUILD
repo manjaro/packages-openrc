@@ -3,7 +3,7 @@
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
 pkgver=226.4
-pkgrel=2
+pkgrel=3
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64')
 url="https://github.com/elogind/elogind"
@@ -42,8 +42,8 @@ package_elogind() {
     groups=('base-nosystemd' 'elogind-nosystemd')
     provides=("elogind=${pkgver}")
     depends=('acl' 'dbus-elogind' 'polkit-elogind' 'eudev' 'libseccomp')
-    conflicts=('systemd-sysvcompat' 'consolekit')
-    # replaces=('consolekit')
+    conflicts=('systemd-sysvcompat' 'consolekit' 'cgmanager' 'pm-utils')
+    replaces=('consolekit' 'cgmanager' 'pm-utils')
     optdepends=('elogind-openrc: elogind initscript')
     install=elogind.install
 

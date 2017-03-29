@@ -77,7 +77,7 @@ pkgver() {
 
 _inst_initd(){
     install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
-    
+
     sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
@@ -141,7 +141,7 @@ package_elogind-openrc() {
     groups=('openrc-desktop')
     depends=('elogind' 'dbus-openrc' 'udev-openrc')
     conflicts=('consolekit-openrc')
-# 	replaces=('consolekit-openrc')
+    replaces=('consolekit-openrc' 'cgmanager-openrc')
 
     _inst_confd 'elogind'
     _inst_initd 'elogind'
