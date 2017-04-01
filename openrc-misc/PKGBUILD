@@ -3,7 +3,7 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g')
-_prefix=true
+prefix=true
 
 $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
@@ -15,7 +15,6 @@ pkgname=('cpupower-openrc'
         'metalog-openrc'
         'rsyslog-openrc'
         'sane-openrc'
-        'syslog-ng-openrc'
         'lirc-utils-openrc'
         'lm_sensors-openrc'
         'ntp-openrc'
@@ -34,7 +33,7 @@ pkgname=('cpupower-openrc'
         'at-openrc'
         'libvirt-openrc'
         'laptop-mode-tools-openrc')
-pkgver=20170309
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -50,8 +49,6 @@ source=("fcron.initd::${_url}/sys-process/fcron/files/fcron.init.3"
         "fuse.initd::${_url}/sys-fs/fuse/files/fuse.init"
         "metalog.confd::${_url}/app-admin/metalog/files/metalog.confd"
         "metalog.initd::${_url}/app-admin/metalog/files/metalog.initd"
-        "syslog-ng.confd::${_url}/app-admin/syslog-ng/files/3.7/syslog-ng.confd"
-        "syslog-ng.initd::${_url}/app-admin/syslog-ng/files/3.7/syslog-ng.rc6"
         "lircd.confd::${_url}/app-misc/lirc/files/lircd.conf.4"
         "irexec.confd::${_url}/app-misc/lirc/files/irexec-confd"
         "lircd.initd::${_url}/app-misc/lirc/files/lircd-0.8.6-r2"
@@ -112,8 +109,6 @@ sha256sums=('af951e342ea3e96fb5294c54bdf226b0e733df8b96e8af9e4c1a836c0361ceca'
             '66ce65e2459fef26bb1711d706a23643a9af7a80e03ee6be836a377310b00682'
             'dd9d30a6c22dca6d072a9c63e1494d3d0a26709a5f045ce5985642933fe24efc'
             '78e372a0c04c36e590a66d0750083fcb6302159eaae06a81c19a379e6115087e'
-            'b29325498ee3b1f3d63672efcd1e93f0745eecdb9f4bb05fed82a2f085399484'
-            '5c4ad3406fc885555883de0537614034de181d783bcb1e864bff6299ac6c1356'
             'd36ff77fa193a065d25e373723e03f1a9471205151b82c73a6574cce4f095962'
             'c404ad3b624004cab25bd3a89593cdeb0abbc25771d6e52caf2f37cb4f7b2b79'
             'ec592af12a7b7bbe1be1b9a4ff72fcf1fda6cf0e4511120e5a85e2a4ef08b213'
@@ -167,290 +162,277 @@ sha256sums=('af951e342ea3e96fb5294c54bdf226b0e733df8b96e8af9e4c1a836c0361ceca'
             '4bbb4e610d2d6bb22d83aa2980dca052a23b90fa6985c8245601b716dec986f4')
 
 pkgver() {
-	date +%Y%m%d
+    date +%Y%m%d
 }
 
 _inst_initd(){
-	install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
 
-	sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
+    sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){
-	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
 }
 
 package_bitlbee-openrc() {
-	pkgdesc="OpenRC bitlbee init script"
-	depends=('openrc' 'bitlbee')
-	backup=('etc/conf.d/bitlbee')
+    pkgdesc="OpenRC bitlbee init script"
+    depends=('openrc' 'bitlbee')
+    backup=('etc/conf.d/bitlbee')
 
-	_inst_confd 'bitlbee'
-	_inst_initd 'bitlbee'
+    _inst_confd 'bitlbee'
+    _inst_initd 'bitlbee'
 
-	sed -e 's|need logger net|need net\n	use logger|' \
-		-i "${pkgdir}/etc/init.d/bitlbee"
+    sed -e 's|need logger net|need net\n	use logger|' \
+        -i "${pkgdir}/etc/init.d/bitlbee"
 }
 
 package_cpupower-openrc() {
-	pkgdesc="OpenRC cpupower init script"
-	depends=('openrc' 'cpupower')
-	backup=('etc/conf.d/cpupower')
+    pkgdesc="OpenRC cpupower init script"
+    depends=('openrc' 'cpupower')
+    backup=('etc/conf.d/cpupower')
 
-	_inst_confd 'cpupower'
-	_inst_initd 'cpupower'
+    _inst_confd 'cpupower'
+    _inst_initd 'cpupower'
 }
 
 package_connman-openrc() {
-	pkgdesc="OpenRC connman init script"
-	depends=('openrc' 'connman')
-	backup=('etc/conf.d/connman')
+    pkgdesc="OpenRC connman init script"
+    depends=('openrc' 'connman')
+    backup=('etc/conf.d/connman')
 
-	_inst_confd 'connman'
-	_inst_initd 'connman'
+    _inst_confd 'connman'
+    _inst_initd 'connman'
 }
 
 package_cups-openrc() {
-	pkgdesc="OpenRC cups init script"
-	depends=('cups' 'dbus-openrc')
-	optdepends=('avahi-openrc: avahi initscript')
+    pkgdesc="OpenRC cups init script"
+    depends=('cups-nosystemd' 'dbus-openrc')
+    optdepends=('avahi-openrc: avahi initscript')
 
-	_inst_initd 'cupsd'
+    _inst_initd 'cupsd'
 
-	sed -e 's|lp:lpadmin|daemon:sys|' \
-		-e 's|@neededservices@|need dbus avahi-daemon|' \
-		-i "${pkgdir}/etc/init.d/cupsd"
+    sed -e 's|lp:lpadmin|daemon:sys|' \
+        -e 's|@neededservices@|need dbus avahi-daemon|' \
+        -i "${pkgdir}/etc/init.d/cupsd"
 }
 
 package_fcron-openrc() {
-	pkgdesc="OpenRC fcron init script"
-	depends=('openrc' 'fcron')
-	groups=('openrc-misc')
-	provides=('openrc-cron')
-	conflicts=('cronie'
-		'cronie-openrc'
-		'systemd-sysvcompat')
+    pkgdesc="OpenRC fcron init script"
+    depends=('openrc' 'fcron')
+    groups=('openrc-misc')
+    provides=('openrc-cron')
+    conflicts=('cronie' 'cronie-openrc' 'systemd-sysvcompat')
 
-	_inst_initd 'fcron'
+    _inst_initd 'fcron'
 
     sed -e 's|/usr/libexec|/usr/bin|g' \
-		-i "${pkgdir}/etc/init.d/fcron"
+        -i "${pkgdir}/etc/init.d/fcron"
 }
 
 package_ntp-openrc() {
-	pkgdesc="OpenRC ntp init script"
-	depends=('openrc' 'ntp')
-	optdepends=('bind-openrc: bind initscript')
-	provides=('openrc-timed')
-	conflicts=('openntpd'
-                'openntpd-openrc'
-                'systemd-sysvcompat')
-	backup=('etc/conf.d/ntpd'
-		'etc/conf.d/ntp-client'
-		'etc/init.d/sntp')
+    pkgdesc="OpenRC ntp init script"
+    depends=('openrc' 'ntp')
+    optdepends=('bind-openrc: bind initscript')
+    provides=('openrc-timed')
+    conflicts=('openntpd' 'openntpd-openrc' 'systemd-sysvcompat')
+    backup=('etc/conf.d/ntpd'
+            'etc/conf.d/ntp-client'
+            'etc/init.d/sntp')
 
-        for f in ntpd ntp-client sntp;do
-            _inst_confd $f
-            _inst_initd $f
-        done
+    for f in ntpd ntp-client sntp;do
+        _inst_confd $f
+        _inst_initd $f
+    done
 }
 
 package_rsyslog-openrc() {
-	pkgdesc="OpenRC rsyslog init script"
-	depends=('openrc' 'rsyslog')
-	backup=('etc/conf.d/rsyslog')
+    pkgdesc="OpenRC rsyslog init script"
+    depends=('openrc' 'rsyslog')
+    backup=('etc/conf.d/rsyslog')
 
-	_inst_confd 'rsyslog'
-	_inst_initd 'rsyslog'
+    _inst_confd 'rsyslog'
+    _inst_initd 'rsyslog'
 }
 
 package_sane-openrc() {
-	pkgdesc="OpenRC sane init script"
-	depends=('openrc' 'sane')
-	backup=('etc/conf.d/saned')
+    pkgdesc="OpenRC sane init script"
+    depends=('openrc' 'sane')
+    backup=('etc/conf.d/saned')
 
-	_inst_confd 'saned'
-	_inst_initd 'saned'
+    _inst_confd 'saned'
+    _inst_initd 'saned'
 
     sed -e 's|/run/saned/saned.pid|/run/saned.pid|' \
-		-i ${pkgdir}/etc/init.d/saned
+        -i ${pkgdir}/etc/init.d/saned
 }
 
 package_fuse-openrc(){
-	pkgdesc="OpenRC fuse init script"
-	depends=('openrc' 'fuse')
+    pkgdesc="OpenRC fuse init script"
+    depends=('openrc' 'fuse')
 
-	_inst_initd 'fuse'
+    _inst_initd 'fuse'
 }
 
 package_metalog-openrc() {
-	pkgdesc="OpenRC metalog init script"
-	depends=('openrc' 'metalog')
-	backup=('etc/conf.d/metalog')
+    pkgdesc="OpenRC metalog init script"
+    depends=('openrc' 'metalog')
+    backup=('etc/conf.d/metalog')
 
-	_inst_confd 'metalog'
-	_inst_initd 'metalog'
-}
-
-package_syslog-ng-openrc() {
-	pkgdesc="OpenRC syslog-ng init script"
-	depends=('openrc' 'syslog-ng')
-	backup=('etc/conf.d/syslog-ng')
-
-	_inst_confd 'syslog-ng'
-	_inst_initd 'syslog-ng'
+    _inst_confd 'metalog'
+    _inst_initd 'metalog'
 }
 
 package_lm_sensors-openrc() {
-	pkgdesc="OpenRC lm_sensors init script"
-	depends=('openrc' 'lm_sensors')
-	#backup=('etc/conf.d/sensord')
+    pkgdesc="OpenRC lm_sensors init script"
+    depends=('openrc' 'lm_sensors')
+    #backup=('etc/conf.d/sensord')
 
-	_inst_initd 'sensord'
-	_inst_initd 'fancontrol'
-	_inst_initd 'lm_sensors'
+    _inst_initd 'sensord'
+    _inst_initd 'fancontrol'
+    _inst_initd 'lm_sensors'
 }
 
 package_lirc-utils-openrc() {
-	pkgdesc="OpenRC lirc-utils init script"
-	depends=('openrc' 'lirc-utils')
-	backup=('etc/conf.d/lircd'
-		'etc/conf.d/irexec')
+    pkgdesc="OpenRC lirc-utils init script"
+    depends=('openrc' 'lirc-utils')
+    backup=('etc/conf.d/lircd'
+            'etc/conf.d/irexec')
 
 
-	for f in lircd irexec;do
-            _inst_confd $f
-            _inst_initd $f
-	done
+    for f in lircd irexec;do
+        _inst_confd $f
+        _inst_initd $f
+    done
 
-	_inst_initd 'lircmd'
+    _inst_initd 'lircmd'
 }
 
 package_haveged-openrc() {
-	pkgdesc="OpenRC haveged init script"
-	depends=('openrc' 'haveged')
-	backup=('etc/conf.d/haveged')
+    pkgdesc="OpenRC haveged init script"
+    depends=('openrc' 'haveged')
+    backup=('etc/conf.d/haveged')
 
-	_inst_confd 'haveged'
-	_inst_initd 'haveged'
+    _inst_confd 'haveged'
+    _inst_initd 'haveged'
 }
 
 package_salt-openrc() {
-	pkgdesc="OpenRC salt init scripts"
-	depends=('openrc' 'salt')
-	backup=('etc/conf.d/salt-master'
-		'etc/conf.d/salt-minion'
-		'etc/conf.d/salt-syncdic'
-		'etc/conf.d/salt-api')
+    pkgdesc="OpenRC salt init scripts"
+    depends=('openrc' 'salt')
+    backup=('etc/conf.d/salt-master'
+            'etc/conf.d/salt-minion'
+            'etc/conf.d/salt-syncdic'
+            'etc/conf.d/salt-api')
 
-        for f in salt-master salt-minion salt-syncdic salt-api;do
-            _inst_confd $f
-            _inst_initd $f
-        done
+    for f in salt-master salt-minion salt-syncdic salt-api;do
+        _inst_confd $f
+        _inst_initd $f
+    done
 }
 
 package_mpd-openrc(){
-	pkgdesc="OpenRC fuse init script"
-	depends=('openrc' 'mpd')
+    pkgdesc="OpenRC fuse init script"
+    depends=('openrc' 'mpd')
 
-	_inst_initd 'mpd'
+    _inst_initd 'mpd'
 }
 
 package_hdparm-openrc() {
-	pkgdesc="OpenRC hdparm init script"
-	depends=('openrc' 'hdparm')
-	backup=('etc/conf.d/hdparm')
+    pkgdesc="OpenRC hdparm init script"
+    depends=('openrc' 'hdparm')
+    backup=('etc/conf.d/hdparm')
 
-	_inst_confd 'hdparm'
-	_inst_initd 'hdparm'
+    _inst_confd 'hdparm'
+    _inst_initd 'hdparm'
 }
 
 package_thermald-openrc() {
-	pkgdesc="OpenRC thermald init script"
-	depends=('dbus-openrc' 'thermald')
+    pkgdesc="OpenRC thermald init script"
+    depends=('dbus-openrc' 'thermald')
 
-	_inst_initd 'thermald'
+    _inst_initd 'thermald'
 }
 
 package_xe-guest-utilities-openrc() {
-	pkgdesc="OpenRC xe-guest-utilities init script"
-	depends=('openrc' 'xe-guest-utilities')
+    pkgdesc="OpenRC xe-guest-utilities init script"
+    depends=('openrc' 'xe-guest-utilities')
 
-	_inst_initd 'xe-daemon'
+    _inst_initd 'xe-daemon'
 }
 
 package_virtualbox-guest-utils-openrc() {
-	pkgdesc="OpenRC virtualbox-guest-utils init script"
-	depends=('openrc' 'virtualbox-guest-utils')
+    pkgdesc="OpenRC virtualbox-guest-utils init script"
+    depends=('openrc' 'virtualbox-guest-utils')
 
-	_inst_initd 'vboxservice'
+    _inst_initd 'vboxservice'
 
-	sed -e 's|vboxguest-service|VBoxService|' \
-		-e 's|/sbin/modprobe|/usr/bin/modprobe|g' \
-		-i "${pkgdir}/etc/init.d/vboxservice"
+    sed -e 's|vboxguest-service|VBoxService|' \
+        -e 's|/sbin/modprobe|/usr/bin/modprobe|g' \
+        -i "${pkgdir}/etc/init.d/vboxservice"
 }
 
 package_zfs-openrc() {
-	pkgdesc="OpenRC zfs init script"
-	depends=('openrc' 'zfs-utils')
+    pkgdesc="OpenRC zfs init script"
+    depends=('openrc' 'zfs-utils')
 
-	_inst_initd 'zfs'
+    _inst_initd 'zfs'
 }
 
 package_clamav-openrc() {
-	pkgdesc="OpenRC clamav init script"
-	depends=('openrc' 'clamav')
-	backup=('etc/conf.d/clamd')
+    pkgdesc="OpenRC clamav init script"
+    depends=('openrc' 'clamav')
+    backup=('etc/conf.d/clamd')
 
-	_inst_confd 'clamd'
-	_inst_initd 'clamd'
+    _inst_confd 'clamd'
+    _inst_initd 'clamd'
 }
 
 package_boinc-openrc() {
-	pkgdesc="OpenRC boinc init script"
-	depends=('openrc' 'boinc')
-	backup=('etc/conf.d/boinc')
+    pkgdesc="OpenRC boinc init script"
+    depends=('openrc' 'boinc')
+    backup=('etc/conf.d/boinc')
 
-	_inst_confd 'boinc'
-	_inst_initd 'boinc'
+    _inst_confd 'boinc'
+    _inst_initd 'boinc'
 }
 
 package_at-openrc() {
-	pkgdesc="OpenRC at init script"
-	depends=('openrc' 'at')
-	backup=('etc/conf.d/atd')
+    pkgdesc="OpenRC at init script"
+    depends=('openrc' 'at')
+    backup=('etc/conf.d/atd')
 
-	_inst_confd 'atd'
-	_inst_initd 'atd'
+    _inst_confd 'atd'
+    _inst_initd 'atd'
 
-	sed -e 's|/var/run|/run|g' \
-		-i "${pkgdir}/etc/conf.d/atd"
+    sed -e 's|/var/run|/run|g' \
+        -i "${pkgdir}/etc/conf.d/atd"
 }
 
 package_libvirt-openrc() {
-	pkgdesc="OpenRC libvirt init script"
-	depends=('openrc' 'libvirt')
-	backup=('etc/conf.d/libvirtd')
+    pkgdesc="OpenRC libvirt init script"
+    depends=('openrc' 'libvirt')
+    backup=('etc/conf.d/libvirtd')
 
-	_inst_confd 'libvirtd'
-	_inst_initd 'libvirtd'
-	_inst_initd 'virtlockd'
-	_inst_initd 'virtlogd'
+    _inst_confd 'libvirtd'
+    _inst_initd 'libvirtd'
+    _inst_initd 'virtlockd'
+    _inst_initd 'virtlogd'
 
-	_inst_confd 'libvirt-guests'
-	_inst_initd 'libvirt-guests'
+    _inst_confd 'libvirt-guests'
+    _inst_initd 'libvirt-guests'
 
-	sed -e "s/USE_FLAG_FIREWALLD/need firewalld/" \
-		-e "s/USE_FLAG_AVAHI/use avahi-daemon/" \
-		-e "s/USE_FLAG_ISCSI/use iscsid/" \
-		-e "s/USE_FLAG_RBD/use ceph/" \
-		-i "${pkgdir}/etc/init.d/libvirtd"
+    sed -e "s/USE_FLAG_FIREWALLD/need firewalld/" \
+        -e "s/USE_FLAG_AVAHI/use avahi-daemon/" \
+        -e "s/USE_FLAG_ISCSI/use iscsid/" \
+        -e "s/USE_FLAG_RBD/use ceph/" \
+        -i "${pkgdir}/etc/init.d/libvirtd"
 }
 
 package_laptop-mode-tools-openrc() {
-	pkgdesc="OpenRC laptop-mode init script"
-	depends=('openrc' 'laptop-mode-tools')
-	groups=('openrc-misc' 'openrc-mobile')
+    pkgdesc="OpenRC laptop-mode init script"
+    depends=('openrc' 'laptop-mode-tools')
+    groups=('openrc-misc' 'openrc-mobile')
 
-	_inst_initd 'laptop_mode'
+    _inst_initd 'laptop_mode'
 }

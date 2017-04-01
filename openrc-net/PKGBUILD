@@ -3,7 +3,7 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 _sed_args=(-e 's|/var/run|/run|g')
-_prefix=true
+prefix=true
 
 $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
@@ -40,7 +40,7 @@ pkgname=('autofs-openrc'
         'vnstat-openrc'
         'snort-openrc'
         'unbound-openrc')
-pkgver=20170309
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -165,8 +165,8 @@ sha256sums=('3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
             '5ee23ee05da536fb67456c034e757841b27bc8528d93d2bc835e7427fe77d05e'
             '330149a83684ddabe413d134d4c8efad4c88b18c2ab67165014deff5f7fffad2'
             '89f69bcd627868830c421bc6270f08a1c3edf1a1e5fbdedf33c7a7d530bdfccf'
-            '91fb1497b3a6ef0bb3a3d5baefdff801d8ff1cba27aaf742303415550814a09b'
-            'e3ddd2620be927f66e9fb325ad3dbe89e7845b5a30de09fbe25fad2d13df641b'
+            '40803821f498267f6567436eedc18201b5ae4b5390d6872fb15a94200c2ac06f'
+            'cdccb5f0009d1498be90a3f423158d7a3c603a1398f8993ae6fb828224a7cdaa'
             '41d780f291847e19f632428bbf27c3f289414afd237546d2974da1b75384c25c'
             'b637006715ab1cb0b321dc9e703b1dcaf61878c13134669eabebe4b422da96d3'
             '29677faab40d1fff740d743614788fd73c8c2d4167c3bd64d3e8bd4b0eb90d2b'
@@ -182,432 +182,420 @@ sha256sums=('3cf1ab72446cb9417de916e4cd732f2056fb74d2c6f03da6741b7bae8c415448'
             'fe18b49ea3c50bf17343581599953dac1cc190d1ea9aab1e69eab0b295420c76')
 
 pkgver() {
-	date +%Y%m%d
+    date +%Y%m%d
 }
 
 _inst_initd(){
-	install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
 
-	sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
+    sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){
-	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
 }
 
 package_autofs-openrc() {
-	pkgdesc="OpenRC autofs init script"
-	depends=('openrc' 'autofs')
+    pkgdesc="OpenRC autofs init script"
+    depends=('openrc' 'autofs')
 
-	_inst_initd 'autofs'
+    _inst_initd 'autofs'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/autofs"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/autofs"
 }
 
 package_bind-openrc() {
-	pkgdesc="OpenRC bind init script"
-	depends=('openrc' 'bind')
-	backup=('etc/conf.d/named')
+    pkgdesc="OpenRC bind init script"
+    depends=('openrc' 'bind')
+    backup=('etc/conf.d/named')
 
-	_inst_confd 'named'
-	_inst_initd 'named'
+    _inst_confd 'named'
+    _inst_initd 'named'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's|/etc/bind/named.conf|/etc/named.conf|g' \
-            -i "${pkgdir}/etc/init.d/named"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's|/etc/bind/named.conf|/etc/named.conf|g' \
+        -i "${pkgdir}/etc/init.d/named"
 }
 
 package_cyrus-sasl-openrc() {
-	pkgdesc="OpenRC cyrus-sasl init script"
-	depends=('openrc' 'cyrus-sasl')
+    pkgdesc="OpenRC cyrus-sasl init script"
+    depends=('openrc' 'cyrus-sasl')
 
-	_inst_initd 'saslauthd'
+    _inst_initd 'saslauthd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
+    sed -e 's|/usr/sbin|/usr/bin|g' \
             -i "${pkgdir}/etc/init.d/saslauthd"
 }
 
 package_dhcp-openrc() {
-	pkgdesc="OpenRC dhcp init script"
-	depends=('openrc' 'dhcp')
-	optdepends=('openldap-openrc: openldap initscript'
-			'bind-openrc: bind initscript')
-	backup=('etc/conf.d/dhcpd'
-			'etc/conf.d/dhcrelay'
-			'etc/conf.d/dhcrelay6')
-	install=dhcp.install
+    pkgdesc="OpenRC dhcp init script"
+    depends=('openrc' 'dhcp')
+    backup=('etc/conf.d/dhcpd'
+            'etc/conf.d/dhcrelay'
+            'etc/conf.d/dhcrelay6')
+    install=dhcp.install
 
-        for f in dhcpd dhcrelay;do
-            _inst_confd $f
-            _inst_initd $f
-        done
+    for f in dhcpd dhcrelay;do
+        _inst_confd $f
+        _inst_initd $f
+    done
 #
-	_inst_confd 'dhcrelay6'
+    _inst_confd 'dhcrelay6'
 # 	_inst_initd 'dhcrelay6'
 
-	install -Dm755 "${srcdir}/dhcrelay.initd" "${pkgdir}/etc/init.d/dhcrelay6"
+    install -Dm755 "${srcdir}/dhcrelay.initd" "${pkgdir}/etc/init.d/dhcrelay6"
 
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/usr/sbin|/usr/bin|g' \
-                -e 's|#@slapd@|ldap slapd|' \
-                -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*;do
+        sed -e 's|/usr/sbin|/usr/bin|g' \
+            -e 's|#@slapd@|ldap slapd|' \
+            -i $f
+    done
 }
 
 package_hostapd-openrc() {
-	pkgdesc="OpenRC hostapd init script"
-	depends=('openrc' 'hostapd')
-	backup=('etc/conf.d/hostapd')
+    pkgdesc="OpenRC hostapd init script"
+    depends=('openrc' 'hostapd')
+    backup=('etc/conf.d/hostapd')
 
-	_inst_confd 'hostapd'
-	_inst_initd 'hostapd'
+    _inst_confd 'hostapd'
+    _inst_initd 'hostapd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/hostapd"
+    sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/hostapd"
 }
 
 package_iptables-openrc() {
-	pkgdesc="OpenRC iptables init script"
-	depends=('openrc' 'iptables')
-	backup=('etc/conf.d/iptables'
-		'etc/conf.d/ip6tables')
+    pkgdesc="OpenRC iptables init script"
+    depends=('openrc' 'iptables')
+    backup=('etc/conf.d/iptables'
+        'etc/conf.d/ip6tables')
 
-	_inst_confd 'iptables'
-	_inst_initd 'iptables'
+    _inst_confd 'iptables'
+    _inst_initd 'iptables'
 
-	_inst_confd 'ip6tables'
+    _inst_confd 'ip6tables'
 # 	_inst_initd 'iptables'
 
-	install -Dm755 "${srcdir}/iptables.initd" "${pkgdir}/etc/init.d/ip6tables"
+    install -Dm755 "${srcdir}/iptables.initd" "${pkgdir}/etc/init.d/ip6tables"
 
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/sbin|/usr/bin|g' -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*;do
+        sed -e 's|/sbin|/usr/bin|g' -i $f
+    done
 }
 
 package_krb5-openrc() {
-	pkgdesc="OpenRC krb5 init script"
-	depends=('openrc' 'krb5')
+    pkgdesc="OpenRC krb5 init script"
+    depends=('openrc' 'krb5')
 
-        for f in krb5kadmind krb5kdc krb5kpropd;do
-            _inst_initd $f
-        done
+    for f in krb5kadmind krb5kdc krb5kpropd;do
+        _inst_initd $f
+    done
 
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/usr/sbin|/usr/bin|g' \
-                -e 's|mit-krb5kdc|krb5kdc|g' \
-                -e 's|mit-krb5kadmind|krb5kadmind|g' \
-                -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*;do
+        sed -e 's|/usr/sbin|/usr/bin|g' \
+            -e 's|mit-krb5kdc|krb5kdc|g' \
+            -e 's|mit-krb5kadmind|krb5kadmind|g' \
+            -i $f
+    done
 }
 
 package_lighttpd-openrc() {
-	pkgdesc="OpenRC lighttpd init script"
-	depends=('openrc' 'lighttpd')
-	backup=('etc/conf.d/lighttpd')
-	install=lighttpd.install
+    pkgdesc="OpenRC lighttpd init script"
+    depends=('openrc' 'lighttpd')
+    backup=('etc/conf.d/lighttpd')
+    install=lighttpd.install
 
-	_inst_confd 'lighttpd'
-	_inst_initd 'lighttpd'
+    _inst_confd 'lighttpd'
+    _inst_initd 'lighttpd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
+    sed -e 's|/usr/sbin|/usr/bin|g' \
             -e 's/lighttpd:lighttpd/http:http/' \
             -i "${pkgdir}/etc/init.d/lighttpd"
 }
 
 package_openntpd-openrc() {
-	pkgdesc="OpenRC openntpd init script"
-	depends=('openrc' 'openntpd')
-	groups=('openrc-net')
-	provides=('openrc-timed')
-	conflicts=('ntp'
-		'ntp-openrc'
-		'systemd-sysvcompat')
-	backup=('etc/conf.d/ntpd')
+    pkgdesc="OpenRC openntpd init script"
+    depends=('openrc' 'openntpd')
+    groups=('openrc-net')
+    provides=('openrc-timed')
+    conflicts=('ntp' 'ntp-openrc' 'systemd-sysvcompat')
+    backup=('etc/conf.d/ntpd')
 
-	_inst_confd 'ntpd'
-	_inst_initd 'ntpd'
+    _inst_confd 'ntpd'
+    _inst_initd 'ntpd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
+    sed -e 's|/usr/sbin|/usr/bin|g' \
             -i "${pkgdir}/etc/init.d/ntpd"
 }
 
 package_openldap-openrc() {
-	pkgdesc="OpenRC openldap init script"
-	depends=('openrc' 'openldap')
-	backup=('etc/conf.d/slapd')
+    pkgdesc="OpenRC openldap init script"
+    depends=('openrc' 'openldap')
+    backup=('etc/conf.d/slapd')
 
-	_inst_confd 'slapd'
-	_inst_initd 'slapd'
+    _inst_confd 'slapd'
+    _inst_initd 'slapd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's|/usr/lib/openldap/slapd|/usr/lib/slapd|g' \
-            -i "${pkgdir}/etc/init.d/slapd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's|/usr/lib/openldap/slapd|/usr/lib/slapd|g' \
+        -i "${pkgdir}/etc/init.d/slapd"
 }
 
 package_openslp-openrc() {
-	pkgdesc="OpenRC openslp init script"
-	depends=('openrc' 'openslp')
+    pkgdesc="OpenRC openslp init script"
+    depends=('openrc' 'openslp')
 
-	_inst_initd 'slpd'
+    _inst_initd 'slpd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/slpd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/slpd"
 }
 
 package_openssh-openrc() {
-	pkgdesc="OpenRC openssh init script"
-	depends=('openrc' 'openssh')
-	optdepends=('bind-openrc: bind initscript')
-	backup=('etc/conf.d/sshd')
+    pkgdesc="OpenRC openssh init script"
+    depends=('openrc' 'openssh')
+    backup=('etc/conf.d/sshd')
 
-	_inst_confd 'sshd'
-	_inst_initd 'sshd'
+    _inst_confd 'sshd'
+    _inst_initd 'sshd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/conf.d/sshd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/conf.d/sshd"
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/sshd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/sshd"
 }
 
 package_openvpn-openrc() {
-	pkgdesc="OpenRC openvpn init script"
-	depends=('openrc' 'openvpn')
-	backup=('etc/conf.d/openvpn')
+    pkgdesc="OpenRC openvpn init script"
+    depends=('openrc' 'openvpn')
+    backup=('etc/conf.d/openvpn')
 
-	_inst_confd 'openvpn'
-	_inst_initd 'openvpn'
+    _inst_confd 'openvpn'
+    _inst_initd 'openvpn'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/openvpn"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/openvpn"
 }
 
 package_polipo-openrc() {
-	pkgdesc="OpenRC polipo init script"
-	depends=('openrc' 'polipo')
+    pkgdesc="OpenRC polipo init script"
+    depends=('openrc' 'polipo')
 
-	_inst_initd 'polipo'
+    _inst_initd 'polipo'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/polipo"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/polipo"
 }
 
 package_postfix-openrc() {
-	pkgdesc="OpenRC postfix init script"
-	depends=('openrc' 'postfix')
-	optdepends=('bind-openrc: bind initscript'
-		'ypbind-openrc: ypbind initscript'
-		'cyrus-sasl-openrc: cyrus-sasl initscript')
+    pkgdesc="OpenRC postfix init script"
+    depends=('openrc' 'postfix')
 
-	_inst_initd 'postfix'
+    _inst_initd 'postfix'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/postfix"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/postfix"
 }
 
 package_privoxy-openrc() {
-	pkgdesc="OpenRC privoxy init script"
-	depends=('openrc' 'privoxy')
+    pkgdesc="OpenRC privoxy init script"
+    depends=('openrc' 'privoxy')
 
-	_inst_initd 'privoxy'
+    _inst_initd 'privoxy'
 
-	sed -e "${_shebang}" \
-            -e 's|/usr/sbin|/usr/bin|g' \
-            -e "${_runpath}" \
-            -i "${pkgdir}/etc/init.d/privoxy"
+    sed -e "${_shebang}" \
+        -e 's|/usr/sbin|/usr/bin|g' \
+        -e "${_runpath}" \
+        -i "${pkgdir}/etc/init.d/privoxy"
 }
 
 package_rsync-openrc() {
-	pkgdesc="OpenRC rsync init script"
-	depends=('openrc' 'rsync')
-	backup=('etc/conf.d/rsyncd')
+    pkgdesc="OpenRC rsync init script"
+    depends=('openrc' 'rsync')
+    backup=('etc/conf.d/rsyncd')
 
-	_inst_confd 'rsyncd'
-	_inst_initd 'rsyncd'
+    _inst_confd 'rsyncd'
+    _inst_initd 'rsyncd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/rsyncd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/rsyncd"
 }
 
 package_samba-openrc() {
-	pkgdesc="OpenRC samba init script"
-	depends=('openrc' 'samba')
-	backup=('etc/conf.d/smb')
+    pkgdesc="OpenRC samba init script"
+    depends=('openrc' 'samba')
+    backup=('etc/conf.d/smb')
 
-	_inst_confd 'smb'
-	_inst_initd 'smb'
+    _inst_confd 'smb'
+    _inst_initd 'smb'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's/="samba"/="smb"/' \
-            -i "${pkgdir}/etc/conf.d/smb"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's/="samba"/="smb"/' \
+        -i "${pkgdir}/etc/conf.d/smb"
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's/##samba/##smb/' \
-            -e 's|"samba"|"smb"|' \
-            -i "${pkgdir}/etc/init.d/smb"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's/##samba/##smb/' \
+        -e 's|"samba"|"smb"|' \
+        -i "${pkgdir}/etc/init.d/smb"
 }
 
 package_squid-openrc() {
-	pkgdesc="OpenRC squid init script"
-	depends=('openrc' 'squid')
-	optdepends=('bind-openrc: bind initscript')
-	backup=('etc/conf.d/squid')
+    pkgdesc="OpenRC squid init script"
+    depends=('openrc' 'squid')
+    optdepends=('bind-openrc: bind initscript')
+    backup=('etc/conf.d/squid')
 
-	_inst_confd 'squid'
-	_inst_initd 'squid'
+    _inst_confd 'squid'
+    _inst_initd 'squid'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's|chown squid|chown proxy|' \
-            -e 's|squid:squid|proxy:proxy|' \
-            -i "${pkgdir}/etc/init.d/squid"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's|chown squid|chown proxy|' \
+        -e 's|squid:squid|proxy:proxy|' \
+        -i "${pkgdir}/etc/init.d/squid"
 }
 
 package_transmission-openrc() {
-	pkgdesc="OpenRC transmission init script"
-	depends=('openrc' 'transmission-cli')
-	backup=('etc/conf.d/transmission-daemon')
+    pkgdesc="OpenRC transmission init script"
+    depends=('openrc' 'transmission-cli')
+    backup=('etc/conf.d/transmission-daemon')
 
-	_inst_confd 'transmission-daemon'
-	_inst_initd 'transmission-daemon'
+    _inst_confd 'transmission-daemon'
+    _inst_initd 'transmission-daemon'
 }
 
 package_ufw-openrc() {
-	pkgdesc="OpenRC ufw init script"
-	depends=('openrc' 'ufw')
-	backup=('etc/conf.d/ufw')
+    pkgdesc="OpenRC ufw init script"
+    depends=('openrc' 'ufw')
+    backup=('etc/conf.d/ufw')
 
-	_inst_confd 'ufw'
-	_inst_initd 'ufw'
+    _inst_confd 'ufw'
+    _inst_initd 'ufw'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's|/usr/share/ufw/ufw-init-functions|/usr/lib/ufw/ufw-init-functions|g' \
-            -i "${pkgdir}/etc/init.d/ufw"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's|/usr/share/ufw/ufw-init-functions|/usr/lib/ufw/ufw-init-functions|g' \
+        -i "${pkgdir}/etc/init.d/ufw"
 }
 
 package_vsftpd-openrc() {
-	pkgdesc="OpenRC vsftpd init script"
-	depends=('openrc' 'vsftpd')
-	optdepends=('bind-openrc: bind initscript')
+    pkgdesc="OpenRC vsftpd init script"
+    depends=('openrc' 'vsftpd')
 
-	_inst_initd 'vsftpd'
+    _inst_initd 'vsftpd'
 
-	install -Dm755 "${srcdir}/vsftpd-checkconfig.sh" "${pkgdir}/usr/lib/vsftpd-checkconfig.sh"
+    install -Dm755 "${srcdir}/vsftpd-checkconfig.sh" "${pkgdir}/usr/lib/vsftpd-checkconfig.sh"
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -e 's|/usr/libexec/|/usr/lib/|g' \
-            -e 's|/etc/vsftpd/|/etc/|g' \
-            -i "${pkgdir}/etc/init.d/vsftpd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -e 's|/usr/libexec/|/usr/lib/|g' \
+        -e 's|/etc/vsftpd/|/etc/|g' \
+        -i "${pkgdir}/etc/init.d/vsftpd"
 
-	sed -e 's|/etc/vsftpd/|/etc/|g' \
-            -i "${pkgdir}/usr/lib/vsftpd-checkconfig.sh"
+    sed -e 's|/etc/vsftpd/|/etc/|g' \
+        -i "${pkgdir}/usr/lib/vsftpd-checkconfig.sh"
 }
 
 package_xinetd-openrc() {
-	pkgdesc="OpenRC xinetd init script"
-	depends=('openrc' 'xinetd')
-	backup=('etc/conf.d/xinetd')
+    pkgdesc="OpenRC xinetd init script"
+    depends=('openrc' 'xinetd')
+    backup=('etc/conf.d/xinetd')
 
-	_inst_confd 'xinetd'
-	_inst_initd 'xinetd'
+    _inst_confd 'xinetd'
+    _inst_initd 'xinetd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/xinetd"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/xinetd"
 }
 
 package_ypbind-mt-openrc() {
-	pkgdesc="OpenRC ypbind-mt init script"
-	depends=('ypbind-mt' 'rpcbind-openrc' 'openslp-openrc')
-	optdepends=('ypserv-openrc: ypserv initscript')
-	backup=('etc/conf.d/ypbind')
+    pkgdesc="OpenRC ypbind-mt init script"
+    depends=('ypbind-mt' 'rpcbind-openrc' 'openslp-openrc')
+    backup=('etc/conf.d/ypbind')
 
-	_inst_confd 'ypbind'
-	_inst_initd 'ypbind'
+    _inst_confd 'ypbind'
+    _inst_initd 'ypbind'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/ypbind"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/ypbind"
 }
 
 package_ypserv-openrc() {
-	pkgdesc="OpenRC ypserv init script"
-	depends=('openrc' 'ypserv')
-	backup=('etc/conf.d/rpc.yppasswdd'
-		'etc/conf.d/rpc.ypxfrd'
-		'etc/conf.d/ypserv')
+    pkgdesc="OpenRC ypserv init script"
+    depends=('openrc' 'ypserv')
+    backup=('etc/conf.d/rpc.yppasswdd'
+        'etc/conf.d/rpc.ypxfrd'
+        'etc/conf.d/ypserv')
 
-        for f in ypserv rpc.yppasswdd rpc.ypxfrd;do
-            _inst_confd $f
-            _inst_initd $f
-        done
+    for f in ypserv rpc.yppasswdd rpc.ypxfrd;do
+        _inst_confd $f
+        _inst_initd $f
+    done
 
-	for f in ${pkgdir}/etc/init.d/*;do
-            sed -e 's|/usr/sbin|/usr/bin|g' -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*;do
+        sed -e 's|/usr/sbin|/usr/bin|g' -i $f
+    done
 }
 
 package_tor-openrc() {
-	pkgdesc="OpenRC tor init script"
-	depends=('openrc' 'tor')
-	backup=('etc/conf.d/tor')
-	install=tor.install
+    pkgdesc="OpenRC tor init script"
+    depends=('openrc' 'tor')
+    backup=('etc/conf.d/tor')
+    install=tor.install
 
-	_inst_confd 'tor'
-	_inst_initd 'tor'
+    _inst_confd 'tor'
+    _inst_initd 'tor'
 }
 
 package_wicd-openrc() {
-	pkgdesc="OpenRC wicd script"
-	depends=('openrc' 'wicd')
+    pkgdesc="OpenRC wicd script"
+    depends=('openrc' 'wicd')
 
-	_inst_initd 'wicd'
+    _inst_initd 'wicd'
 }
 
 package_syncthing-openrc() {
-	pkgdesc="OpenRC syncthing init script"
-	depends=('openrc' 'syncthing')
-	backup=('etc/conf.d/syncthing')
+    pkgdesc="OpenRC syncthing init script"
+    depends=('openrc' 'syncthing')
+    backup=('etc/conf.d/syncthing')
 
-	_inst_confd 'syncthing'
-	_inst_initd 'syncthing'
+    _inst_confd 'syncthing'
+    _inst_initd 'syncthing'
 }
 
 package_nginx-openrc() {
-	pkgdesc="OpenRC nginx init script"
-	depends=('openrc' 'nginx')
-	backup=('etc/conf.d/nginx')
+    pkgdesc="OpenRC nginx init script"
+    depends=('openrc' 'nginx')
+    backup=('etc/conf.d/nginx')
 
-	_inst_confd 'nginx'
-	_inst_initd 'nginx'
+    _inst_confd 'nginx'
+    _inst_initd 'nginx'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' \
-            -i "${pkgdir}/etc/init.d/nginx"
+    sed -e 's|/usr/sbin|/usr/bin|g' \
+        -i "${pkgdir}/etc/init.d/nginx"
 }
 
 package_vnstat-openrc() {
-	pkgdesc="OpenRC vnstat init script"
-	depends=('openrc' 'vnstat')
-	backup=('etc/conf.d/vnstatd')
+    pkgdesc="OpenRC vnstat init script"
+    depends=('openrc' 'vnstat')
+    backup=('etc/conf.d/vnstatd')
 
-	_inst_confd 'vnstatd'
-	_inst_initd 'vnstatd'
+    _inst_confd 'vnstatd'
+    _inst_initd 'vnstatd'
 }
 
 package_snort-openrc() {
-	pkgdesc="OpenRC snort init script"
-	depends=('openrc' 'snort')
-	optdepends=('mysql-openrc: mysql initscript'
-		'postgresql-openrc: postgresql initscript')
-	backup=('etc/conf.d/snort')
+    pkgdesc="OpenRC snort init script"
+    depends=('openrc' 'snort')
+    backup=('etc/conf.d/snort')
 
-	_inst_confd 'snort'
-	_inst_initd 'snort'
+    _inst_confd 'snort'
+    _inst_initd 'snort'
 }
 
 package_unbound-openrc() {
-	pkgdesc="OpenRC unbound init script"
-	depends=('openrc' 'unbound')
-	backup=('etc/conf.d/unbound')
+    pkgdesc="OpenRC unbound init script"
+    depends=('openrc' 'unbound')
+    backup=('etc/conf.d/unbound')
 
-	_inst_confd 'unbound'
-	_inst_initd 'unbound'
+    _inst_confd 'unbound'
+    _inst_initd 'unbound'
 }

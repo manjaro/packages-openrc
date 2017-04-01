@@ -3,22 +3,21 @@
 _url="https://raw.githubusercontent.com/gentoo/gentoo/master"
 
 _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g')
-_prefix=true
+prefix=true
 
 $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgbase=openrc-desktop
 pkgname=('acpid-openrc'
-		'alsa-utils-openrc'
-		'avahi-openrc'
-		'displaymanager-openrc'
-		'gpm-openrc'
-		'bluez-openrc'
-		'networkmanager-openrc'
-		'wpa_supplicant-openrc'
-		'elogind-openrc')
-
-pkgver=20170320
+        'alsa-utils-openrc'
+        'avahi-openrc'
+        'displaymanager-openrc'
+        'gpm-openrc'
+        'bluez-openrc'
+        'networkmanager-openrc'
+        'wpa_supplicant-openrc'
+        'elogind-openrc')
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -64,7 +63,7 @@ sha256sums=('3755d4eb8bb64a1304e5defedb949305ac550565da36fe4f94d5f31beee821ba'
             '98985142371d39ea6294d757e85a3d3fc9fc21718063afbf81869e1d2ca648a7'
             'f3aa34b99a90213c53496f8ea014c487266338791f3526043a7fd97adc651fc6'
             '4594573f01fe5e04b6dde4525796acf909158591bdcefd662ec23fe0d1c3e1bd'
-            '99bd8af8573b8b4ca64e818ef312ce6094f05ed5829712203fd4a12b98f39650'
+            '861445d46e8863dca26a91018da3dd9fee6a64467a93e7512774dfd88914539d'
             'ad651e0c6cd456cc0209802ac878a7c08e69435f0428ded4ad116d11f728b2dd'
             '0113e93f3dd2c7e2ee581a39e7625d49d8e64c6089d432721a6be9df85e36531'
             '1535237db113a76261d6f1ce0b24a55e956934b0c1c59e9fd624f621961327b6'
@@ -117,7 +116,7 @@ package_avahi-openrc() {
 package_displaymanager-openrc() {
     pkgdesc="OpenRC dm init script"
     groups=('openrc-desktop')
-    depends=('xorg-server' 'xorg-xinit' 'udev-openrc')
+    depends=('xorg-server' 'xorg-xinit' 'eudev-openrc')
     optdepends=('elogind-openrc: elogind initscript'
                 'dbus-openrc: dbus initscript')
 
@@ -139,7 +138,7 @@ package_displaymanager-openrc() {
 package_elogind-openrc() {
     pkgdesc="OpenRC elogind init script"
     groups=('openrc-desktop')
-    depends=('elogind' 'dbus-openrc' 'udev-openrc')
+    depends=('elogind' 'dbus-openrc' 'eudev-openrc')
     conflicts=('consolekit-openrc')
     replaces=('consolekit-openrc' 'cgmanager-openrc')
 
@@ -164,8 +163,8 @@ package_gpm-openrc() {
 package_networkmanager-openrc() {
     pkgdesc="OpenRC networkmanager init script"
     depends=('dbus-openrc' 'networkmanager')
+    conflicts=('networkmanager-consolekit')
     groups=('openrc-desktop' 'openrc-mobile')
-    optdepends=('elogind-openrc: elogind initscript')
     backup=('etc/conf.d/NetworkManager')
 
     _inst_confd 'NetworkManager'

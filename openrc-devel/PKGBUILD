@@ -8,7 +8,7 @@ _aprel=20160303
 _dev_url="http://dev.gentoo.org/~polynomial-c/dist/apache"
 
 _sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g')
-_prefix=true
+prefix=true
 
 $_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
@@ -21,7 +21,7 @@ pkgname=('jenkins-openrc'
         'distcc-openrc'
         'apache-openrc')
        # 'php-fpm-openrc')
-pkgver=20170309
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
@@ -59,137 +59,137 @@ sha256sums=('4703ba2372c661fb674a29fea7f64983f8b1b3136d971663509249655bca6e21'
             'd81e32d876594b48a7ff6d9123bf776c5bea5453eddd2fe40f4a9b79c11537aa')
 
 pkgver() {
-	date +%Y%m%d
+    date +%Y%m%d
 }
 
 _inst_initd(){
-	install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
 
-	sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
+    sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){
-	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
 }
 
 package_apache-openrc() {
-	pkgdesc="OpenRC apache init script"
-	depends=('openrc' 'apache')
-	backup=('etc/conf.d/httpd')
+    pkgdesc="OpenRC apache init script"
+    depends=('openrc' 'apache')
+    backup=('etc/conf.d/httpd')
 
-	install -Dm644 "${srcdir}/gentoo-apache-${_apver}/init/apache2.confd" "${pkgdir}/etc/conf.d/httpd"
-	install -Dm755 "${srcdir}/gentoo-apache-${_apver}/init/apache2.initd" "${pkgdir}/etc/init.d/httpd"
+    install -Dm644 "${srcdir}/gentoo-apache-${_apver}/init/apache2.confd" "${pkgdir}/etc/conf.d/httpd"
+    install -Dm755 "${srcdir}/gentoo-apache-${_apver}/init/apache2.initd" "${pkgdir}/etc/init.d/httpd"
 
-	sed -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
-            -e 's|/usr/sbin/apache2|/usr/bin/apachectl|' \
-            -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
-            -e 's/! test -f/test -f/' \
-            -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
-            -e 's|apache2.pid|httpd/httpd.pid|' \
-            -e 's|apache2 >/dev/null|httpd >/dev/null|' \
-            -e 's|/run/apache_ssl_mutex|/run/httpd|' \
-            -i "${pkgdir}/etc/init.d/httpd"
+    sed -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
+        -e 's|/usr/sbin/apache2|/usr/bin/apachectl|' \
+        -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
+        -e 's/! test -f/test -f/' \
+        -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
+        -e 's|apache2.pid|httpd/httpd.pid|' \
+        -e 's|apache2 >/dev/null|httpd >/dev/null|' \
+        -e 's|/run/apache_ssl_mutex|/run/httpd|' \
+        -i "${pkgdir}/etc/init.d/httpd"
 
-	sed -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
-            -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
-            -e 's|apache2.pid|httpd/httpd.pid|' \
-            -e 's|apache2|httpd|g' \
-            -i "${pkgdir}/etc/conf.d/httpd"
+    sed -e 's|/etc/apache2/httpd.conf|/etc/httpd/conf/httpd.conf|' \
+        -e 's|/usr/lib/apache2|/usr/lib/httpd|' \
+        -e 's|apache2.pid|httpd/httpd.pid|' \
+        -e 's|apache2|httpd|g' \
+        -i "${pkgdir}/etc/conf.d/httpd"
 }
 
 package_git-openrc() {
-	pkgdesc="OpenRC git-daemon init script"
-	depends=('git' 'openrc')
-	backup=('etc/conf.d/git-daemon')
+    pkgdesc="OpenRC git-daemon init script"
+    depends=('git' 'openrc')
+    backup=('etc/conf.d/git-daemon')
 
-	_inst_confd 'git-daemon'
-	_inst_initd 'git-daemon'
+    _inst_confd 'git-daemon'
+    _inst_initd 'git-daemon'
 
-	sed -e 's|/var/git|/srv/git|' -i "${pkgdir}/etc/conf.d/git-daemon"
+    sed -e 's|/var/git|/srv/git|' -i "${pkgdir}/etc/conf.d/git-daemon"
 }
 
 package_mysql-openrc() {
-	pkgdesc="OpenRC mysql init script"
-	depends=('mysql' 'openrc')
-	optdepends=('bind-openrc: bind initscript')
-	backup=('etc/conf.d/mysql')
-	install=mysql.install
+    pkgdesc="OpenRC mysql init script"
+    depends=('mysql' 'openrc')
+    optdepends=('bind-openrc: bind initscript')
+    backup=('etc/conf.d/mysql')
+    install=mysql.install
 
-	_inst_confd 'mysql'
-	_inst_initd 'mysql'
+    _inst_confd 'mysql'
+    _inst_initd 'mysql'
 
-	sed -e 's|/sbin/mysqld|/bin/mysqld|g' -i "${pkgdir}/etc/init.d/mysql"
+    sed -e 's|/sbin/mysqld|/bin/mysqld|g' -i "${pkgdir}/etc/init.d/mysql"
 }
 
 package_postgresql-openrc() {
-	pkgdesc="OpenRC postgresql init script"
-	depends=('postgresql' 'openrc')
-	backup=('etc/conf.d/postgresql')
-	install=postgresql.install
+    pkgdesc="OpenRC postgresql init script"
+    depends=('postgresql' 'openrc')
+    backup=('etc/conf.d/postgresql')
+    install=postgresql.install
 
-	_inst_confd 'postgresql'
-	_inst_initd 'postgresql'
+    _inst_confd 'postgresql'
+    _inst_initd 'postgresql'
 
-	sed -e 's|/etc/postgresql-@SLOT@/|/var/lib/postgres/data/|' \
-		-e 's|/var/lib/postgresql/@SLOT@/data|/var/lib/postgres/data|' \
-		-i "${pkgdir}/etc/conf.d/postgresql"
+    sed -e 's|/etc/postgresql-@SLOT@/|/var/lib/postgres/data/|' \
+        -e 's|/var/lib/postgresql/@SLOT@/data|/var/lib/postgres/data|' \
+        -i "${pkgdir}/etc/conf.d/postgresql"
 
-	sed -e 's|/@LIBDIR@/postgresql-@SLOT@||g' \
-		-e 's|/etc/conf.d/postgresql-@SLOT@|/etc/conf.d/postgresql|' \
-		-i "${pkgdir}/etc/init.d/postgresql"
+    sed -e 's|/@LIBDIR@/postgresql-@SLOT@||g' \
+        -e 's|/etc/conf.d/postgresql-@SLOT@|/etc/conf.d/postgresql|' \
+        -i "${pkgdir}/etc/init.d/postgresql"
 }
 
 package_subversion-openrc() {
-	pkgdesc="OpenRC svnserve init script"
-	depends=('subversion' 'openrc')
-	backup=('etc/conf.d/svn')
+    pkgdesc="OpenRC svnserve init script"
+    depends=('subversion' 'openrc')
+    backup=('etc/conf.d/svn')
 
-	_inst_confd 'svn'
-	_inst_initd 'svn'
+    _inst_confd 'svn'
+    _inst_initd 'svn'
 
-	sed -e 's|/var/svn|/srv/svn|g' -i ${pkgdir}/etc/conf.d/svn
+    sed -e 's|/var/svn|/srv/svn|g' -i ${pkgdir}/etc/conf.d/svn
 
-	sed -e 's|/var/svn|/srv/svn|g' \
-		-e 's|-apache|-http|g' \
-		-e 's|/run/svnserve.pid|/run/svnserve/svnserve.pid|g' \
-		-e 's/--make-pidfile//' \
-		-i "${pkgdir}/etc/init.d/svn"
+    sed -e 's|/var/svn|/srv/svn|g' \
+        -e 's|-apache|-http|g' \
+        -e 's|/run/svnserve.pid|/run/svnserve/svnserve.pid|g' \
+        -e 's/--make-pidfile//' \
+        -i "${pkgdir}/etc/init.d/svn"
 }
 
 package_distcc-openrc() {
-	pkgdesc="OpenRC distcc init script"
-	depends=('distcc' 'openrc')
-	backup=('etc/conf.d/distccd')
+    pkgdesc="OpenRC distcc init script"
+    depends=('distcc' 'openrc')
+    backup=('etc/conf.d/distccd')
 
-	_inst_confd 'distccd'
-	_inst_initd 'distccd'
+    _inst_confd 'distccd'
+    _inst_initd 'distccd'
 
-	sed -e 's|/var/run|/run|' -i ${pkgdir}/etc/conf.d/distccd
+    sed -e 's|/var/run|/run|' -i ${pkgdir}/etc/conf.d/distccd
 }
 
 package_jenkins-openrc() {
-	pkgdesc="OpenRC jenkins init script"
-	depends=('jenkins' 'openrc')
+    pkgdesc="OpenRC jenkins init script"
+    depends=('jenkins' 'openrc')
 
-	_inst_initd 'jenkins'
+    _inst_initd 'jenkins'
 
-	install -Dm644 "${srcdir}/jenkins.logrotate" "${pkgdir}/etc/logrotate.d/jenkins"
+    install -Dm644 "${srcdir}/jenkins.logrotate" "${pkgdir}/etc/logrotate.d/jenkins"
 }
 
 # package_php-fpm-openrc() {
-# 	pkgdesc="OpenRC php-fpm init script"
-# 	depends=('php-fpm' 'openrc')
-# 	optdepends=('apache-openrc: apache initscript'
-# 			'lighttp-openrc: lighttp initscript'
-# 			'nginx-openrc: nginx initscript')
-# 	install=php-fpm.install
+#     pkgdesc="OpenRC php-fpm init script"
+#     depends=('php-fpm' 'openrc')
+#     optdepends=('apache-openrc: apache initscript'
+#             'lighttp-openrc: lighttp initscript'
+#             'nginx-openrc: nginx initscript')
+#     install=php-fpm.install
 #
-# 	_inst_initd 'php-fpm'
+#     _inst_initd 'php-fpm'
 #
-# 	sed -e 's|/lib/${PHPSLOT}||g' \
-# 		-e 's|/etc/php/fpm-${PHPSLOT}|/etc/php|' \
-# 		-e 's|/run/php-fpm-${PHPSLOT}|/run/php-fpm|' \
-# 		-e 's|PHPSLOT=${SVCNAME#php-fpm-}||' \
-# 		-e 's|^.*${PHPSLOT}.*||' \
-# 		-i "${pkgdir}/etc/init.d/php-fpm"
+#     sed -e 's|/lib/${PHPSLOT}||g' \
+#         -e 's|/etc/php/fpm-${PHPSLOT}|/etc/php|' \
+#         -e 's|/run/php-fpm-${PHPSLOT}|/run/php-fpm|' \
+#         -e 's|PHPSLOT=${SVCNAME#php-fpm-}||' \
+#         -e 's|^.*${PHPSLOT}.*||' \
+#         -i "${pkgdir}/etc/init.d/php-fpm"
 # }
