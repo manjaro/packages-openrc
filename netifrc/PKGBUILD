@@ -16,7 +16,7 @@ arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/base/openrc/"
 license=('BSD2')
 groups=('openrc-base')
-depends=('udev-openrc')
+depends=('eudev-openrc')
 conflicts=('systemd-sysvcompat')
 install=${pkgname}.install
 backup=('etc/conf.d/net')
@@ -52,9 +52,9 @@ build(){
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    
+
     make DESTDIR="${pkgdir}" "${_net_args[@]}" install
-    
+
     install -Dm 644 "${srcdir}/${pkgname}-${pkgver}/doc/net.example" "${pkgdir}/etc/conf.d/net"
 
     install -d "${pkgdir}/etc/runlevels/boot"
