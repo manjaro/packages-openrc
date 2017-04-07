@@ -6,13 +6,13 @@ _pkgname=pcmciautils
 
 pkgname=pcmciautils-nosystemd
 pkgver=018
-pkgrel=7
+pkgrel=8
 pkgdesc="Utilities for inserting and removing PCMCIA cards"
 arch=('i686' 'x86_64')
 url="http://kernel.org/pub/linux/utils/kernel/pcmcia/pcmcia.html"
 license=('GPL')
 groups=('base-nosystemd')
-provides=("$_pkgname")
+provides=("$_pkgname=018-8")
 depends=('eudev')
 conflicts=('pcmcia-cs' "$_pkgname")
 options=(!makeflags)
