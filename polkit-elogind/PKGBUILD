@@ -9,7 +9,7 @@ pkgname=polkit-elogind
 pkgver=0.113+29+g3272a98
 pkgrel=7
 pkgdesc="PolyciKit with elogind support for non-systemd systems"
-arch=('i686' 'x86_64')
+arch=('i686' 'x86_64' 'armv7h')
 url="http://www.freedesktop.org/wiki/Software/polkit"
 license=('LGPL')
 provides=("polkit=$pkgver")
