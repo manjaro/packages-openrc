@@ -1,0 +1,46 @@
+# $Id$
+# Maintainer: Tom Gundersen <teg@jklm.no>
+# Contributor: Tobias Powalowski <tpowa@archlinux.org>
+
+_pkgname=pcmciautils
+
+pkgname=pcmciautils-nosystemd
+pkgver=018
+pkgrel=8
+pkgdesc="Utilities for inserting and removing PCMCIA cards"
+arch=('i686' 'x86_64')
+url="http://kernel.org/pub/linux/utils/kernel/pcmcia/pcmcia.html"
+license=('GPL')
+groups=('base-nosystemd')
+provides=("$_pkgname=018-8")
+depends=('eudev')
+conflicts=('pcmcia-cs' "$_pkgname")
+options=(!makeflags)
+# source=(http://kernel.org/pub/linux/utils/kernel/pcmcia/${_pkgname}-${pkgver}.tar.bz2) broken due to breakin
+source=(https://sources.archlinux.org/other/$_pkgname/$_pkgname-$pkgver.tar.xz
+        initcpio-install-pcmcia
+        pcmciautils-018_p8-flex-2.6.3-fix.patch)
+sha256sums=('a5c09abeba95f750e8a8b01704114d733f0f0345f34e5c327bbb6a1bfd09c4b8'
+            '1aae66daf1411d6d8eaf4421592b8dcd51524958cdb53bc1bc7f93d78c91751d'
+            '4158c6d4b52d0742dd83bab81eba30ac3a4e5e94d6b5d96bb338dbf859269fda')
+
+prepare(){
+    cd "$_pkgname-$pkgver"
+    sed -i -e 's,/lib/udev,/usr/lib/udev,g' Makefile
+    sed -i -e 's,/sbin,/usr/bin,g' Makefile
+    patch -Np 1 -i $srcdir/pcmciautils-018_p8-flex-2.6.3-fix.patch
+}
+
+build() {
+    cd "$_pkgname-$pkgver"
+    #   sed -i -e 's,/lib/udev,/usr/lib/udev,g' Makefile
+    #   sed -i -e 's,/sbin,/usr/bin,g' Makefile
+    make
+}
+
+package() {
+    make -C "$_pkgname-$pkgver" DESTDIR="$pkgdir" install
+
+    # install the mkinitpcio hook
+    install -Dm644 initcpio-install-pcmcia "$pkgdir/usr/lib/initcpio/install/pcmcia"
+}

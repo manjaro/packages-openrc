@@ -1,0 +1,11 @@
+post_install() {
+    sed -e 's|pam_systemd.so|pam_elogind.so|' -i etc/pam.d/system-login
+    
+    if grep pam_ck_connector.so etc/pam.d/system-login >/dev/null;then
+        sed -e 's|pam_ck_connector.so nox11|pam_elogind.so|' -i etc/pam.d/system-login
+    fi
+}
+
+post_remove(){
+    sed -e 's|pam_elogind.so|pam_systemd.so|' -i etc/pam.d/system-login
+}

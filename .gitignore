@@ -9,8 +9,6 @@ pkg
 *.xz
 *.log
 *~
+.AURINFO
+.SRCINFO
 .lock
-packages
-*.SRCINFO
-*.AURINFO
-.kateproject.d

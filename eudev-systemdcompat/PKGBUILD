@@ -3,81 +3,50 @@
 # Contributor: Dave Reisner <dreisner@archlinux.org>
 # Contributor: Tom Gundersen <teg@jklm.no>
 
-_spkgrel=1
-# _y=2015
-# _m=08
-# _d=24
-# _url=http://seblu.net/a/arm/$_y/$_m/$_d/core/os
+_spkgrel=8
 _repo=http://mirror.netcologne.de/archlinux/core/os
 
-pkgname=eudev-systemdcompat
-pkgver=226
-pkgrel=1
-pkgdesc="systemd client libraries without udev; systemd compatibility package"
+pkgbase=eudev-systemdcompat
+pkgname=('eudev-systemd' 'libeudev-systemd')
+pkgver=232
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
-groups=('eudev-base')
 url="http://www.freedesktop.org/wiki/Software/systemd"
-provides=("libsystemd=${pkgver}"
-            "systemd=${pkgver}"
-            "systemd-tools=${pkgver}"
-            'libsystemd.so'
-            'libsystemd-daemon.so'
-            'libsystemd-id128.so'
-            'libsystemd-journal.so'
-            'libsystemd-login.so')
-depends=('glib2' 'glibc' 'libgcrypt' 'xz' 'eudev>=3.1.2' 'lz4')
-optdepends=('upower-pm-utils: pm-utils support')
-conflicts=('systemd'
-            'systemd-tools'
-            'libsystemd'
-            'openrc-systemdcompat')
-replaces=('openrc-systemdcompat')
+source_i686=("$_repo/i686/libsystemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz"
+        "$_repo/i686/systemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz")
+source_x86_64=("$_repo/x86_64/libsystemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz"
+        "$_repo/x86_64/systemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz")
+sha256sums_i686=('a903961024e3878ca0d257fec30a7dea4c1a6012813b90dd5f199b72a758d477'
+                 '5615b28bd1e770f1a29c2d5b6824825b6e3c270006ad98fb5ae005fb05e75876')
+sha256sums_x86_64=('e30e51e6ebf1185914b92df21870d9ea6039750764a7c72e110fd59bbdebc512'
+                   '2d1f37f157e62748a2351c2ac6b74934aed864d92a24ddc13ad775b13a1e70b8')
 
-if [ "$CARCH" = "i686" ]; then
-    source=("$_repo/i686/libsystemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz"
-            "$_repo/i686/systemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz")
-    sha256sums=('ee98131ccaea76f1087bef8528ad76eb299b92fbf6d84fb3718e83303f923fce'
-                '91570b5b87af2b38505880f6dc979197edd4555539747678ac1d3dad4c880108')
-elif [ "$CARCH" = "x86_64" ]; then
-    source=("$_repo/x86_64/libsystemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz"
-            "$_repo/x86_64/systemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz"
-            "gummibootx64.efi")
-    sha256sums=('5d2f6b19c5c566143a9bf4d1c72b150fff853291544435e4a649cfcf282711aa'
-                '6ca54cb2320dac3173bff9234c5b108ed05b7d97c1a17b6a111a33133ffca789'
-                'e0c6a40c74dc3a597dda977cb44bdf21759b8869e152d898d35664b8d3675fd3')
-fi
+package_eudev-systemd() {
+    pkgdesc="systemd-sysuser and systemd-tmpfiles binary; systemd compatibility package"
+    provides=("systemd=${pkgver}" "systemd-tools=${pkgver}")
+    depends=('eudev' 'libseccomp')
+    conflicts=('systemd-tools' 'systemd' 'eudev-systemdcompat')
+    replaces=('eudev-systemdcompat')
 
-# if [ "$CARCH" = "i686" ]; then
-#     source=("$_url/i686/libsystemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz"
-# 			"$_url/i686/systemd-$pkgver-${_spkgrel}-i686.pkg.tar.xz")
-# 	sha256sums=('5dd169b36e126702d683a2b81efcc80a830fea622dc83380dbec94513876a586'
-# 				'f9f3d59c9fa2ed6474216feca2fc36fcb231aa8ca07f69d6a4f4f10db84399ab')
-# elif [ "$CARCH" = "x86_64" ]; then
-#     source=("$_url/x86_64/libsystemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz"
-# 			"$_url/x86_64/systemd-$pkgver-${_spkgrel}-x86_64.pkg.tar.xz")
-# 	sha256sums=('f9f3d59c9fa2ed6474216feca2fc36fcb231aa8ca07f69d6a4f4f10db84399ab'
-# 				'f9f3d59c9fa2ed6474216feca2fc36fcb231aa8ca07f69d6a4f4f10db84399ab')
-# fi
-
-prepare() {
-	#clean libsystemd
-	rm usr/lib/libudev*.so*
-
-	# clean systemd
-	rm -r {etc,var,usr/{include,share}}
-	rm usr/lib/libnss*
-	for d in usr/lib/*;do
-            [[ -d $d ]] && rm -r $d
-	done
-	for f in usr/bin/*;do
-		[[ $f != 'usr/bin/systemd-tmpfiles' && $f != 'usr/bin/systemd-sysusers' ]] && rm $f
-	done
+    install -d "$pkgdir"/usr/{bin,lib/systemd}
+    for f in usr/bin/systemd-sysusers;do     #{systemd-tmpfiles,systemd-sysusers};do
+        mv -v $f "$pkgdir"/usr/bin
+    done
+    for f in usr/lib/systemd/libsystemd-shared*.so*;do
+        mv -v $f $pkgdir/usr/lib/systemd
+    done
 }
 
-package() {
-	mv "$srcdir/usr/" "$pkgdir"
-	if [[ $CARCH == 'x86_64' ]];then
-            install -D $srcdir/gummibootx64.efi $pkgdir/usr/lib/systemd/boot/efi/systemd-bootx64.efi
-	fi
+package_libeudev-systemd() {
+    pkgdesc="systemd client libraries without udev; systemd compatibility package"
+    provides=("libsystemd=${pkgver}" 'libsystemd.so')
+    depends=('glibc' 'libcap' 'libgcrypt' 'lz4' 'xz' 'libeudev')
+    conflicts=('libsystemd' 'eudev-systemdcompat')
+    replaces=('eudev-systemdcompat')
+
+    install -d $pkgdir/usr/lib
+    for f in usr/lib/libsystemd*.so*;do
+        mv -v $f $pkgdir/usr/lib
+    done
 }

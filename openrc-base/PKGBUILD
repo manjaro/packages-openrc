@@ -1,188 +1,270 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
-_gentoo_uri="https://raw.githubusercontent.com/gentoo/gentoo/master"
+_url="https://raw.githubusercontent.com/gentoo/gentoo/master"
+
+_sed_args=(-e 's|/var/run|/run|g')
+prefix=true
+
+$_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgbase=openrc-base
-pkgname=('cronie-openrc'
-		'cryptsetup-openrc'
-		'dhcpcd-openrc'
-		'device-mapper-openrc'
-		'glibc-openrc'
-		'inetutils-openrc'
-		'lvm2-openrc'
-		'mdadm-openrc')
-pkgver=20150613
+pkgname=('dbus-openrc'
+        'cronie-openrc'
+        'cryptsetup-openrc'
+        'dhcpcd-openrc'
+        'device-mapper-openrc'
+        'glibc-openrc'
+        'inetutils-openrc'
+        'lvm2-openrc'
+        'mdadm-openrc'
+        'nfs-utils-openrc'
+        'quota-tools-openrc'
+        'rpcbind-openrc'
+        'syslog-ng-openrc')
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
 groups=('openrc-base')
-conflicts=('initscripts'
-		'systemd-sysvcompat'
-		'openrc'
-		'openrc-git'
-		'openrc-sysvinit')
-source=("cronie.initd::${_gentoo_uri}/sys-process/cronie/files/cronie-1.3-initd"
-		"dmcrypt.confd::${_gentoo_uri}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.confd"
-		"dmcrypt.initd::${_gentoo_uri}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.rc"
-		"nscd.initd::${_gentoo_uri}/sys-libs/glibc/files/nscd"
-		"device-mapper.confd::${_gentoo_uri}/sys-fs/lvm2/files/device-mapper.conf-1.02.22-r3"
-		"device-mapper.initd::${_gentoo_uri}/sys-fs/lvm2/files/device-mapper.rc-2.02.105-r2"
-		"dmeventd.initd::${_gentoo_uri}/sys-fs/lvm2/files/dmeventd.initd-2.02.67-r1"
-		"lvm.confd::${_gentoo_uri}/sys-fs/lvm2/files/lvm.confd-2.02.28-r2"
-		"lvm.initd::${_gentoo_uri}/sys-fs/lvm2/files/lvm.rc-2.02.105-r2"
-		"lvm-monitoring.initd::${_gentoo_uri}/sys-fs/lvm2/files/lvm-monitoring.initd-2.02.105-r2"
-		"lvmetad.initd::${_gentoo_uri}/sys-fs/lvm2/files/lvmetad.initd-2.02.105-r2"
-		"mdadm.confd::${_gentoo_uri}/sys-fs/mdadm/files/mdadm.confd"
-		"mdadm.initd::${_gentoo_uri}/sys-fs/mdadm/files/mdadm.rc"
-		"mdraid.confd::${_gentoo_uri}/sys-fs/mdadm/files/mdraid.confd"
-		"mdraid.initd::${_gentoo_uri}/sys-fs/mdadm/files/mdraid.rc"
-		"dhcpcd.initd::${_gentoo_uri}/net-misc/dhcpcd/files/dhcpcd.initd"
+conflicts=('systemd-sysvcompat')
+source=("cronie.initd::${_url}/sys-process/cronie/files/cronie-1.3-initd"
+		"dmcrypt.confd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.confd"
+		"dmcrypt.initd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.rc"
+		"nscd.initd::${_url}/sys-libs/glibc/files/nscd"
+		"device-mapper.confd::${_url}/sys-fs/lvm2/files/device-mapper.conf-1.02.22-r3"
+		"device-mapper.initd::${_url}/sys-fs/lvm2/files/device-mapper.rc-2.02.105-r2"
+		"dmeventd.initd::${_url}/sys-fs/lvm2/files/dmeventd.initd-2.02.67-r1"
+		"lvm.confd::${_url}/sys-fs/lvm2/files/lvm.confd-2.02.28-r2"
+		"lvm.initd::${_url}/sys-fs/lvm2/files/lvm.rc-2.02.166-r2"
+		"lvm-monitoring.initd::${_url}/sys-fs/lvm2/files/lvm-monitoring.initd-2.02.105-r2"
+		"lvmetad.initd::${_url}/sys-fs/lvm2/files/lvmetad.initd-2.02.116-r3"
+# 		"lvmlockd.initd::${_url}/sys-fs/lvm2/files/lvmlockd.initd-2.02.166-r1"
+		"mdadm.confd::${_url}/sys-fs/mdadm/files/mdadm.confd"
+		"mdadm.initd::${_url}/sys-fs/mdadm/files/mdadm.rc"
+		"mdraid.confd::${_url}/sys-fs/mdadm/files/mdraid.confd"
+		"mdraid.initd::${_url}/sys-fs/mdadm/files/mdraid.rc"
+		"dhcpcd.initd::${_url}/net-misc/dhcpcd/files/dhcpcd.initd"
+		"dbus.initd::${_url}/sys-apps/dbus/files/dbus.initd-r1"
 		'ftpd.confd'
-		'ftpd.initd')
-sha256sums=('316753fd55bcc196aaee034f14a25f2324545749bf7bdd44fd3762d11ab18d05'
+		'ftpd.initd'
+        "nfs.confd::${_url}/net-fs/nfs-utils/files/nfs.confd"
+        "nfs.initd::${_url}/net-fs/nfs-utils/files/nfs.initd"
+        "nfsclient.confd::${_url}/net-fs/nfs-utils/files/nfsclient.confd"
+        "nfsclient.initd::${_url}/net-fs/nfs-utils/files/nfsclient.initd"
+        "rpc.idmapd.initd::${_url}/net-fs/nfs-utils/files/rpc.idmapd.initd"
+        "rpc.pipefs.initd::${_url}/net-fs/nfs-utils/files/rpc.pipefs.initd"
+        "rpc.gssd.initd::${_url}/net-fs/nfs-utils/files/rpc.gssd.initd"
+        "rpc.svcgssd.initd::${_url}/net-fs/nfs-utils/files/rpc.svcgssd.initd"
+        "rpc.statd.initd::${_url}/net-fs/nfs-utils/files/rpc.statd.initd"
+        "quota.confd::${_url}/sys-fs/quota/files/quota.confd"
+        "quota.initd::${_url}/sys-fs/quota/files/quota.rc7"
+        "rpc.rquotad.initd::${_url}/sys-fs/quota/files/rpc.rquotad.initd"
+#         "rpcbind.confd::${_url}/net-nds/rpcbind/files/rpcbind.confd"
+        "rpcbind.initd::${_url}/net-nds/rpcbind/files/rpcbind.initd"
+        "syslog-ng.confd::${_url}/app-admin/syslog-ng/files/3.7/syslog-ng.confd"
+        "syslog-ng.initd::${_url}/app-admin/syslog-ng/files/3.7/syslog-ng.rc6")
+sha256sums=('8646ff964892eeb5f6c5da444a5ef5d898fb1f3a395c5b9fc85d32d8d56fc785'
             '3d933a54abe62a547294b83208dbf5d7615d9c7f380d6504c91fff3620530803'
-            'd0a55d31c713bbddf7d05634018623586e69d43281bc5019b5b821a745f9a57f'
-            '7da9311c50f432d425549288288e0952d50e08644a06af6b8e2f886039f682fe'
+            'd04627e1a64e4d86e957b20ff6f478fb376833b7602098a708af9c070e30a980'
+            '13391343bfc64379c696b4bfc1cfe8d7fbb2886f477265343fddf448d82deabf'
             '57777904f12a35617e5a4193c964ebb32396452487fd02353e71e16e7b46bc22'
-            'eb5c194b5e70a6fef95d5b1064771e37384d0972494a500fc22c3265eb9064e4'
-            '63e45f4a86c9c0be27d455999289f0dd62d912c04f12a38e3fa0257fafe293fb'
+            'e8bfde63341f9e6136ee20a15ed9ea455e2259dbcaea756f8c3d0f710c1c2746'
+            '5edaaad292d4fd6b67fd5323636dd2e839be33ae16fbc7872dadb0499fcf22da'
             '28370c089c39c248d7ded0960b8d8a9256bada44d44c22ce3cec87d512ef6844'
-            '53aaa87749be5cc89942e2485ea76491e3f2ca98de4f9a392fac4cd88c87f548'
-            '258b913654312e39ab8db4aa43584cbeee8d654621f357810e6dac744312fb62'
-            '84fe3d786652a0d73f3626923feffa1fcb0a0b0054260cb5f73b0485d99fa168'
+            '257e6801b1d2890fe77b7d030489066d9129712eae395b77ae5e9e461d435f80'
+            '42847d8e6dabbcf2cc19846c6ad22cbab65e9a033c4add569b152504b16ab477'
+            'e7f17004d505eae5d8a2fb336b22f1cdb20bb2ecf85a98daf2485bb4b0d4ff12'
             'ec55674955af7a31da51b8b72b599e8519809287dad796a9b16155bcba471b79'
-            'b686fbc31b85a9dbf2f8569ce9158858e7f96a0ee02b21f68c36cb38eedbf927'
+            '5b859ba14b7a4a350c0a8afe6edb352e0db9920bdf1e05315ffbbfb92f201584'
             'b489ced10391d4295bb8ca29e128b0d4217c290f1b4e37b05f5a9275048d289d'
-            '9681b6bc6358dd80f6add0a115faa0113afa2be1784de4e07dbf31c460ac4252'
-            '72b42c9939fda3fb56666813513029ed36194c1708bddce06bcb3e131e547492'
+            '31e7ba4174f38c05e939aa56fab8a43a3e371ba9e503e029887c99fed7a28331'
+            '6bb9b8b0075e45e63e898ed043f3c5951dc3e95c1fa62d22cc6e0616c792ecd1'
+            '00a1a8f254d4f40b6f98a2777809b9c45ad81c4aeb4c0592793dd839777990bd'
             '59fe1aa68c43f4958afc397a0d6b35da263a20fcdb457005123a0d64cb1f7477'
-            '7f46e5e9ac9f204fb1564560c506a5bb4cede8823b89e3f1844e4f8be258e9ef')
+            '7f46e5e9ac9f204fb1564560c506a5bb4cede8823b89e3f1844e4f8be258e9ef'
+            'c652a4fe8a43dc68a818345db2b3acc560663b5b6c969324d4f23afb0fb96a94'
+            '247456e845e70badb44d9155b68e5f76d502361769e4332a9d1bd6345f85fbfa'
+            'e8842fca856eae598fb8fe15ed8d3cef13e61851217be66b8cc4087af8cee8ad'
+            '56973f5c8196b4227114d94a1d3c8c95518be5a02c6b5dc97da243d0b6086843'
+            'dc21ce6ba28f45eb450d5d0dbe7e5ea706b1547c8bece4ddb6836a5433427bd6'
+            '04102bff9b13d2e7c4e30603e7c98fe412d5f6c907a37dcea95f420f153c29ae'
+            '83c318a7502718a3e1693869297b95db1c32270b37d45b26b2bc151ec06f3c08'
+            '272905335a7c82034c6bac007bd4477aae21d8ce49e82355c48301db771ba77e'
+            '6f3d93442db0c17436547a16155e0d61dd5cd17f49fd3a642a9a5de833411d51'
+            '00d1dfb3b893db5d6a213a4edda622c7d64dcafa40b3019f15e070c164286632'
+            '2a4dc1f695a881d0715e6220dad54b3690d98bf26b618b0fe6cb4ab26823e047'
+            'ef7eec0fd1921f786580169628c9cc7af82c73d0b2cf420fba0e87f8fd428651'
+            'da992f87b5043e22dfd340b4a5440b76dce29cc14d3ef7b0ce586726fe4b220b'
+            'b29325498ee3b1f3d63672efcd1e93f0745eecdb9f4bb05fed82a2f085399484'
+            '5c4ad3406fc885555883de0537614034de181d783bcb1e864bff6299ac6c1356')
 
 pkgver() {
-	date +%Y%m%d
+    date +%Y%m%d
 }
 
 _inst_initd(){
-	install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
 
-	sed -e 's|#!/sbin/runscript|#!/usr/bin/openrc-run|' \
-            -e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
-            -e 's|/var/run|/run|g' \
-            -i ${pkgdir}/etc/init.d/$1
+    sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){
-	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
 }
 
 package_cronie-openrc() {
-	pkgdesc="OpenRC cronie init script"
-	groups=('openrc-base' 'openrc-desktop')
-	depends=('openrc-core' 'cronie')
-	provides=('openrc-cron')
-	conflicts=('fcron'
-			'fcron-openrc'
-			'openrc'
-			'openrc-git'
-			'openrc-arch-services-git'
-			'initscripts'
-			'systemd-sysvcompat')
-	backup=('etc/init.d/cronie')
-	install=cronie.install
+    pkgdesc="OpenRC cronie init script"
+    depends=('openrc' 'cronie')
+    provides=('openrc-cron')
+    conflicts=('fcron' 'fcron-openrc' 'systemd-sysvcompat')
+    backup=('etc/init.d/cronie')
 
-	_inst_initd 'cronie'
+    _inst_initd 'cronie'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' -i ${pkgdir}/etc/init.d/cronie
+    sed -e 's|/usr/sbin|/usr/bin|g' -i ${pkgdir}/etc/init.d/cronie
+}
+
+package_dbus-openrc() {
+    pkgdesc="OpenRC dbus init script"
+    depends=('openrc' 'dbus-elogind')
+
+    _inst_initd 'dbus'
+
+    sed -e 's|dbus.pid|dbus/pid|g' -i "${pkgdir}/etc/init.d/dbus"
 }
 
 package_dhcpcd-openrc() {
-	pkgdesc="OpenRC dhcpcd init script"
-	groups=('openrc-base' 'openrc-desktop')
-	depends=('openrc-core' 'dhcpcd')
-	install=dhcpcd.install
+    pkgdesc="OpenRC dhcpcd init script"
+    depends=('openrc' 'dhcpcd-nosystemd')
 
-	_inst_initd 'dhcpcd'
+    _inst_initd 'dhcpcd'
 
-	sed -e 's|/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/dhcpcd"
+    sed -e 's|/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/dhcpcd"
 }
 
 package_device-mapper-openrc() {
-	pkgdesc="OpenRC device-mapper init script"
-	depends=('openrc-core' 'device-mapper')
-	backup=('etc/conf.d/device-mapper')
-	install=device-mapper.install
+    pkgdesc="OpenRC device-mapper init script"
+    depends=('device-mapper-nosystemd' 'eudev-openrc')
+    backup=('etc/conf.d/device-mapper')
 
-	_inst_confd 'device-mapper'
-	_inst_initd 'device-mapper'
-	_inst_initd 'dmeventd'
+    _inst_confd 'device-mapper'
+    _inst_initd 'device-mapper'
+    _inst_initd 'dmeventd'
 
-	for f in ${pkgdir}/etc/init.d/*; do
-		sed -e 's|/sbin|/usr/bin|g' -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*; do
+        sed -e 's|/sbin|/usr/bin|g' -i $f
+    done
 }
 
 package_cryptsetup-openrc() {
-	pkgdesc="OpenRC cryptsetup init script"
-	depends=('device-mapper-openrc' 'cryptsetup')
-	backup=('etc/conf.d/dmcrypt')
-	install=cryptsetup.install
+    pkgdesc="OpenRC cryptsetup init script"
+    depends=('device-mapper-openrc' 'cryptsetup')
+    backup=('etc/conf.d/dmcrypt')
 
-	_inst_confd 'dmcrypt'
-	_inst_initd 'dmcrypt'
+    _inst_confd 'dmcrypt'
+    _inst_initd 'dmcrypt'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/dmcrypt"
+    sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/dmcrypt"
 }
 
 package_glibc-openrc() {
-	pkgdesc="OpenRC nscd init script"
-	depends=('openrc-core' 'glibc')
-	optdepends=('openldap-openrc'
-			'bind-openrc')
-	install=glibc.install
+    pkgdesc="OpenRC nscd init script"
+    depends=('openrc' 'glibc')
 
-	_inst_initd 'nscd'
+    _inst_initd 'nscd'
 
-	sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/nscd"
+    sed -e 's|/usr/sbin|/usr/bin|g' -i "${pkgdir}/etc/init.d/nscd"
 }
 
 package_inetutils-openrc() {
-	pkgdesc="OpenRC ftpd init script"
-	depends=('openrc-core' 'inetutils')
-	backup=('etc/conf.d/ftpd')
-	install=inetutils.install
+    pkgdesc="OpenRC ftpd init script"
+    depends=('openrc' 'inetutils')
+    backup=('etc/conf.d/ftpd')
 
-	_inst_confd 'ftpd'
-	_inst_initd 'ftpd'
+    _inst_confd 'ftpd'
+    _inst_initd 'ftpd'
 }
 
 package_lvm2-openrc() {
-	pkgdesc="OpenRC lvm2 init script"
-	depends=('device-mapper-openrc' 'lvm2')
-	backup=('etc/conf.d/lvm')
-	install=lvm2.install
+    pkgdesc="OpenRC lvm2 init script"
+    depends=('device-mapper-openrc' 'lvm2-nosystemd')
+    backup=('etc/conf.d/lvm')
 
-	_inst_confd 'lvm'
-	_inst_initd 'lvm'
-	_inst_initd 'lvm-monitoring'
-	_inst_initd 'lvmetad'
+    _inst_confd 'lvm'
+    _inst_initd 'lvm'
+    _inst_initd 'lvm-monitoring'
+    _inst_initd 'lvmetad'
 
-	for f in ${pkgdir}/etc/init.d/*; do
-		sed -e 's|/sbin|/usr/bin|g' -i $f
-	done
+    for f in ${pkgdir}/etc/init.d/*; do
+        sed -e 's|/sbin|/usr/bin|g' -i $f
+    done
 }
 
 package_mdadm-openrc() {
-	pkgdesc="OpenRC mdadm init script"
-	depends=('openrc-core' 'mdadm')
-	optdepends=('bind-openrc')
-	backup=('etc/conf.d/mdadm')
-	install=mdadm.install
+    pkgdesc="OpenRC mdadm init script"
+    depends=('openrc' 'mdadm')
+    backup=('etc/conf.d/mdadm')
 
-	_inst_confd 'mdadm'
-	_inst_initd 'mdadm'
+    for f in mdadm mdraid;do
+        _inst_confd $f
+        _inst_initd $f
+    done
+}
 
-	_inst_confd 'mdraid'
-	_inst_initd 'mdraid'
+package_rpcbind-openrc() {
+    pkgdesc="OpenRC rpcbind init script"
+    depends=('openrc' 'rpcbind-nosystemd')
+#     backup=('etc/conf.d/rpcbind')
+
+#     _inst_confd 'rpcbind'
+    _inst_initd 'rpcbind'
+
+    sed -e 's|/sbin|/usr/bin|g' \
+        -e 's|RPCBIND_OPTS|RPCBIND_ARGS|' \
+        -i "${pkgdir}/etc/init.d/rpcbind"
+}
+
+package_quota-tools-openrc() {
+    pkgdesc="OpenRC quota-tools init script"
+    depends=('quota-tools' 'rpcbind-openrc')
+    backup=('etc/conf.d/quota')
+
+    _inst_confd 'quota'
+    _inst_initd 'quota'
+    _inst_initd 'rpc.rquotad'
+
+    for f in ${pkgdir}/etc/init.d/*;do
+            sed -e 's|/usr/sbin|/usr/bin|g' -i $f
+    done
+}
+
+package_nfs-utils-openrc() {
+    pkgdesc="OpenRC nfs-utils init script"
+    depends=('nfs-utils' 'rpcbind-openrc' 'device-mapper-openrc')
+    backup=('etc/conf.d/nfs'
+            'etc/conf.d/nfsclient')
+
+    for f in nfs nfsclient;do
+        _inst_confd $f
+        _inst_initd $f
+    done
+
+    for f in rpc.gssd rpc.idmapd rpc.pipefs rpc.statd rpc.svcgssd;do
+        _inst_initd $f
+    done
+
+    for f in ${pkgdir}/etc/init.d/*;do
+            sed -e 's|/usr/sbin|/usr/bin|g' -i $f
+    done
+}
+
+package_syslog-ng-openrc() {
+    pkgdesc="OpenRC syslog-ng init script"
+    depends=('openrc' 'syslog-ng-nosystemd')
+    backup=('etc/conf.d/syslog-ng')
+
+    _inst_confd 'syslog-ng'
+    _inst_initd 'syslog-ng'
 }

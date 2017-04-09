@@ -3,59 +3,88 @@
 # Contributor: Ivailo Monev <xakepa10@gmail.com>
 
 _udev_ver=220
-_src_uri='http://dev.gentoo.org/~blueness/eudev'
 
-pkgname=eudev
-pkgver=3.1.4
-pkgrel=1
-pkgdesc="The userspace dev tools (udev) forked by Gentoo"
+pkgbase=eudev
+pkgname=('eudev' 'libeudev')
+pkgver=3.2.1
+pkgrel=6
 arch=('i686' 'x86_64')
 url="http://www.gentoo.org/proj/en/eudev/"
 license=('GPL')
-depends=('glib2' 'kbd' 'kmod' 'hwids' 'util-linux')
-makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool')
-optdepends=('eudev-systemdcompat: makes packages compiled with systemd features run'
-	    'upower-pm-utils: pm-utils support')
-provides=("udev=${_udev_ver}"
-	"libudev=${_udev_ver}"
-	'libudev.so')
-conflicts=('libudev.so')
-backup=('etc/udev/udev.conf')
-options=(!makeflags !libtool)
-source=("https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
-	'initcpio_hooks'
-	'initcpio_install')
-sha256sums=('68a945d15bb644603133b9402383d4bd45b148ed63e60aff200407ed2221b84b'
+makedepends=('gobject-introspection' 'gperf' 'gtk-doc' 'intltool' 'kmod')
+options=('!libtool')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/gentoo/eudev/archive/v${pkgver}.tar.gz"
+        'initcpio_hooks'
+        'initcpio_install'
+        'udev-hwdb.hook'
+        "gperf-build-fix.patch::https://github.com/gentoo/eudev/commit/5bab4d8de0dcbb8e2e7d4d5125b4aea1652a0d60.patch"
+        "global-properties-fix.patch::https://github.com/gentoo/eudev/commit/90a8c95446b345cc9b388fdb30866e1cb77fe711.patch")
+sha256sums=('88f530c1540750e6daa91b5eaeebf88e761e6f0c86515c1c28eedfd871f027c6'
             '892ce43218e0a458981bbce451252c8987dc398e60b8de288e7542b8f2409c13'
-            '77dd1fd318b4456409aceb077f060b87944defb07cf39d29ad1968dc6f361875')
+            '77dd1fd318b4456409aceb077f060b87944defb07cf39d29ad1968dc6f361875'
+            '846e9ddbb95c8394ba7efe75107cc1308426921bc042f5d6b48fa4c2dcbac151'
+            '9c61af4d5bd3417ec87a241327f063aae67b46adbcd9eef6f87510815f95f724'
+            '09a224de7960ba7ca54abaebb14b58c5a07859b7f7bf0db016d26f2436a704bf')
 
-build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	./autogen.sh
-	./configure \
-		--prefix=/usr \
-		--with-rootprefix=/usr \
-		--sysconfdir=/etc \
-		--libdir=/usr/lib \
-		--sbindir=/usr/bin \
-		--enable-introspection \
-		--enable-kmod \
-		--enable-manpages \
-		--enable-split-usr
-
-	make
+prepare(){
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+    sed -e 's/GROUP="dialout"/GROUP="uucp"/' \
+        -e 's/GROUP="cdrom"/GROUP="optical"/' \
+        -e 's/GROUP="tape"/GROUP="storage"/' \
+        -i rules/*.rules
+    patch -p1 -i ${srcdir}/gperf-build-fix.patch
+    patch -p1 -i ${srcdir}/global-properties-fix.patch
+    ./autogen.sh
 }
 
-package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	make DESTDIR="${pkgdir}" install
+build() {
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+    
+    ./configure \
+        --prefix=/usr \
+        --with-rootprefix=/usr \
+        --sysconfdir=/etc \
+        --libdir=/usr/lib \
+        --sbindir=/usr/bin \
+        --enable-introspection \
+        --enable-kmod \
+        --enable-manpages \
+        --enable-split-usr
 
-	for i in "${pkgdir}/usr/lib/udev/rules.d/"*.rules; do
-		sed -i -e 's#GROUP="dialout"#GROUP="uucp"#g;
-                            s#GROUP="tape"#GROUP="storage"#g;
-                            s#GROUP="cdrom"#GROUP="optical"#g' "${i}"
-	done
+    make
+}
 
-	install -Dm644 "${srcdir}/initcpio_hooks" "${pkgdir}/usr/lib/initcpio/hooks/udev"
-	install -Dm644 "${srcdir}/initcpio_install" "${pkgdir}/usr/lib/initcpio/install/udev"
+package_eudev() {
+    pkgdesc="The userspace dev tools (udev) forked by Gentoo"
+    groups=('base-nosystemd')
+    provides=("udev=${_udev_ver}")
+    depends=("libeudev" 'kbd' 'kmod' 'hwids')
+    optdepends=('eudev-systemd: makes packages compiled with systemd features run'
+                'udev-openrc: udev starup scripts for openrc')
+    backup=('etc/udev/udev.conf')
+
+
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+
+    make DESTDIR="${pkgdir}" install
+
+    rm -rv "$pkgdir"/usr/lib/pkgconfig
+    rm -v "$pkgdir"/usr/include/libudev.h
+    rm -v "$pkgdir"/usr/lib/libudev*.{so*,a}
+
+    install -Dm644 "${srcdir}/initcpio_hooks" "${pkgdir}/usr/lib/initcpio/hooks/udev"
+    install -Dm644 "${srcdir}/initcpio_install" "${pkgdir}/usr/lib/initcpio/install/udev"
+    install -Dm644 "$srcdir/udev-hwdb.hook" "$pkgdir/usr/share/libalpm/hooks/udev-hwdb.hook"
+}
+
+package_libeudev() {
+    pkgdesc="eudev client libraries"
+    groups=('base-devel-nosystemd')
+    depends=('glibc')
+    optdepends=('libeudev-systemd: systemd client libraries')
+    conflicts=('libudev.so')
+    provides=("libudev=${_udev_ver}" 'libudev.so')
+
+    cd "${srcdir}/${pkgbase}-${pkgver}"
+    make -C src/libudev DESTDIR="$pkgdir" install
 }

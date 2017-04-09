@@ -1,0 +1,9 @@
+post_install() {
+	echo "	==> Set up your network interface before you reboot if using netifrc."
+	local _url="https://wiki.gentoo.org/wiki/Handbook:X86/Full/Networking"
+	echo "	==> Visit ${_url}"
+}
+
+post_upgrade() {
+	post_install "$1"
+}

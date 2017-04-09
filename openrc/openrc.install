@@ -1,0 +1,16 @@
+pre_install() {
+	echo "	==> You can boot up systemd any time if systemd is used for udev."
+	echo "	==> Add 'init=/usr/lib/systemd/systemd' to kernel command line."
+}
+
+post_install() {
+        echo "	==> Install one of the optional depends for network support!"
+}
+
+post_upgrade() {
+	post_install "$1"
+}
+
+post_remove() {
+	echo "	==> Make sure you install systemd-sysvcompat before you reboot!"
+}

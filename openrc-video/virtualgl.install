@@ -1,18 +1,4 @@
-_svc="vgl"
-_rlvl="default"
-
 post_install() {
-	_cmd="rc-update add ${_svc} ${_rlvl}"
-	echo "	==> run '${_cmd}'"
 	chown root:video /var/lib/VirtualGL
 	chmod 0750 /var/lib/VirtualGL
-}
-
-post_upgrade() {
-	post_install "$1"
-}
-
-post_remove() {
-	_cmd="rc-update del ${_svc} ${_rlvl}"
-	echo "	==> run '${_cmd}'"
 }

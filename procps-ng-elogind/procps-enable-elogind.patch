@@ -1,0 +1,56 @@
+--- a/configure.ac	2016-11-09 17:54:58.948363623 +0100
++++ b/configure.ac	2016-11-09 17:58:01.145365254 +0100
+@@ -155,6 +155,19 @@
+ ])
+ AM_CONDITIONAL([WITH_SYSTEMD], [test x$with_systemd != xno])
+ 
++AC_ARG_WITH([elogind],
++  [AS_HELP_STRING([--with-elogind], [enable elogind support])],
++  [], [with_elogind=no]
++)
++# Do not allow elogind if systemd is wanted and found
++AS_IF([test "x$with_systemd" != "xno"], [with_elogind=no])
++
++AS_IF([test "x$with_elogind" != "xno"], [
++  PKG_CHECK_MODULES([ELOGIND], [libelogind])
++  AC_DEFINE(WITH_ELOGIND, 1, [enable elogind support])
++])
++AM_CONDITIONAL([WITH_ELOGIND], [test x$with_elogind != xno])
++
+ # AC_ARG_ENABLEs
+ AC_ARG_ENABLE([pidof],
+   AS_HELP_STRING([--disable-pidof], [do not build pidof]),
+--- a/proc/readproc.c	2016-11-03 14:55:47.855123115 +0100
++++ b/proc/readproc.c	2016-11-03 14:57:23.942126000 +0100
+@@ -40,6 +40,9 @@
+ #ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
+ #endif
++#ifdef WITH_ELOGIND
++#include <elogind/sd-login.h>
++#endif
+ 
+ // sometimes it's easier to do this manually, w/o gcc helping
+ #ifdef PROF
+@@ -518,7 +521,7 @@
+ }
+ 
+ static void sd2proc(proc_t *restrict p) {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_SYSTEMD) || defined(WITH_ELOGIND)
+     char buf[64];
+     uid_t uid;
+ 
+--- a/Makefile.am	2016-11-03 15:35:21.023194363 +0100
++++ b/Makefile.am	2016-11-03 15:35:48.679195193 +0100
+@@ -155,6 +155,10 @@
+ proc_libprocps_la_LIBADD += @SYSTEMD_LIBS@
+ endif
+ 
++if WITH_ELOGIND
++proc_libprocps_la_LIBADD += @ELOGIND_LIBS@
++endif
++
+ proc_libprocps_la_LDFLAGS = \
+ 	-version-info $(LIBprocps_CURRENT):$(LIBprocps_REVISION):$(LIBprocps_AGE) \
+ 	-no-undefined \

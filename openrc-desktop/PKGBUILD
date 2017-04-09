@@ -1,199 +1,208 @@
 # Maintainer: artoo <artoo@manjaro.org>
 
-_gentoo_uri="https://raw.githubusercontent.com/gentoo/gentoo/master"
+_url="https://raw.githubusercontent.com/gentoo/gentoo/master"
+
+_sed_args=(-e 's|/var/run|/run|g' -e 's|/usr/sbin|/usr/bin|g')
+prefix=true
+
+$_prefix && _sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
 
 pkgbase=openrc-desktop
 pkgname=('acpid-openrc'
-		'alsa-utils-openrc'
-		'avahi-openrc'
-		'cgmanager-openrc'
-		'consolekit-openrc'
-		'displaymanager-openrc'
-		'gpm-openrc'
-		'bluez-openrc'
-		'wpa_supplicant-openrc')
-		
-pkgver=20150921
+        'alsa-utils-openrc'
+        'avahi-openrc'
+        'displaymanager-openrc'
+        'gpm-openrc'
+        'bluez-openrc'
+        'networkmanager-openrc'
+        'wpa_supplicant-openrc'
+        'elogind-openrc')
+pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
-groups=('openrc-desktop')
-conflicts=('openrc'
-		'openrc-git'
-		'openrc-arch-services-git'
-		'initscripts'
-		'systemd-sysvcompat')
-source=("acpid.confd::${_gentoo_uri}/sys-power/acpid/files/acpid-2.0.16-conf.d"
-		"acpid.initd::${_gentoo_uri}/sys-power/acpid/files/acpid-2.0.16-init.d"
-		"alsasound.confd::${_gentoo_uri}/media-sound/alsa-utils/files/alsasound.confd-r4"
-		"alsasound.initd::${_gentoo_uri}/media-sound/alsa-utils/files/alsasound.initd-r6"
-		"consolekit.initd::${_gentoo_uri}/sys-auth/consolekit/files/consolekit-1.0.0.initd"
-		"xdm.confd::${_gentoo_uri}/x11-base/xorg-server/files/xdm.confd-4"
-		"xdm.initd::${_gentoo_uri}/x11-base/xorg-server/files/xdm.initd-11"
-		"xdm-setup.initd::${_gentoo_uri}/x11-base/xorg-server/files/xdm-setup.initd-1"
-		"${_gentoo_uri}/x11-apps/xinit/files/startDM.sh"
-		"gpm.confd::${_gentoo_uri}/sys-libs/gpm/files/gpm.conf.d"
-		"gpm.initd::${_gentoo_uri}/sys-libs/gpm/files/gpm.rc6-2"
-		"rfcomm.confd::${_gentoo_uri}/net-wireless/bluez/files/rfcomm-conf.d"
-		"rfcomm.initd::${_gentoo_uri}/net-wireless/bluez/files/rfcomm-init.d-r2"
-		"bluetooth.initd::${_gentoo_uri}/net-wireless/bluez/files/bluetooth-init.d-r3"
-		"wpa_supplicant.confd::${_gentoo_uri}/net-wireless/wpa_supplicant/files/wpa_supplicant-conf.d"
-		"wpa_supplicant.initd::${_gentoo_uri}/net-wireless/wpa_supplicant/files/wpa_supplicant-init.d"
-		"${_gentoo_uri}/net-wireless/wpa_supplicant/files/wpa_cli.sh"
-		'avahi-daemon.initd'
-		'avahi-dnsconfd.initd'
-		"cgproxy.initd::${_gentoo_uri}/app-admin/cgmanager/files/cgproxy.initd-r1"
-		"cgmanager.initd::${_gentoo_uri}/app-admin/cgmanager/files/cgmanager.initd-r1")
+# groups=('openrc-desktop')
+conflicts=('systemd-sysvcompat')
+source=("acpid.confd::${_url}/sys-power/acpid/files/acpid-2.0.16-conf.d"
+        "acpid.initd::${_url}/sys-power/acpid/files/acpid-2.0.26-init.d"
+        "alsasound.confd::${_url}/media-sound/alsa-utils/files/alsasound.confd-r4"
+        "alsasound.initd::${_url}/media-sound/alsa-utils/files/alsasound.initd-r6"
+        "xdm.confd::${_url}/x11-base/xorg-server/files/xdm.confd-4"
+        "xdm.initd::${_url}/x11-base/xorg-server/files/xdm.initd-11"
+        "xdm-setup.initd::${_url}/x11-base/xorg-server/files/xdm-setup.initd-1"
+        "${_url}/x11-apps/xinit/files/startDM.sh"
+        "gpm.confd::${_url}/sys-libs/gpm/files/gpm.conf.d"
+        "gpm.initd::${_url}/sys-libs/gpm/files/gpm.rc6-2"
+        "rfcomm.initd::${_url}/net-wireless/bluez/files/rfcomm-init.d-r2"
+        "bluetooth.initd::${_url}/net-wireless/bluez/files/bluetooth-init.d-r3"
+        "wpa_supplicant.confd::${_url}/net-wireless/wpa_supplicant/files/wpa_supplicant-conf.d"
+        "wpa_supplicant.initd::${_url}/net-wireless/wpa_supplicant/files/wpa_supplicant-init.d"
+        "${_url}/net-wireless/wpa_supplicant/files/wpa_cli.sh"
+        "NetworkManager.confd::${_url}/net-misc/networkmanager/files/conf.d.NetworkManager"
+        "NetworkManager.initd::${_url}/net-misc/networkmanager/files/init.d.NetworkManager-r1"
+        "elogind.confd::${_url}/sys-auth/elogind/files/elogind.conf"
+        "elogind.initd::${_url}/sys-auth/elogind/files/elogind.init"
+        '10-openrc-status'
+        'avahi-daemon.initd'
+        'avahi-dnsconfd.initd')
 sha256sums=('3755d4eb8bb64a1304e5defedb949305ac550565da36fe4f94d5f31beee821ba'
-            'c2e7afd61146f24dd4abc29a77474cb2172b6b608a7754cfa64b18a490d0d816'
+            '5dcf5721a129b3782c13fc453853c390c34e2ad4ee00706388ce014454b063ee'
             'd1c55400b701a72dcb8bb85e016b5013fa3eb6a2766ffc20dae278d0ee4c1a43'
-            '1c8e25bbd5ab3c6c64c47ab094f7bd3dbf7f787007cbaf8404e5815862f23e97'
-            '5775f1225141d09c01dfaed17b7476486bb49383b0209245851f879fc7e2d68c'
+            'cf67ba1c4bd13cc6fafdebab40b3e84d09f5b6ec768ed2dcf0ec53d9be296ba4'
             '9d26b72bb28611a60a6b9f942b8d8cfe47b59f926be89af9709b5912668344d8'
-            '19992228827ae635f3ef08c1b08889afedfa563efa50bc2fb7db211caa8d1510'
-            'f88aadaea4a0d39bfac4e5bee60c316e0dbe6443d34b1f4629bf2324394883f7'
-            'da3efeaa0e5becefbbd5fe82e89a76a1efa1969b9afc1b5bd0abf83a93fc0bee'
+            '2ae57ee506eeb15eaa8f06b6a8f1d29fd007e33558c506bbf7640d16c4a67d50'
+            'e37a9353ed848f35ac7b07d1398466a18741fd1de075a6cb971e1c28088d791d'
+            'f343f87c5c89aa1b7112ec946c4df06b25e541d488405f4d98bedbeddd30bd32'
             '73e7483fdc4b12ab4225a4cb13bbe7da71b07b9e69b17e3a6a4c63cb5e2287c8'
-            'a342f0d17362b193e4aca3b9f947c6248f2da410707fc8e81f85ef98dc816411'
-            '672498957049fd301f9c9c1dc9fa49430e5e6d3c3f1f3cdce80df3af7d425d08'
-            'a95d6806952513826ad04f663b39e44f755f06beab7727c4e170249670d6f448'
-            '1319d3e70468e68025d54956edd92bca89bed04546614d4714fb5016b2900456'
+            'b48fd8ef0c4e64ca3f3ada72e8e2148a276f86bf3cbb1a165504058bd15385c1'
+            '0bd7f4a3e05c781f4cd24ef7d6702fbd7e621100bcd1e281f0ee15bb134f96b5'
+            'e42a9bef5fb34bfcbab223189a416e7be220009aaef36d26b39c664655b2971c'
             '61ec59007f66ac5bacc0aa095d1f2ccbc977a687038e161a463d1727223d5a90'
-            '62a3655ea88b3dfff5243666a4e90d3f0eef6370a7889affb849e178ba4a82b0'
-            'fb3483d4e54d3b48b993e117e45338977a5782373520e15d51cd9cd9417eec03'
+            '98985142371d39ea6294d757e85a3d3fc9fc21718063afbf81869e1d2ca648a7'
+            'f3aa34b99a90213c53496f8ea014c487266338791f3526043a7fd97adc651fc6'
+            '4594573f01fe5e04b6dde4525796acf909158591bdcefd662ec23fe0d1c3e1bd'
+            '861445d46e8863dca26a91018da3dd9fee6a64467a93e7512774dfd88914539d'
+            'ad651e0c6cd456cc0209802ac878a7c08e69435f0428ded4ad116d11f728b2dd'
+            '0113e93f3dd2c7e2ee581a39e7625d49d8e64c6089d432721a6be9df85e36531'
+            '1535237db113a76261d6f1ce0b24a55e956934b0c1c59e9fd624f621961327b6'
             '876788303553fe773e64917f76f0208f5e8adf7b91d4af24aa9d6a68a147d646'
-            'e128576d72981e402ff106bb481108ab6d5ba941ab1b0f5f53e96a7831fc1d15'
-            '5e676e1bd76f73a1fd48f706030b8cc0bea5cb36c439dd02f213092ca985cd9e'
-            '625c8b2f507076eac0108e75547239508d147bcc669372fc3991bb42b17608e1')
+            'e128576d72981e402ff106bb481108ab6d5ba941ab1b0f5f53e96a7831fc1d15')
 
 pkgver() {
 	date +%Y%m%d
 }
 
 _inst_initd(){
-	install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
+    install -Dm755 ${srcdir}/$1.initd ${pkgdir}/etc/init.d/$1
 
-	sed -e 's|#!/sbin/runscript|#!/usr/bin/openrc-run|' \
-		-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|' \
-		-e 's|/var/run|/run|g' \
-		-e 's|/usr/sbin|/usr/bin|g' \
-		-i ${pkgdir}/etc/init.d/$1
+    sed ${_sed_args[@]} -i ${pkgdir}/etc/init.d/$1
 }
 
 _inst_confd(){
-	install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
+    install -Dm755 ${srcdir}/$1.confd ${pkgdir}/etc/conf.d/$1
 }
 
 package_acpid-openrc() {
-	pkgdesc="OpenRC acpid init script"
-	depends=('openrc-core' 'acpid')
-	backup=('etc/conf.d/acpid')
-	install=acpid.install
+    pkgdesc="OpenRC acpid init script"
+    groups=('openrc-desktop')
+    depends=('openrc' 'acpid')
+    backup=('etc/conf.d/acpid')
 
-	_inst_confd 'acpid'
-	_inst_initd 'acpid'
+    _inst_confd 'acpid'
+    _inst_initd 'acpid'
 }
 
 package_alsa-utils-openrc() {
-	pkgdesc="OpenRC alsa-utils init script"
-	depends=('openrc-core' 'alsa-utils')
-	backup=('etc/conf.d/alsasound')
-	install=alsa-utils.install
+    pkgdesc="OpenRC alsa-utils init script"
+    groups=('openrc-desktop')
+    depends=('openrc' 'alsa-utils')
+    backup=('etc/conf.d/alsasound')
 
-	_inst_confd 'alsasound'
-	_inst_initd 'alsasound'
+    _inst_confd 'alsasound'
+    _inst_initd 'alsasound'
 }
 
 package_avahi-openrc() {
-	pkgdesc="OpenRC avahi init script"
-	depends=('avahi' 'dbus-openrc')
-	install=avahi.install
+    pkgdesc="OpenRC avahi init script"
+    groups=('openrc-desktop')
+    depends=('avahi' 'dbus-openrc')
 
-	_inst_initd 'avahi-daemon'
-	_inst_initd 'avahi-dnsconfd'
-}
-
-package_cgmanager-openrc() {
-	pkgdesc="OpenRC cgmanager init script"
-	groups=('openrc-desktop')
-	depends=('openrc-core' 'cgmanager')
-	install=cgmanager.install
-
-	_inst_initd 'cgproxy'
-	_inst_initd 'cgmanager'
-}
-
-package_consolekit-openrc() {
-	pkgdesc="OpenRC consolekit init script"
-	depends=('consolekit' 'dbus-openrc' 'cgmanager-openrc')
-	install=consolekit.install
-
-	_inst_initd 'consolekit'
+    _inst_initd 'avahi-daemon'
+    _inst_initd 'avahi-dnsconfd'
 }
 
 package_displaymanager-openrc() {
-	pkgdesc="OpenRC dm init script"
-	depends=('openrc-core' 'xorg-server' 'xorg-xinit')
-	optdepends=('consolekit-openrc: consolekit initscript'
-			'dbus-openrc: dbus initscript')
-	backup=('etc/conf.d/xdm')
-	install=displaymanager.install
+    pkgdesc="OpenRC dm init script"
+    groups=('openrc-desktop')
+    depends=('xorg-server' 'xorg-xinit' 'eudev-openrc')
+    optdepends=('elogind-openrc: elogind initscript'
+                'dbus-openrc: dbus initscript')
 
-	_inst_confd 'xdm'
-	_inst_initd 'xdm'
-	_inst_initd 'xdm-setup'
+    backup=('etc/conf.d/xdm')
+    install=displaymanager.install
 
-	install -Dm755 "${srcdir}/startDM.sh" "${pkgdir}/etc/X11/startDM.sh"
+    _inst_confd 'xdm'
+    _inst_initd 'xdm'
+    _inst_initd 'xdm-setup'
+
+    install -Dm755 "${srcdir}/startDM.sh" "${pkgdir}/etc/X11/startDM.sh"
 
     sed -e 's|/etc/profile.env|/etc/profile|g' \
-		-e 's|{ROOTPATH}|{PATH}|g' \
-		-i "${pkgdir}/etc/init.d/xdm"
+        -e 's|{ROOTPATH}|{PATH}|g' \
+        -e 's|use consolekit dbus xfs|use consolekit dbus xfs elogind|' \
+        -i "${pkgdir}/etc/init.d/xdm"
+}
+
+package_elogind-openrc() {
+    pkgdesc="OpenRC elogind init script"
+    groups=('openrc-desktop')
+    depends=('elogind' 'dbus-openrc' 'eudev-openrc')
+    conflicts=('consolekit-openrc')
+    replaces=('consolekit-openrc' 'cgmanager-openrc')
+
+    _inst_confd 'elogind'
+    _inst_initd 'elogind'
+
+    sed -e 's|/usr/libexec|/usr/lib|' \
+        -e 's|/var/run|/run|' \
+        -i "${pkgdir}/etc/conf.d/elogind"
 }
 
 package_gpm-openrc() {
-	pkgdesc="OpenRC gpm init script"
-	depends=('openrc-core' 'gpm')
-	backup=('etc/conf.d/gpm')
-	install=gpm.install
+    pkgdesc="OpenRC gpm init script"
+    depends=('openrc' 'gpm')
+    groups=('openrc-desktop')
+    backup=('etc/conf.d/gpm')
 
-	_inst_confd 'gpm'
-	_inst_initd 'gpm'
+    _inst_confd 'gpm'
+    _inst_initd 'gpm'
+}
+
+package_networkmanager-openrc() {
+    pkgdesc="OpenRC networkmanager init script"
+    depends=('dbus-openrc' 'networkmanager')
+    conflicts=('networkmanager-consolekit')
+    groups=('openrc-desktop' 'openrc-mobile')
+    backup=('etc/conf.d/NetworkManager')
+
+    _inst_confd 'NetworkManager'
+    _inst_initd 'NetworkManager'
+
+    install -Dm755 "${srcdir}/10-openrc-status" "${pkgdir}/etc/NetworkManager/dispatcher.d/10-openrc-status"
+
+    sed -e 's|use consolekit|use consolekit elogind|' \
+        -i "${pkgdir}/etc/init.d/NetworkManager"
 }
 
 package_bluez-openrc() {
-	pkgdesc="OpenRC bluez init script"
-	groups=('openrc-mobile')
-	depends=('bluez' 'dbus-openrc')
-	backup=('etc/conf.d/rfcomm')
-	install=bluez.install
+    pkgdesc="OpenRC bluez init script"
+    groups=('openrc-mobile')
+    depends=('bluez' 'dbus-openrc')
 
-	_inst_confd 'rfcomm'
-	_inst_initd 'rfcomm'
-	_inst_initd 'bluetooth'
+    _inst_initd 'rfcomm'
+    _inst_initd 'bluetooth'
 
-	sed -e 's|/usr/sbin|/usr/lib/bluetooth|g' \
-		-e 's/libexec/lib/' \
-		-i "${pkgdir}/etc/init.d/bluetooth"
+    sed -e 's|/usr/libexec|/usr/lib|g' \
+        -i "${pkgdir}/etc/init.d/bluetooth"
 }
 
 package_wpa_supplicant-openrc() {
-	pkgdesc="OpenRC wpa_supplicant init script"
-	groups=('openrc-mobile')
-	depends=('openrc-core' 'wpa_supplicant')
-	backup=('etc/conf.d/wpa_supplicant')
-	install=wpa_supplicant.install
+    pkgdesc="OpenRC wpa_supplicant init script"
+    groups=('openrc-mobile')
+    depends=('openrc' 'wpa_supplicant')
+    backup=('etc/conf.d/wpa_supplicant')
 
-	_inst_confd 'wpa_supplicant'
-	_inst_initd 'wpa_supplicant'
+    _inst_confd 'wpa_supplicant'
+    _inst_initd 'wpa_supplicant'
 
-	install -Dm755 "${srcdir}/wpa_cli.sh" "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
+    install -Dm755 "${srcdir}/wpa_cli.sh" "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
 
-	if [[ -f /etc/os-release ]];then
-		. /etc/os-release
-		sed -e "s|gentoo-release|${ID}-release|" -i "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
-	else
-		sed -e 's|gentoo-release|arch-release|' -i "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
-	fi
+    if [[ -f /etc/os-release ]];then
+        . /etc/os-release
+        sed -e "s|gentoo-release|${ID}-release|" -i "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
+    else
+        sed -e 's|gentoo-release|arch-release|' -i "${pkgdir}/etc/wpa_supplicant/wpa_cli.sh"
+    fi
 }

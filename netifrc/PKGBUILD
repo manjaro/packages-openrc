@@ -1,0 +1,70 @@
+# Maintainer: artoo <artoo@manjaro.org>
+# Contributor: williamh <williamh@gentoo.org>
+
+_url="https://github.com"
+
+_net_url="${_url}/gentoo/netifrc/archive"
+_func_url="${_url}/gentoo/gentoo-functions/archive"
+
+_func_ver=0.11
+
+pkgname=netifrc
+pkgver=0.5.1
+pkgrel=3
+pkgdesc="Gentoo Network Interface Management Scripts"
+arch=('i686' 'x86_64')
+url="http://www.gentoo.org/proj/en/base/openrc/"
+license=('BSD2')
+groups=('openrc-base')
+depends=('eudev-openrc')
+conflicts=('systemd-sysvcompat')
+install=${pkgname}.install
+backup=('etc/conf.d/net')
+source=("${pkgname}-${pkgver}.tar.gz::${_net_url}/${pkgver}.tar.gz"
+        "gentoo-functions-${_func_ver}.tar.gz::${_func_url}/${_func_ver}.tar.gz")
+sha256sums=('3d737efb3258ac4a32c745cb2378017402ae4da48bdd356c11845965b0184ee5'
+            'e861e1fc4da45c07c62889d80e9d2d869ef92bba4f96d1b41aff119c3e9c8099')
+
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    _id=$ID
+else
+    _id=manjaro
+fi
+
+_net_args=(SYSCONFDIR=/etc)
+_net_args+=(PREFIX=/usr)
+_net_args+=(SBINDIR=/usr/bin)
+_net_args+=(LIBEXECDIR=/usr/lib/${pkgname})
+
+_func_args+=(ROOTPREFIX=/usr)
+_func_args+=(ROOTSBINDIR=/usr/bin)
+_func_args+=(ROOTLIBEXECDIR=/usr/lib/$_id)
+
+
+build(){
+    # make netifrc
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make "${_net_args[@]}"
+    cd ${srcdir}/gentoo-functions-${_func_ver}
+    make "${_func_args[@]}"
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    make DESTDIR="${pkgdir}" "${_net_args[@]}" install
+
+    install -Dm 644 "${srcdir}/${pkgname}-${pkgver}/doc/net.example" "${pkgdir}/etc/conf.d/net"
+
+    install -d "${pkgdir}/etc/runlevels/boot"
+    ln -sf "/etc/init.d/net.lo" "${pkgdir}/etc/runlevels/boot/net.lo"
+
+    cd ${srcdir}/gentoo-functions-${_func_ver}
+    make DESTDIR="${pkgdir}" "${_func_args[@]}" install
+
+    sed -e "s|/lib/gentoo/functions.sh|/usr/lib/$_id/functions.sh|g" \
+        -i "${pkgdir}/usr/lib/${pkgname}/sh/functions.sh"
+
+    install -Dm644 ${srcdir}/${pkgname}-${pkgver}/LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,41 @@
+# Maintainer: artoo <artoo@manjaro.org>
+
+_url="http://dev.gentoo.org/~williamh/dist"
+_pkgname=udev-init-scripts
+
+_sed_args=(-e "s|/bin/udevadm|/usr/bin/udevadm|g" -e "s|/sbin/udevd|/usr/bin/udevd|g")
+_sed_args+=(-e 's|#!/sbin/openrc-run|#!/usr/bin/openrc-run|g')
+
+pkgname=eudev-openrc
+pkgver=32
+pkgrel=2
+pkgdesc="OpenRC eudev startup scripts"
+arch=('any')
+url="https://github.com/manjaro/packages-openrc"
+license=('GPL2')
+groups=('openrc-base')
+provides=('udev-openrc')
+depends=('openrc' 'eudev')
+conflicts=('systemd-sysvcompat' 'udev-openrc')
+replaces=('udev-openrc')
+source=("${_url}/${_pkgname}-${pkgver}.tar.gz"
+        "kmod-static-nodes.initd")
+sha256sums=('d5ae437291ae140194f67fec2c9a6ceeda39708433840e7b4b0361cc5ae53eaa'
+            '3ecbe7761b92a123a5a3d395ec3d9e090b0dfba7910a5987b4a2298c20a7e571')
+
+package(){
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    make DESTDIR="${pkgdir}" install
+    for f in ${pkgdir}/etc/init.d/*;do
+        sed ${_sed_args[@]} -i "$f"
+    done
+    install -d "${pkgdir}/etc/runlevels/sysinit"
+
+    ln -sf "/etc/init.d/udev" "${pkgdir}/etc/runlevels/sysinit/udev"
+    ln -sf "/etc/init.d/udev-trigger" "${pkgdir}/etc/runlevels/sysinit/udev-trigger"
+
+    # kmod-static-nodes
+    install -Dm755 ${srcdir}/kmod-static-nodes.initd ${pkgdir}/etc/init.d/kmod-static-nodes
+
+    ln -sf "/etc/init.d/kmod-static-nodes" "${pkgdir}/etc/runlevels/sysinit/kmod-static-nodes"
+}
