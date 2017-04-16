@@ -32,7 +32,8 @@ pkgname=('cpupower-openrc'
         'boinc-openrc'
         'at-openrc'
         'libvirt-openrc'
-        'laptop-mode-tools-openrc')
+        'laptop-mode-tools-openrc'
+        'cgmanager-openrc')
 pkgver=20170401
 pkgrel=1
 pkgdesc="OpenRC init scripts"
@@ -100,7 +101,9 @@ source=("fcron.initd::${_url}/sys-process/fcron/files/fcron.init.3"
         "libvirt-guests.initd::${_url}/app-emulation/libvirt/files/libvirt-guests.init-r2"
         "laptop_mode.initd::${_url}/app-laptop/laptop-mode-tools/files/laptop_mode.init-1.4"
         "zfs.initd"
-        "thermald.initd")
+        "thermald.initd"
+        "cgproxy.initd::${_url}/app-admin/cgmanager/files/cgproxy.initd-r1"
+		"cgmanager.initd::${_url}/app-admin/cgmanager/files/cgmanager.initd-r1")
 sha256sums=('af951e342ea3e96fb5294c54bdf226b0e733df8b96e8af9e4c1a836c0361ceca'
             '0be3575df8010523de6b37e98c417192e8ec481292ca9fb47c8d2211795e03a6'
             '93044cc5fc344cd90d17cbb5cebee3c60ebf674e53c8b9efc6e758d53912d343'
@@ -159,7 +162,9 @@ sha256sums=('af951e342ea3e96fb5294c54bdf226b0e733df8b96e8af9e4c1a836c0361ceca'
             'f78ced5ebe644522c6ce102b3f6bcf932686243a50629559f988548c570cad3a'
             '6bb07bd94b50ad559c3cd23b57dbb928ff0449d356d973ba281baa232435d9c6'
             '7321272190ea9846ab7e19b034649c1cd711d4f94a6bdcaaaec2f683bb822e7d'
-            '4bbb4e610d2d6bb22d83aa2980dca052a23b90fa6985c8245601b716dec986f4')
+            '4bbb4e610d2d6bb22d83aa2980dca052a23b90fa6985c8245601b716dec986f4'
+            '97220fa0af6dcaa9d2cb726620ee3de8e216e55bab37cea40e5ed010ed637e35'
+            'f162685428a6593630daf5d636c198caf4992843ced977dc6d7288b7559a062c')
 
 pkgver() {
     date +%Y%m%d
@@ -435,4 +440,12 @@ package_laptop-mode-tools-openrc() {
     groups=('openrc-misc' 'openrc-mobile')
 
     _inst_initd 'laptop_mode'
+}
+
+package_cgmanager-openrc() {
+	pkgdesc="OpenRC cgmanager init script"
+	depends=('openrc' 'cgmanager')
+
+	_inst_initd 'cgproxy'
+	_inst_initd 'cgmanager'
 }
