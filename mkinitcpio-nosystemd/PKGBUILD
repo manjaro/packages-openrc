@@ -26,22 +26,21 @@ provides=("mkinitcpio=${pkgver}-${pkgrel}")
 conflicts=('mkinitcpio')
 backup=('etc/mkinitcpio.conf')
 source=("https://sources.archlinux.org/other/${_pkgname}/${_pkgname}-$pkgver.tar.gz"
- 		'nosystemd.patch'
-		)
+        'nosystemd.patch')
 install=mkinitcpio.install
 sha256sums=('80f12a07f0dceef81dfe87200f099bd2149e0990391dda6defebaa5697f8a35a'
             'e561464646274d995a02776d3fee03199e3b3c5bdc80f31fdf53391744bb6b64')
 
 prepare() {
-  #start removing systemd related stuff
-  local d=${srcdir}/${_pkgname}-${pkgver}
-  [ ! -h "$d" ] && ln -s ${_pkgname}-${pkgver} "$d"
-  [ ! -d "$d" ] && echo "!!!!! cannot locate dir '$d'" && exit 666
-  rm -rf ${d}/install/sd-vconsole ${d}/install/sd-shutdown
-  cd $_pkgname-$pkgver
-  patch -Np1 -i $srcdir/nosystemd.patch
-  #end removing systemd related stuff
+    #start removing systemd related stuff
+    local d=${srcdir}/${_pkgname}-${pkgver}
+    [ ! -h "$d" ] && ln -s ${_pkgname}-${pkgver} "$d"
+    [ ! -d "$d" ] && echo "!!!!! cannot locate dir '$d'" && exit 666
+    rm -rf ${d}/install/sd-vconsole ${d}/install/sd-shutdown
+    cd $_pkgname-$pkgver
+    patch -Np1 -i $srcdir/nosystemd.patch
+    #end removing systemd related stuff
 }
 package() {
-  make -C "$_pkgname-$pkgver" DESTDIR="$pkgdir" install
+    make -C "$_pkgname-$pkgver" DESTDIR="$pkgdir" install
 }
