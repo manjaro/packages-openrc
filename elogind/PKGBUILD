@@ -2,8 +2,8 @@
 
 pkgbase=elogind
 pkgname=('elogind' 'libelogind')
-pkgver=226.5
-pkgrel=2
+pkgver=227.2
+pkgrel=1
 pkgdesc="The systemd project's logind, extracted to a standalone package"
 arch=('i686' 'x86_64' 'armv7h')
 url="https://github.com/elogind/elogind"
@@ -11,7 +11,7 @@ license=('GPL' 'LGPL2.1')
 makedepends=('intltool' 'libtool' 'gperf' 'gtk-doc')
 options=('!libtool')
 source=("${pkgbase}-${pkgver}.tar.gz::https://github.com/elogind/elogind/archive/v${pkgver}.tar.gz")
-sha256sums=('5d79cd27b8dfaa163ac29e7b2d2e2f569e170701c1486720a9b6d9d585cad06f')
+sha256sums=('e5f81693dbac865e991268aa33c60e07feb3a76c698b8ab8396213171931dd24')
 
 prepare() {
     cd ${pkgbase}-${pkgver}
