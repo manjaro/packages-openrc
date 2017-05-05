@@ -5,7 +5,7 @@
 _pkgname=libinput
 
 pkgname=libinput-nosystemd
-pkgver=1.7.0
+pkgver=1.7.2
 pkgrel=1
 pkgdesc="Input device management and event handling library"
 arch=(i686 x86_64)
@@ -18,7 +18,7 @@ provides=("libinput=${pkgver}" "$_pkgname")
 conflicts=("$_pkgname")
 #checkdepends=('check' 'libunwind')
 source=(https://freedesktop.org/software/$_pkgname/$_pkgname-$pkgver.tar.xz) #{,.sig})
-sha256sums=('12a670f63d01e9e9c98ad0b31aef22160aac52187b4ee8f068a6902181c1a8a8')
+sha256sums=('0b1e5a6c106ccc609ccececd9e33e6b27c8b01fc7457ddb4c1dd266e780d6bc2')
 # validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF') # Peter Hutterer (Who-T) <office@who-t.net>
 
 build() {
