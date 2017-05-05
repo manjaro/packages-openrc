@@ -21,35 +21,35 @@ pkgname=('dbus-openrc'
         'quota-tools-openrc'
         'rpcbind-openrc'
         'syslog-ng-openrc')
-pkgver=20170418
+pkgver=20170505
 pkgrel=1
 pkgdesc="OpenRC init scripts"
 arch=('any')
 url="https://github.com/manjaro/packages-openrc"
 license=('GPL2')
+# groups=('openrc-base' 'base-nosystemd')
 groups=('openrc-base')
 conflicts=('systemd-sysvcompat')
 source=("cronie.initd::${_url}/sys-process/cronie/files/cronie-1.3-initd"
-		"dmcrypt.confd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.confd"
-		"dmcrypt.initd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.rc"
-		"nscd.initd::${_url}/sys-libs/glibc/files/nscd"
-		"device-mapper.confd::${_url}/sys-fs/lvm2/files/device-mapper.conf-1.02.22-r3"
-		"device-mapper.initd::${_url}/sys-fs/lvm2/files/device-mapper.rc-2.02.105-r2"
-		"dmeventd.initd::${_url}/sys-fs/lvm2/files/dmeventd.initd-2.02.67-r1"
-		"lvm.confd::${_url}/sys-fs/lvm2/files/lvm.confd-2.02.28-r2"
-# 		"lvm.initd::${_url}/sys-fs/lvm2/files/lvm.rc-2.02.166-r6"
-		"lvm.initd::http://data.gpo.zugaina.org/poly-c/sys-fs/lvm2/files/lvm.rc-2.02.116-r6"
-		"lvm-monitoring.initd::${_url}/sys-fs/lvm2/files/lvm-monitoring.initd-2.02.105-r2"
-		"lvmetad.initd::${_url}/sys-fs/lvm2/files/lvmetad.initd-2.02.116-r3"
-# 		"lvmlockd.initd::${_url}/sys-fs/lvm2/files/lvmlockd.initd-2.02.166-r1"
-		"mdadm.confd::${_url}/sys-fs/mdadm/files/mdadm.confd"
-		"mdadm.initd::${_url}/sys-fs/mdadm/files/mdadm.rc"
-		"mdraid.confd::${_url}/sys-fs/mdadm/files/mdraid.confd"
-		"mdraid.initd::${_url}/sys-fs/mdadm/files/mdraid.rc"
-		"dhcpcd.initd::${_url}/net-misc/dhcpcd/files/dhcpcd.initd"
-		"dbus.initd::${_url}/sys-apps/dbus/files/dbus.initd-r1"
-		'ftpd.confd'
-		'ftpd.initd'
+        "dmcrypt.confd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.confd"
+        "dmcrypt.initd::${_url}/sys-fs/cryptsetup/files/1.6.7-dmcrypt.rc"
+        "nscd.initd::${_url}/sys-libs/glibc/files/nscd"
+        "device-mapper.confd::${_url}/sys-fs/lvm2/files/device-mapper.conf-1.02.22-r3"
+        "device-mapper.initd::${_url}/sys-fs/lvm2/files/device-mapper.rc-2.02.105-r2"
+        "dmeventd.initd::${_url}/sys-fs/lvm2/files/dmeventd.initd-2.02.67-r1"
+        "lvm.confd::${_url}/sys-fs/lvm2/files/lvm.confd-2.02.28-r2"
+        "lvm.initd::${_url}/sys-fs/lvm2/files/lvm.rc-2.02.166-r2"
+        "lvm-monitoring.initd::${_url}/sys-fs/lvm2/files/lvm-monitoring.initd-2.02.105-r2"
+        "lvmetad.initd::${_url}/sys-fs/lvm2/files/lvmetad.initd-2.02.116-r3"
+#         "lvmlockd.initd::${_url}/sys-fs/lvm2/files/lvmlockd.initd-2.02.166-r1"
+        "mdadm.confd::${_url}/sys-fs/mdadm/files/mdadm.confd"
+        "mdadm.initd::${_url}/sys-fs/mdadm/files/mdadm.rc"
+        "mdraid.confd::${_url}/sys-fs/mdadm/files/mdraid.confd"
+        "mdraid.initd::${_url}/sys-fs/mdadm/files/mdraid.rc"
+        "dhcpcd.initd::${_url}/net-misc/dhcpcd/files/dhcpcd.initd"
+        "dbus.initd::${_url}/sys-apps/dbus/files/dbus.initd-r1"
+        'ftpd.confd'
+        'ftpd.initd'
         "nfs.confd::${_url}/net-fs/nfs-utils/files/nfs.confd"
         "nfs.initd::${_url}/net-fs/nfs-utils/files/nfs.initd"
         "nfsclient.confd::${_url}/net-fs/nfs-utils/files/nfsclient.confd"
@@ -74,7 +74,7 @@ sha256sums=('8646ff964892eeb5f6c5da444a5ef5d898fb1f3a395c5b9fc85d32d8d56fc785'
             'e8bfde63341f9e6136ee20a15ed9ea455e2259dbcaea756f8c3d0f710c1c2746'
             '5edaaad292d4fd6b67fd5323636dd2e839be33ae16fbc7872dadb0499fcf22da'
             '28370c089c39c248d7ded0960b8d8a9256bada44d44c22ce3cec87d512ef6844'
-            '5a790c590b09791f1803426d3f208b234b2513626560724e25caf089eb611753'
+            '257e6801b1d2890fe77b7d030489066d9129712eae395b77ae5e9e461d435f80'
             '42847d8e6dabbcf2cc19846c6ad22cbab65e9a033c4add569b152504b16ab477'
             'e7f17004d505eae5d8a2fb336b22f1cdb20bb2ecf85a98daf2485bb4b0d4ff12'
             'ec55674955af7a31da51b8b72b599e8519809287dad796a9b16155bcba471b79'
@@ -194,13 +194,16 @@ package_lvm2-openrc() {
     backup=('etc/conf.d/lvm')
 
     _inst_confd 'lvm'
-    _inst_initd 'lvm'
-    _inst_initd 'lvm-monitoring'
-    _inst_initd 'lvmetad'
+
+    for f in lvm lvm-monitoring lvmetad; do
+        _inst_initd "$f"
+    done
 
     for f in ${pkgdir}/etc/init.d/*; do
         sed -e 's|/sbin|/usr/bin|g' -i $f
     done
+
+    sed -e 's|/proc/self/fd/0|vgs|g' -i ${pkgdir}/etc/init.d/lvm
 }
 
 package_mdadm-openrc() {
@@ -214,8 +217,18 @@ package_mdadm-openrc() {
     done
 }
 
+package_syslog-ng-openrc() {
+    pkgdesc="OpenRC syslog-ng init script"
+    depends=('openrc' 'syslog-ng-nosystemd')
+    backup=('etc/conf.d/syslog-ng')
+
+    _inst_confd 'syslog-ng'
+    _inst_initd 'syslog-ng'
+}
+
 package_rpcbind-openrc() {
     pkgdesc="OpenRC rpcbind init script"
+#     groups=('openrc-base')
     depends=('openrc' 'rpcbind-nosystemd')
 #     backup=('etc/conf.d/rpcbind')
 
@@ -229,6 +242,7 @@ package_rpcbind-openrc() {
 
 package_quota-tools-openrc() {
     pkgdesc="OpenRC quota-tools init script"
+#     groups=('openrc-base')
     depends=('quota-tools' 'rpcbind-openrc')
     backup=('etc/conf.d/quota')
 
@@ -243,6 +257,7 @@ package_quota-tools-openrc() {
 
 package_nfs-utils-openrc() {
     pkgdesc="OpenRC nfs-utils init script"
+#     groups=('openrc-base')
     depends=('nfs-utils' 'rpcbind-openrc' 'device-mapper-openrc')
     backup=('etc/conf.d/nfs'
             'etc/conf.d/nfsclient')
@@ -261,11 +276,3 @@ package_nfs-utils-openrc() {
     done
 }
 
-package_syslog-ng-openrc() {
-    pkgdesc="OpenRC syslog-ng init script"
-    depends=('openrc' 'syslog-ng-nosystemd')
-    backup=('etc/conf.d/syslog-ng')
-
-    _inst_confd 'syslog-ng'
-    _inst_initd 'syslog-ng'
-}
