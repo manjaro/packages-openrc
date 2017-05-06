@@ -3,15 +3,15 @@
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 
 pkgname=udisks2-elogind
-pkgver=2.1.8
-pkgrel=2
+pkgver=2.6.4
+pkgrel=1
 pkgdesc="Disk Management Service, version 2"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/udisks"
 license=('GPL2')
 groups=('elogind-nosystemd')
-depends=('glib2' 'polkit-elogind' 'libatasmart-nosystemd' 'libgudev-nosystemd' 'acl' 'eudev')
-makedepends=('intltool' 'docbook-xsl' 'gobject-introspection' 'python2' 'gnome-common')
+depends=('glib2' 'polkit-elogind' 'libatasmart-nosystemd' 'libgudev-nosystemd' 'eudev')
+makedepends=('intltool' 'docbook-xsl' 'gobject-introspection' 'gnome-common')
 optdepends=('parted: partition management'
             'gptfdisk: GUID partition table support'
             'ntfs-3g: NTFS filesystem management support'
@@ -19,20 +19,20 @@ optdepends=('parted: partition management'
 provides=("udisks2=${pkgver}")
 conflicts=('udisks2')
 options=(libtool strip)
-source=(http://udisks.freedesktop.org/releases/udisks-${pkgver}.tar.bz2
-        'udisks-enable-elogind.patch')
-sha256sums=('da416914812a77e5f4d82b81deb8c25799fd3228d27d52f7bf89a501b1857dda'
-            '52e9157cdf2a1ecc02664205491c9015951213309d08fe18a32f62f54ed93095')
+source=("udisks2-${pkgver}::https://github.com/storaged-project/udisks/archive/udisks-${pkgver}.tar.gz"
+        "udisks-enable-elogind.patch::https://github.com/udeved/udisks/commit/123feff78bc5d596e0663ccfccdbdb5d9ebbcb7e.patch")
+sha256sums=('7c7889dbd8f910b8a8094841168c04d48e0bdaf946b22aa5f0742a460473c191'
+            'e9ea6d911568fd66dde8acb59f584efbec91a52aa903eb9aa6c16aada287eb60')
 
 prepare(){
-    cd "udisks-$pkgver"
+    cd "udisks-udisks-$pkgver"
+    sed -i "s:udisksprivdir:udisksdprivdir:" data/Makefile.am
     patch -Np 1 -i ${srcdir}/udisks-enable-elogind.patch
-    autoreconf -vfi
 }
 
 build() {
-  cd "udisks-$pkgver"
-  ./configure \
+  cd "udisks-udisks-$pkgver"
+  ./autogen.sh \
       --prefix=/usr \
       --sysconfdir=/etc \
       --localstatedir=/var \
@@ -40,14 +40,15 @@ build() {
       --sbindir=/usr/bin \
       --libexecdir=/usr/lib
   make
+}
 
-  # fix mdadm location
-  sed -i -e 's#/sbin/mdadm#/usr/bin/mdadm#g' \
-	  "${srcdir}/udisks-${pkgver}"/data/80-udisks2.rules
+check() {
+  cd udisks-udisks-$pkgver
+  make check
 }
 
 package() {
-  cd "udisks-$pkgver"
+  cd "udisks-udisks-$pkgver"
   make DESTDIR="$pkgdir" install \
     bash_completiondir=/usr/share/bash-completion/completions
 }
