@@ -4,22 +4,39 @@
 _pkgname=libgudev
 
 pkgname=libgudev-nosystemd
-pkgver=231
+pkgver=231+1+g0841288
 pkgrel=1
 pkgdesc="GObject bindings for libudev"
 arch=('i686' 'x86_64')
 url="https://wiki.gnome.org/Projects/libgudev"
 license=('LGPL2.1')
 depends=('libeudev' 'glib2')
-makedepends=('eudev' 'gobject-introspection' 'gtk-doc')
+makedepends=('eudev' 'gobject-introspection' 'gtk-doc' 'gnome-common' 'git')
 provides=('libgudev-1.0.so' "$_pkgname")
 conflicts=("$_pkgname")
-source=(https://download.gnome.org/sources/$_pkgname/$pkgver/$_pkgname-$pkgver.tar.xz)
-sha256sums=('3b1ef99d4a8984c35044103d8ddfc3cc52c80035c36abab2bcc5e3532e063f96')
+# source=(https://download.gnome.org/sources/$_pkgname/$pkgver/$_pkgname-$pkgver.tar.xz)
+# sha256sums=('3b1ef99d4a8984c35044103d8ddfc3cc52c80035c36abab2bcc5e3532e063f96')
+_commit=08412886f840603db9127d3d66ecbc1cc2326f43 # master
+source=("git+https://git.gnome.org/browse/libgudev#commit=$_commit")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd ${_pkgname}
+  git describe --tags | sed 's/-/+/g'
+}
+
+prepare() {
+  cd ${_pkgname}
+  NOCONFIGURE=1 ./autogen.sh
+}
+
+check() {
+  cd ${_pkgname}
+  make check
+}
 
 build() {
-  cd "$_pkgname-$pkgver"
-
+cd "${_pkgname}"
   ./configure \
     --prefix=/usr \
     --enable-gtk-doc \
@@ -28,7 +45,7 @@ build() {
 }
 
 package() {
-  cd "$_pkgname-$pkgver"
+  cd "${_pkgname}"
   make DESTDIR="$pkgdir" install
 }
 
