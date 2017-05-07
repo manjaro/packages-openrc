@@ -7,19 +7,68 @@ pkgname=('xorg-server-nosystemd' 'xorg-server-xephyr-nosystemd' 'xorg-server-xdm
 		 'xorg-server-xnest-nosystemd' 'xorg-server-xwayland-nosystemd' 'xorg-server-common-nosystemd' 'xorg-server-devel-nosystemd')
 _pkgbase=xorg-server
 pkgver=1.19.3
-pkgrel=4
+pkgrel=5
 arch=('i686' 'x86_64')
 license=('custom')
 groups=('xorg-nosystemd')
 url="http://xorg.freedesktop.org"
-makedepends=('pixman' 'libx11' 'mesa' 'mesa-libgl' 'xf86driproto' 'xcmiscproto' 'xtrans' 'bigreqsproto' 'randrproto'
-             'inputproto' 'fontsproto' 'videoproto' 'presentproto' 'compositeproto' 'recordproto' 'scrnsaverproto'
-             'resourceproto' 'xineramaproto' 'libxkbfile' 'libxfont2' 'renderproto' 'libpciaccess' 'libxv'
-             'xf86dgaproto' 'libxmu' 'libxrender' 'libxi' 'dmxproto' 'libxaw' 'libdmx' 'libxtst' 'libxres'
-             'xorg-xkbcomp' 'xorg-util-macros' 'xorg-font-util' 'glproto' 'dri2proto' 'libgcrypt' 'libepoxy'
-             'xcb-util' 'xcb-util-image' 'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'dri3proto'
-             'libxshmfence' 'libunwind' 'wayland-protocols' 'eudev' 'dbus-elogind' 'libgl' 'xkeyboard-config'
-             'xorg-fonts-misc' 'xorg-setxkbmap' 'xorg-xauth' 'xf86-input-libinput-nosystemd'  'elogind')
+makedepends=('pixman'
+            'libx11'
+            'mesa'
+            'mesa-libgl'
+            'xf86driproto'
+            'xcmiscproto'
+            'xtrans'
+            'bigreqsproto'
+            'randrproto'
+            'inputproto'
+            'fontsproto'
+            'videoproto'
+            'presentproto'
+            'compositeproto'
+            'recordproto'
+            'scrnsaverproto'
+            'resourceproto'
+            'xineramaproto'
+            'libxkbfile'
+            'libxfont2'
+            'renderproto'
+            'libpciaccess'
+            'libxv'
+            'xf86dgaproto'
+            'libxmu'
+            'libxrender'
+            'libxi'
+            'dmxproto'
+            'libxaw'
+            'libdmx'
+            'libxtst'
+            'libxres'
+            'xorg-xkbcomp'
+            'xorg-util-macros'
+            'xorg-font-util'
+            'glproto'
+            'dri2proto'
+            'libgcrypt'
+            'libepoxy'
+            'xcb-util'
+            'xcb-util-image'
+            'xcb-util-renderutil'
+            'xcb-util-wm'
+            'xcb-util-keysyms'
+            'dri3proto'
+            'libxshmfence'
+            'libunwind'
+            'wayland-protocols'
+            'eudev'
+            'dbus-elogind'
+            'libgl'
+            'xkeyboard-config'
+            'xorg-fonts-misc'
+            'xorg-setxkbmap'
+            'xorg-xauth'
+            'xf86-input-libinput-nosystemd'
+            'elogind')
 source=("https://xorg.freedesktop.org/releases/individual/xserver/${_pkgbase}-${pkgver}.tar.bz2"
         'nvidia-add-modulepath-support.patch'
         'xvfb-run'
@@ -93,8 +142,13 @@ build() {
 
 package_xorg-server-common-nosystemd() {
     pkgdesc="Xorg server common files"
-    depends=('xkeyboard-config' 'xorg-xkbcomp' 'xorg-setxkbmap' 'xorg-fonts-misc'
-                'libgcrypt' 'libusb' 'libinput')
+    depends=('xkeyboard-config'
+            'xorg-xkbcomp'
+            'xorg-setxkbmap'
+            'xorg-fonts-misc'
+            'libgcrypt'
+            'libusb-nosystemd'
+            'libinput-nosystemd')
     provides=("xorg-server-common=${pkgver}")
     conflicts=('xorg-server-common')
     #   replaces=('xorg-server-common')
@@ -115,8 +169,19 @@ package_xorg-server-common-nosystemd() {
 package_xorg-server-nosystemd() {
     pkgdesc="Xorg X server"
     groups=('xorg-nosystemd' 'elogind-nosystemd')
-    depends=('libepoxy' 'libxfont2' 'pixman' 'xorg-server-common-nosystemd' 'libunwind' 'dbus-elogind'
-                'libgl' 'eudev' 'elogind' 'libpciaccess' 'libdrm' 'libxshmfence' 'xf86-input-libinput-nosystemd')
+    depends=('libepoxy'
+            'libxfont2'
+            'pixman'
+            'xorg-server-common-nosystemd'
+            'libunwind'
+            'dbus-elogind'
+            'libgl'
+            'eudev'
+            'elogind'
+            'libpciaccess'
+            'libdrm'
+            'libxshmfence'
+            'xf86-input-libinput-nosystemd')
     # FS#52949
     # see xorg-server-*/hw/xfree86/common/xf86Module.h for ABI versions - we provide major numbers that drivers can depend on
     # and /usr/lib/pkgconfig/xorg-server.pc in xorg-server-devel pkg
@@ -147,8 +212,18 @@ package_xorg-server-nosystemd() {
 
 package_xorg-server-xephyr-nosystemd() {
     pkgdesc="A nested X server that runs as an X application"
-    depends=('libxfont2' 'libgl' 'libepoxy' 'libunwind' 'libxv' 'pixman' 'xorg-server-common-nosystemd' 'xcb-util-image'
-            'xcb-util-renderutil' 'xcb-util-wm' 'xcb-util-keysyms' 'libeudev')
+    depends=('libxfont2'
+            'libgl'
+            'libepoxy'
+            'libunwind'
+            'libxv'
+            'pixman'
+            'xorg-server-common-nosystemd'
+            'xcb-util-image'
+            'xcb-util-renderutil'
+            'xcb-util-wm'
+            'xcb-util-keysyms'
+            'libeudev')
     provides=("xorg-server-xephyr=${pkgver}")
     conflicts=('xorg-server-xephyr')
     #   replaces=('xorg-server-xephyr')
@@ -161,7 +236,12 @@ package_xorg-server-xephyr-nosystemd() {
 
 package_xorg-server-xvfb-nosystemd() {
     pkgdesc="Virtual framebuffer X server"
-    depends=('libxfont2' 'libunwind' 'pixman' 'xorg-server-common-nosystemd' 'xorg-xauth' 'libgl')
+    depends=('libxfont2'
+            'libunwind'
+            'pixman'
+            'xorg-server-common-nosystemd'
+            'xorg-xauth'
+            'libgl')
     provides=("xorg-server-xvfb=${pkgver}")
     conflicts=('xorg-server-xvfb')
     #   replaces=('xorg-server-xvfb')
@@ -177,7 +257,11 @@ package_xorg-server-xvfb-nosystemd() {
 
 package_xorg-server-xnest-nosystemd() {
     pkgdesc="A nested X server that runs as an X application"
-    depends=('libxfont2' 'libxext' 'libunwind' 'pixman' 'xorg-server-common-nosystemd')
+    depends=('libxfont2'
+            'libxext'
+            'libunwind'
+            'pixman'
+            'xorg-server-common-nosystemd')
     provides=("xorg-server-xnest=${pkgver}")
     conflicts=('xorg-server-xnest')
     #   replaces=('xorg-server-xnest')
@@ -190,8 +274,15 @@ package_xorg-server-xnest-nosystemd() {
 
 package_xorg-server-xdmx-nosystemd() {
     pkgdesc="Distributed Multihead X Server and utilities"
-    depends=('libxfont2' 'libxi' 'libxaw' 'libxrender' 'libdmx' 'libxfixes' 'libunwind'
-                'pixman' 'xorg-server-common-nosystemd')
+    depends=('libxfont2'
+            'libxi'
+            'libxaw'
+            'libxrender'
+            'libdmx'
+            'libxfixes'
+            'libunwind'
+            'pixman'
+            'xorg-server-common-nosystemd')
     provides=("xorg-server-xdmx=${pkgver}")
     conflicts=('xorg-server-xdmx')
     #   replaces=('xorg-server-xdmx')
@@ -205,7 +296,12 @@ package_xorg-server-xdmx-nosystemd() {
 package_xorg-server-xwayland-nosystemd() {
     pkgdesc="run X clients under wayland"
     groups=('xorg-nosystemd' 'elogind-nosystemd')
-    depends=('libxfont2' 'libepoxy' 'libunwind' 'libgl' 'pixman' 'xorg-server-common-nosystemd')
+    depends=('libxfont2'
+            'libepoxy'
+            'libunwind'
+            'libgl'
+            'pixman'
+            'xorg-server-common-nosystemd')
     provides=("xorg-server-xwayland=${pkgver}")
     conflicts=('xorg-server-xwayland')
     #   replaces=('xorg-server-xwayland')
@@ -219,10 +315,25 @@ package_xorg-server-xwayland-nosystemd() {
 package_xorg-server-devel-nosystemd() {
     pkgdesc="Development files for the X.Org X server"
     depends=(# see pkgdir/usr/lib/pkgconfig/xorg-server.pc
-            'xproto' 'randrproto' 'renderproto' 'xextproto' 'inputproto' 'kbproto'
-            'fontsproto' 'pixman' 'videoproto' 'xf86driproto' 'glproto'
-            'mesa' 'dri2proto' 'dri3proto' 'xineramaproto' 'libpciaccess'
-            'resourceproto' 'scrnsaverproto' 'presentproto'
+            'xproto'
+            'randrproto'
+            'renderproto'
+            'xextproto'
+            'inputproto'
+            'kbproto'
+            'fontsproto'
+            'pixman'
+            'videoproto'
+            'xf86driproto'
+            'glproto'
+            'mesa'
+            'dri2proto'
+            'dri3proto'
+            'xineramaproto'
+            'libpciaccess'
+            'resourceproto'
+            'scrnsaverproto'
+            'presentproto'
             # not technically required but almost every Xorg pkg needs it to build
             'xorg-util-macros')
     provides=("xorg-server-devel=${pkgver}")
