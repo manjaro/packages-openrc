@@ -7,7 +7,7 @@ _pkgname=qt5-base
 pkgname=qt5-base-nosystemd
 _qtver=5.8.0
 pkgver=${_qtver/-/}
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 url='http://qt-project.org/'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
@@ -17,7 +17,7 @@ provides=("qt5-base=${pkgver}")
 depends=('libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-renderutil' 'libgl' 'fontconfig'
          'xcb-util-wm' 'libxrender' 'libxi' 'sqlite' 'xcb-util-image' 'icu' 'tslib' 'libinput-nosystemd'
          'libsm' 'libxkbcommon-x11' 'libproxy' 'libcups' 'openssl-1.0' 'dbus-elogind' 'libusb-nosystemd' 'libwacom-nosystemd')
-makedepends=('libfbclient' 'libmariadbclient' 'sqlite' 'unixodbc' 'postgresql-libs' 'alsa-lib' 'gst-plugins-base-libs' 
+makedepends=('libfbclient' 'libmariadbclient' 'sqlite' 'unixodbc' 'postgresql-libs' 'alsa-lib' 'gst-plugins-base-libs'
             'gtk3' 'libpulse-nosystemd' 'cups-nosystemd' 'freetds')
 optdepends=('qt5-svg: to use SVG icon themes'
             'postgresql-libs: PostgreSQL driver'
@@ -34,9 +34,9 @@ source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submo
         plasma-crash-2.patch::https://github.com/qt/qtbase/commit/0874861b.patch
         plasma-crash-3.patch::https://github.com/qt/qtbase/commit/baad82d2.patch)
 sha256sums=('c17111ae02a44dc7be1ec2cf979a47ee9e58edf4904041a525c21f4fa53fc005'
-            '3f1f2d87a527579e89e2e18ff309065b34d0b477b80d6c29ccdec78564100204'
-            '8c0c44a06425e68968fd7370c4b4c143daddc29150a100d7536d6ec620b86ad8'
-            '460dcfeb126c0331a979b92ecfaed343ac79bcf1eb6c7d9b7a2ec3b4260feaeb')
+            'ee270589e757c6cbd6b23263c9e9f7d1fab4afcd49e80a7925a9d3077b01fc33'
+            '3154964c134180f4f90ac5f8abe41845f811b6b2ebaaa32101ff2fa0c76e1dde'
+            'f3decdf785deb937e9bcea93e7526376e9ce208cae3410c255b1428d20465495')
 
 prepare() {
   cd ${_pkgfqn}
