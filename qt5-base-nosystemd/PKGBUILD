@@ -5,9 +5,9 @@
 _pkgname=qt5-base
 
 pkgname=qt5-base-nosystemd
-_qtver=5.8.0
+_qtver=5.9.0
 pkgver=${_qtver/-/}
-pkgrel=4
+pkgrel=1
 arch=('i686' 'x86_64')
 url='http://qt-project.org/'
 license=('GPL3' 'LGPL3' 'FDL' 'custom')
@@ -29,84 +29,83 @@ optdepends=('qt5-svg: to use SVG icon themes'
 conflicts=('qtchooser' 'qt5-base')
 _pkgfqn="${_pkgname/5-/}-opensource-src-${_qtver}"
 source=("http://download.qt.io/official_releases/qt/${pkgver%.*}/${_qtver}/submodules/${_pkgfqn}.tar.xz"
-        #qt5-base-journald.patch::"https://github.com/qt/qtbase/commit/0c8f3229.patch"
-        plasma-crash-1.patch::https://github.com/qt/qtbase/commit/3bd0fd8f.patch
-        plasma-crash-2.patch::https://github.com/qt/qtbase/commit/0874861b.patch
-        plasma-crash-3.patch::https://github.com/qt/qtbase/commit/baad82d2.patch)
-sha256sums=('c17111ae02a44dc7be1ec2cf979a47ee9e58edf4904041a525c21f4fa53fc005'
-            'ee270589e757c6cbd6b23263c9e9f7d1fab4afcd49e80a7925a9d3077b01fc33'
-            '3154964c134180f4f90ac5f8abe41845f811b6b2ebaaa32101ff2fa0c76e1dde'
-            'f3decdf785deb937e9bcea93e7526376e9ce208cae3410c255b1428d20465495')
+        qtbug-61140.patch::"https://github.com/qt/qtbase/commit/744fd39e.patch"
+        qtbug-60558.patch::"https://github.com/qt/qtbase/commit/f45c6c18.patch")
+sha256sums=('267eb2af1a203c087f2113f43b08014d0e2d2cb269295b8602d869a2fad5296c'
+            'a00d8a0284e0c774c00dc72277edc63579212476ec1d4ebb6246bfd1035e3e4a'
+            'e9d5189baf7a1d8957bd5b00474732412377ac761128e99066aa3314626f7989')
 
 prepare() {
-  cd ${_pkgfqn}
+    cd ${_pkgfqn}
 
-  # Build qmake using Arch {C,LD}FLAGS
-  # This also sets default {C,CXX,LD}FLAGS for projects built using qmake
-  sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
-    mkspecs/common/gcc-base.conf
-  sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
-    mkspecs/common/g++-unix.conf
+    # Build qmake using Arch {C,LD}FLAGS
+    # This also sets default {C,CXX,LD}FLAGS for projects built using qmake
+    sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
+        mkspecs/common/gcc-base.conf
+    sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
+        mkspecs/common/g++-unix.conf
 
-  # Use python2 for Python 2.x
-  find . -name '*.py' -exec sed -i \
-    's|#![ ]*/usr/bin/python$|&2|;s|#![ ]*/usr/bin/env python$|&2|' {} +
+    # Use python2 for Python 2.x
+    find . -name '*.py' -exec sed -i \
+        's|#![ ]*/usr/bin/python$|&2|;s|#![ ]*/usr/bin/env python$|&2|' {} +
 
-  # Fix some Plasma taskbar crashes https://bugs.kde.org/show_bug.cgi?id=342763
-  patch -p1 -i ../plasma-crash-1.patch
-  patch -p1 -i ../plasma-crash-2.patch
-  patch -p1 -i ../plasma-crash-3.patch
+    # Fix missing private includes https://bugreports.qt.io/browse/QTBUG-37417
+    sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' -i mkspecs/features/create_cmake.prf
+
+    # Don't destroy foreign windows
+    patch -p1 -i ../qtbug-61140.patch
+    # Fix crashes with QtCurve
+    patch -p1 -i ../qtbug-60558.patch
 }
 
 build() {
-  cd ${_pkgfqn}
+    cd ${_pkgfqn}
 
-  # FS#38796
-  [[ "${CARCH}" = "i686" ]] && SSE2="-no-sse2"
+    # FS#38796
+    [[ "${CARCH}" = "i686" ]] && SSE2="-no-sse2"
 
-  echo "INCLUDEPATH += /usr/include/openssl-1.0" >> src/network/network.pro
-  export OPENSSL_LIBS='-L/usr/lib/openssl-1.0 -lssl -lcrypto'
+    echo "INCLUDEPATH += /usr/include/openssl-1.0" >> src/network/network.pro
+    export OPENSSL_LIBS='-L/usr/lib/openssl-1.0 -lssl -lcrypto'
 
-  PYTHON=/usr/bin/python2 ./configure -confirm-license -opensource -v \
-    -prefix /usr \
-    -docdir /usr/share/doc/qt \
-    -headerdir /usr/include/qt \
-    -archdatadir /usr/lib/qt \
-    -datadir /usr/share/qt \
-    -sysconfdir /etc/xdg \
-    -examplesdir /usr/share/doc/qt/examples \
-    -plugin-sql-{psql,mysql,sqlite,odbc,ibase} \
-    -system-sqlite \
-    -openssl-linked \
-    -nomake examples \
-    -no-rpath \
-    -optimized-qmake \
-    -dbus-linked \
-    -system-harfbuzz \
-    -no-use-gold-linker \
-    -reduce-relocations ${SSE2}
+    PYTHON=/usr/bin/python2 ./configure -confirm-license -opensource -v \
+        -prefix /usr \
+        -docdir /usr/share/doc/qt \
+        -headerdir /usr/include/qt \
+        -archdatadir /usr/lib/qt \
+        -datadir /usr/share/qt \
+        -sysconfdir /etc/xdg \
+        -examplesdir /usr/share/doc/qt/examples \
+        -plugin-sql-{psql,mysql,sqlite,odbc,ibase} \
+        -system-sqlite \
+        -openssl-linked \
+        -nomake examples \
+        -no-rpath \
+        -optimized-qmake \
+        -dbus-linked \
+        -system-harfbuzz \
+        -no-use-gold-linker \
+        -reduce-relocations ${SSE2}
 
-  make
+    make
 }
 
 package() {
-  cd ${_pkgfqn}
-  make INSTALL_ROOT="${pkgdir}" install
+    cd ${_pkgfqn}
+    make INSTALL_ROOT="${pkgdir}" install
 
-  install -D -m644 LGPL_EXCEPTION.txt \
-    "${pkgdir}"/usr/share/licenses/${_pkgname}/LGPL_EXCEPTION.txt
+    install -D -m644 LGPL_EXCEPTION.txt \
+        "${pkgdir}"/usr/share/licenses/${pkgbase}/LGPL_EXCEPTION.txt
 
-  # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
-  find "${pkgdir}/usr/lib" -type f -name '*.prl' \
-    -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+    # Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+    find "${pkgdir}/usr/lib" -type f -name '*.prl' \
+        -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
-  # Fix wrong qmake path in pri file
-  sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
-    "${pkgdir}"/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri
+    # Fix wrong qmake path in pri file
+    sed -i "s|${srcdir}/${_pkgfqn}|/usr|" \
+        "${pkgdir}"/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri
 
-  # Symlinks for backwards compatibility
-  for b in "${pkgdir}"/usr/bin/*; do
-    ln -s /usr/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
-  done
+    # Symlinks for backwards compatibility
+    for b in "${pkgdir}"/usr/bin/*; do
+        ln -s /usr/bin/$(basename $b) "${pkgdir}"/usr/bin/$(basename $b)-qt5
+    done
 }
-
