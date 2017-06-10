@@ -6,11 +6,11 @@ _url="https://github.com"
 _net_url="${_url}/gentoo/netifrc/archive"
 _func_url="${_url}/gentoo/gentoo-functions/archive"
 
-_func_ver=0.11
+_func_ver=0.12
 
 pkgname=netifrc
 pkgver=0.5.1
-pkgrel=3
+pkgrel=4
 pkgdesc="Gentoo Network Interface Management Scripts"
 arch=('i686' 'x86_64' 'armv7h')
 url="http://www.gentoo.org/proj/en/base/openrc/"
