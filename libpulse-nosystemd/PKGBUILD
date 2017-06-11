@@ -7,7 +7,7 @@
 pkgname=libpulse-nosystemd
 pkgdesc="Client library for PulseAudio"
 pkgver=10.0
-pkgrel=3
+pkgrel=4
 arch=(i686 x86_64)
 url="http://www.freedesktop.org/wiki/Software/PulseAudio"
 license=(LGPL)
@@ -88,5 +88,5 @@ package() {
   # Fix working padsp with 32-bit applications
   patch -Np1 -i "$srcdir/padsp-lib32.patch"
 
-  sed -e "s|; autospawn = no|autospawn = yes|" -i $pkgdir/etc/pulse/client.conf
+  sed -e "s|; autospawn = yes|autospawn = yes|" -i $pkgdir/etc/pulse/client.conf
 }

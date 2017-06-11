@@ -79,7 +79,7 @@ package() {
     install -Dm644 "${srcdir}/${pkgname}.logrotate" "${pkgdir}/etc/logrotate.d/${pkgname}"
 
     sed -e 's/#unicode="NO"/unicode="YES"/' \
-        -e 's/#rc_logger="YES"/rc_logger="YES"/' \
+        -e 's/#rc_logger="NO"/rc_logger="YES"/' \
         -i "${pkgdir}/etc/rc.conf"
 
     install -d ${pkgdir}/usr/lib/rc/cache
