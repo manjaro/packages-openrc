@@ -7,7 +7,7 @@ _pkgname=polkit
 
 pkgname=polkit-elogind
 pkgver=0.113+29+g3272a98
-pkgrel=7
+pkgrel=8
 pkgdesc="PolyciKit with elogind support for non-systemd systems"
 arch=('i686' 'x86_64' 'armv7h')
 url="http://www.freedesktop.org/wiki/Software/polkit"
@@ -16,14 +16,16 @@ provides=("polkit=$pkgver")
 depends=('glib2' 'pam' 'expat' 'js' 'libelogind')
 makedepends=('intltool' 'gtk-doc' 'gobject-introspection' 'git' 'autoconf-archive')
 conflicts=('polkit' 'polkit-consolekit')
-replaces=('polkit-consolekit')
+#replaces=('polkit-consolekit')
 options=('!libtool')
 install=polkit.install
 _commit=3272a988655c3236b55bad70e9a3af20857f384b
 #source=("http://www.freedesktop.org/software/polkit/releases/$_pkgname-$pkgver.tar.gz")
 source=("git+https://anongit.freedesktop.org/git/polkit#commit=$_commit"
+        '99-manjaro.rules'
         'polkit-0.114-elogind.patch')
 sha256sums=('SKIP'
+            'd28d6ecaf7682860e2b3768bb266bd94313546b7cd0ef3c2eace7b1576c47adb'
             'e5eb83a8922f1540309ce5884c4bd40b2972aa75778da945e2392501961a860b')
 
 pkgver() {
@@ -33,7 +35,7 @@ pkgver() {
 
 prepare() {
     cd $_pkgname #-$pkgver
-    patch -Np 1 -i ${srcdir}/polkit-0.114-elogind.patch
+    patch -Np 1 -i "${srcdir}"/polkit-0.114-elogind.patch
     NOCONFIGURE=1 ./autogen.sh
 }
 
@@ -67,4 +69,5 @@ package() {
 
     chown root:102 "$pkgdir"/{etc,usr/share}/polkit-1/rules.d
     chmod 750      "$pkgdir"/{etc,usr/share}/polkit-1/rules.d
+    install -m0644 "${srcdir}"/99-manjaro.rules "${pkgdir}"/etc/polkit-1/rules.d
 }
