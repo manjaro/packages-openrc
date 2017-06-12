@@ -5,7 +5,7 @@ _url="https://github.com/OpenRC/openrc/archive"
 
 pkgname=openrc
 pkgver=0.27.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Gentoo's universal init system"
 arch=('i686' 'x86_64' 'armv7h')
 url="http://www.gentoo.org/proj/en/base/openrc/"
@@ -32,13 +32,15 @@ source=("${pkgname}-${pkgver}.tar.gz::${_url}/${pkgver}.tar.gz"
         'openrc-install.hook'
         'openrc-remove.hook'
         mksysvinit1.patch::https://github.com/udeved/openrc/commit/a968fecf8928e44e288438fb170e2f94177617d8.patch
-        mksysvinit2.patch::https://github.com/udeved/openrc/commit/705c918d2629187b221e7110dd6caefe60c1e704.patch)
+        mksysvinit2.patch::https://github.com/udeved/openrc/commit/705c918d2629187b221e7110dd6caefe60c1e704.patch
+        mksysvinit3.patch::https://github.com/udeved/openrc/commit/09ce71a354ba3bbccd9dd1ce32fb6bca8f62445d.patch)
 sha256sums=('5589a7b56a16440c2c927c4d20740059e8c36064f094755e12f11540bf0578e9'
             '0b44210db9770588bd491cd6c0ac9412d99124c6be4c9d3f7d31ec8746072f5c'
             '1d4d31a7275660e7b23778e6fceb0714cab8ed2793b04aa004b01d8e7bcd43bd'
             'cbb4d00262a55a508114cb31e3903350be2cff748a4fb5e120dc745292e3987e'
             'c38c53ab147dfc867c49b891cd816e28358d615864fe4659ae72d4e8a1c7645e'
-            'ca65baeed0d9a4430d802a0080944e6576e77eb585ccb03aabf06a50b8e78693')
+            'ca65baeed0d9a4430d802a0080944e6576e77eb585ccb03aabf06a50b8e78693'
+            '88b9a7457e93cefc9a05684ebeef27a95422a3ade2f2ab2a648232c347dfd417')
 
 _args=(SYSCONFDIR=/etc)
 _args+=(PREFIX=/usr)
@@ -63,6 +65,7 @@ prepare(){
     sed -i 's:0444:0644:' mk/sys.mk
     patch -Np 1 -i $srcdir/mksysvinit1.patch
     patch -Np 1 -i $srcdir/mksysvinit2.patch
+    patch -Np 1 -i $srcdir/mksysvinit3.patch
 }
 
 build(){
