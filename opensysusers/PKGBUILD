@@ -1,0 +1,24 @@
+# Maintainer: Chris Cromer <chris@cromer.cl>
+
+_url="https://github.com/arch-openrc/opensysusers/archive"
+
+pkgname=opensysusers
+pkgver=0.1
+pkgrel=1
+pkgdesc="A standalone utility for handling systemd-style sysusers.d users and groups"
+arch=('any')
+url="https://github.com/arch-openrc/opensysusers"
+license=('BSD2')
+depends=('shadow')
+optdepends=('openrc: update automatically on boot')
+source=("${pkgname}-${pkgver}.tar.gz::${_url}/${pkgver}.tar.gz"
+		'opensysusers.hook')
+sha256sums=('545cb91c69507803df576fe017e675da0e4ffccbbb582381be0536eb641fd228'
+			'895a4155f6709f6a8cf3586663612a1f30c9a8fbd6ba33dc780ffc8a1bb66771')
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make bindir="/usr/bin" DESTDIR="${pkgdir}" install
+	install -vDm0755 openrc/opensysusers.initd "${pkgdir}"/etc/openrc/init.d/opensysusers
+	install -vDm0644 "${srcdir}"/opensysusers.hook "${pkgdir}/usr/share/libalpm/hooks/opensysusers.hook"
+}
