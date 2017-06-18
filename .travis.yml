@@ -31,10 +31,12 @@ after_script:
 
 after_success:
   - chmod 700 $HOME/.ssh
-  - openssl aes-256-cbc -K $encrypted_0778e1758e32_key -iv $encrypted_0778e1758e32_iv -in .travis/files/id_rsa_sf.enc -out $HOME/.ssh/id_rsa -d
-  - chmod 600 $HOME/.ssh/id_rsa
-  - eval "$(ssh-agent -s)"
-  - ssh-add $HOME/.ssh/id_rsa
+# ssh key for destination server needed which can be encrypted
+# as described in https://docs.travis-ci.com/user/encrypting-files/
+#  - openssl aes-256-cbc -K $encrypted_0778e1758e32_key -iv $encrypted_0778e1758e32_iv -in .travis/files/id_rsa_sf.enc -out $HOME/.ssh/id_rsa -d
+#  - chmod 600 $HOME/.ssh/id_rsa
+#  - eval "$(ssh-agent -s)"
+#  - ssh-add $HOME/.ssh/id_rsa
   - echo "StrictHostKeyChecking no" > ~/.ssh/config
   - .travis/scripts/deploy_built_packages.sh
 
