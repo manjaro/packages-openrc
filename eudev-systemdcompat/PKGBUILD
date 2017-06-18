@@ -9,7 +9,7 @@ _repo=http://mirror.netcologne.de/archlinux/core/os
 pkgbase=eudev-systemdcompat
 pkgname=('eudev-systemd' 'libeudev-systemd')
 pkgver=232
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('GPL2')
 url="http://www.freedesktop.org/wiki/Software/systemd"
@@ -29,10 +29,7 @@ package_eudev-systemd() {
     conflicts=('systemd-tools' 'systemd' 'eudev-systemdcompat')
     replaces=('eudev-systemdcompat')
 
-    install -d "$pkgdir"/usr/{bin,lib/systemd}
-    for f in usr/bin/systemd-sysusers;do     #{systemd-tmpfiles,systemd-sysusers};do
-        mv -v $f "$pkgdir"/usr/bin
-    done
+    install -d "$pkgdir"/usr/lib/systemd
     for f in usr/lib/systemd/libsystemd-shared*.so*;do
         mv -v $f $pkgdir/usr/lib/systemd
     done
