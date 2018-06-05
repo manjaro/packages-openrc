@@ -1,22 +1,5 @@
-OpenRC pkgbuilds
-=========
+This repo has been archived. Our code is now hosted at
 
-###Groups:###
+https://gitlab.manjaro.org/
 
-* openrc-base
-* openrc-desktop
-* openrc-misc
-* openrc-devel
-* openrc-net
-* openrc-mobile
-* openrc-video
-* openrc-accessible
-* base-nosystemd
-* base-devel-nosystemd
-* elogind-nosystemd
-* xorg-nosystemd
-* xorg-srivers-nosystemd
-
-
-###Consolekit builds moved here:###
-https://github.com/udeved/packages-testing
+See you there!
